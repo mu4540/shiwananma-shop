@@ -1,0 +1,546 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Shi Wa Nan Ma Shop</title>
+<meta name="description" content="Shi Wa Nan Ma Shop — 越南代購精選服飾，台灣 7-11 店到店取貨。">
+<link rel="icon" href="logo.jpg">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Pacifico&family=Noto+Sans+TC:wght@400;500;700&display=swap">
+<style>
+/* Layout: one 1100px column; sticky white header; pastel wall with a hung neon sign for the hero; 3:4 product tiles. */
+:root{
+  --bg:#FFFCF9;
+  --surface:#FFFFFF;
+  --tile:#F7EFF3;
+  --ink:#1E1B3A;
+  --muted:#6F6A8A;
+  --line:#EFE2EA;
+  --pink:#FF2D8A;
+  --pink-soft:#FFE4F0;
+  --yellow:#FFC928;
+  --yellow-soft:#FFF3C7;
+  --cyan:#1FB3E3;
+  --cyan-soft:#DDF4FC;
+  --green:#2BBF72;
+  --display:'Pacifico','Noto Sans TC',cursive;
+  --body:'Noto Sans TC',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:light;
+}
+*{box-sizing:border-box}
+html,body{background:var(--bg)}
+body{margin:0;color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+a{color:inherit}
+button{font:inherit;cursor:pointer}
+img{max-width:100%;display:block}
+h1,h2,h3{text-wrap:balance;margin:0}
+[hidden]{display:none!important}
+.wrap{max-width:1100px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+
+/* header */
+.hdr{position:sticky;top:0;z-index:9;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.hdr .wrap{display:flex;align-items:center;gap:14px;min-height:64px;padding-block:8px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;min-width:0}
+.brand img{width:48px;height:43px;border-radius:9px;object-fit:cover;box-shadow:0 2px 8px rgba(30,27,58,.18)}
+.brand b{font-family:var(--display);font-weight:400;font-size:21px;color:var(--pink);white-space:nowrap;letter-spacing:.2px}
+.brand b small{color:var(--cyan);font-size:15px;margin-left:4px}
+.hdr nav{margin-left:auto;display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;border-radius:999px;padding:9px 18px;font-weight:700;font-size:14px;border:2px solid transparent;text-decoration:none;line-height:1.2;transition:transform .08s ease,box-shadow .15s ease}
+.btn:active{transform:translateY(1px)}
+.btn:focus-visible{outline:3px solid var(--cyan);outline-offset:2px}
+.btn-pink{background:var(--pink);color:#fff;box-shadow:0 6px 18px rgba(255,45,138,.28)}
+.btn-pink:hover{box-shadow:0 8px 22px rgba(255,45,138,.38)}
+.btn-ink{background:var(--ink);color:#fff}
+.btn-ghost{background:var(--surface);color:var(--ink);border-color:var(--line)}
+.btn-ghost:hover{border-color:var(--ink)}
+.btn-sm{padding:6px 12px;font-size:13px}
+.btn-danger{background:#fff;color:#C8102E;border-color:#F4C2CB}
+.btn[disabled]{opacity:.55;cursor:default;box-shadow:none}
+
+/* hero */
+.hero{background:
+  linear-gradient(to bottom,rgba(255,252,249,0),var(--bg)),
+  repeating-linear-gradient(0deg,rgba(255,45,138,.10) 0 1px,transparent 1px 36px),
+  repeating-linear-gradient(90deg,rgba(255,45,138,.10) 0 1px,transparent 1px 36px),
+  linear-gradient(135deg,#FFF0F6,#FFF8E1 55%,#E3F6FD)}
+.hero .wrap{display:grid;grid-template-columns:1.2fr .8fr;gap:28px;align-items:center;padding-block:36px 30px}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--cyan)}
+.hero h1{font-family:var(--display);font-weight:400;font-size:clamp(34px,5vw,54px);line-height:1.15;color:var(--ink)}
+.hero h1 em{font-style:normal;color:var(--pink)}
+.hero p{color:var(--muted);max-width:46ch;margin:10px 0 0}
+.hero .cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}
+.sign{justify-self:end;width:min(100%,330px);border-radius:18px;overflow:hidden;box-shadow:0 18px 40px rgba(30,27,58,.28),0 0 0 6px #fff;transform:rotate(-2deg)}
+.notice{margin-top:18px;background:var(--yellow-soft);border:1px solid #F5DD8A;border-radius:12px;padding:10px 14px;font-size:14px;display:flex;gap:8px;align-items:flex-start}
+.notice b{color:#8A6400;white-space:nowrap}
+
+/* chips */
+.chips{display:flex;gap:8px;flex-wrap:wrap;padding-block:18px 6px}
+.chip{border:1.5px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 14px;font-size:13px;font-weight:500;color:var(--muted)}
+.chip[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.section-head{display:flex;align-items:baseline;gap:12px;padding-block:10px 4px}
+.section-head h2{font-size:18px;font-weight:700}
+.section-head span{color:var(--muted);font-size:13px}
+
+/* grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:18px 16px;padding-block:8px 48px}
+.card{display:block;text-decoration:none;min-width:0}
+.card .ph{position:relative;aspect-ratio:3/4;max-width:100%;border-radius:14px;overflow:hidden;background:var(--tile)}
+.card .ph img{width:100%;height:100%;object-fit:cover;transition:transform .35s ease}
+.card:hover .ph img{transform:scale(1.04)}
+.card .ph .count{position:absolute;right:8px;bottom:8px;background:rgba(30,27,58,.75);color:#fff;font-size:11px;padding:2px 7px;border-radius:999px}
+.card .ph .tag{position:absolute;left:8px;top:8px;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:700;padding:3px 8px;border-radius:999px;letter-spacing:.04em}
+.card .ph .sold{position:absolute;inset:0;background:rgba(255,255,255,.55);display:grid;place-items:center}
+.card .ph .sold span{background:var(--ink);color:#fff;font-weight:700;padding:6px 16px;border-radius:999px;letter-spacing:.1em}
+.card .meta{padding:9px 2px 0}
+.card .name{font-size:14px;font-weight:500;line-height:1.35;color:var(--ink)}
+.card .price{font-size:15px;font-weight:700;margin-top:3px;font-variant-numeric:tabular-nums}
+.card .sz{color:var(--muted);font-size:12px;margin-top:2px}
+.empty{grid-column:1/-1;text-align:center;color:var(--muted);padding:48px 0;border:2px dashed var(--line);border-radius:16px}
+.ph-empty{display:grid;place-items:center;height:100%;color:var(--muted);font-size:13px}
+
+/* detail */
+.detail{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,.95fr);gap:32px;padding-block:22px 48px}
+.back{display:inline-flex;gap:6px;align-items:center;color:var(--muted);text-decoration:none;font-size:14px;margin-top:18px}
+.back:hover{color:var(--ink)}
+.gallery .main{aspect-ratio:3/4;max-width:100%;border-radius:18px;overflow:hidden;background:var(--tile)}
+.gallery .main img{width:100%;height:100%;object-fit:cover}
+.thumbs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:10px}
+.thumbs button{padding:0;border:2px solid transparent;border-radius:10px;overflow:hidden;background:var(--tile);aspect-ratio:1}
+.thumbs button img{width:100%;height:100%;object-fit:cover}
+.thumbs button[aria-current="true"]{border-color:var(--pink)}
+.info h2{font-size:clamp(22px,3vw,30px);font-weight:700;line-height:1.25;margin-top:6px}
+.info .price{font-size:28px;font-weight:700;margin-top:10px;font-variant-numeric:tabular-nums}
+.info .price small{font-size:14px;color:var(--muted);font-weight:500;margin-left:8px}
+.specs{display:grid;grid-template-columns:auto 1fr;gap:6px 16px;margin-top:16px;font-size:14px}
+.specs dt{color:var(--muted)}
+.specs dd{margin:0;font-weight:500}
+.desc{margin-top:16px;white-space:pre-line;color:#3A3752;font-size:14.5px}
+.order{margin-top:22px;background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:18px}
+.order .row{display:flex;gap:10px;flex-wrap:wrap}
+.order ol{margin:14px 0 0;padding-left:0;list-style:none;display:grid;gap:8px;font-size:13.5px;color:var(--muted)}
+.order ol li{display:flex;gap:10px;align-items:flex-start}
+.order ol i{flex:none;font-style:normal;width:22px;height:22px;border-radius:50%;background:var(--pink-soft);color:var(--pink);font-weight:700;display:grid;place-items:center;font-size:12px}
+.pill{display:inline-block;background:var(--cyan-soft);color:#0B7CA3;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px}
+.pill.sold{background:#EEE;color:#666}
+
+/* footer */
+.ftr{border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.ftr .wrap{display:flex;flex-wrap:wrap;gap:8px 24px;padding-block:22px 28px;justify-content:space-between}
+.ftr b{font-family:var(--display);font-weight:400;color:var(--pink);font-size:16px}
+.ftr a{text-decoration:none}
+
+/* manage */
+.manage{padding-block:22px 60px;display:grid;gap:22px}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:16px;padding:20px}
+.panel h2{font-size:17px;font-weight:700;display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.panel h2 .btn{margin-left:auto}
+.rows{display:grid;gap:8px;margin-top:14px}
+.row-p{display:grid;grid-template-columns:56px 1fr auto;gap:12px;align-items:center;border:1px solid var(--line);border-radius:12px;padding:8px 10px}
+.row-p img{width:56px;height:56px;object-fit:cover;border-radius:8px;background:var(--tile)}
+.row-p .t{min-width:0}
+.row-p .t div{font-weight:500;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.row-p .t small{color:var(--muted);font-variant-numeric:tabular-nums}
+.row-p .acts{display:flex;gap:6px;flex-wrap:wrap;justify-content:flex-end}
+.form{display:grid;grid-template-columns:1fr 1fr;gap:14px 16px;margin-top:14px}
+.form .full{grid-column:1/-1}
+.form label{display:grid;gap:5px;font-size:13px;font-weight:500;color:var(--muted)}
+.form input,.form select,.form textarea{font:inherit;color:var(--ink);border:1.5px solid var(--line);border-radius:10px;padding:9px 12px;background:#fff;width:100%;min-width:0}
+.form input:focus,.form select:focus,.form textarea:focus{outline:none;border-color:var(--cyan);box-shadow:0 0 0 3px var(--cyan-soft)}
+.form textarea{min-height:110px;resize:vertical}
+.photos{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:8px}
+.photos .slot{position:relative;aspect-ratio:3/4;border-radius:10px;background:var(--tile);overflow:hidden;border:1.5px dashed var(--line);display:grid;place-items:center;color:var(--muted);font-size:12px}
+.photos .slot img{width:100%;height:100%;object-fit:cover}
+.photos .slot .x{position:absolute;top:4px;right:4px;width:24px;height:24px;border-radius:50%;border:0;background:rgba(30,27,58,.8);color:#fff;font-size:13px;line-height:1;display:grid;place-items:center}
+.photos .slot .mv{position:absolute;bottom:4px;left:4px;display:flex;gap:3px}
+.photos .slot .mv button{width:24px;height:24px;border-radius:6px;border:0;background:rgba(255,255,255,.9);font-size:12px}
+.photos .slot .n{position:absolute;top:4px;left:4px;background:var(--yellow);font-size:10px;font-weight:700;padding:1px 6px;border-radius:999px}
+.form .acts{grid-column:1/-1;display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin-top:4px}
+.status{font-size:13px;color:var(--muted)}
+.status.err{color:#C8102E;font-weight:500}
+.status.ok{color:var(--green);font-weight:500}
+.hint{font-size:12.5px;color:var(--muted);margin-top:6px}
+.hint a{color:var(--cyan)}
+.toast{position:fixed;left:50%;bottom:calc(20px + env(safe-area-inset-bottom,0px));transform:translateX(-50%);background:var(--ink);color:#fff;padding:10px 18px;border-radius:999px;font-size:14px;z-index:20;box-shadow:0 10px 30px rgba(30,27,58,.3);max-width:calc(100vw - 32px)}
+.confirm{display:flex;gap:8px;align-items:center;flex-wrap:wrap;font-size:13px;color:#C8102E}
+.login{max-width:520px}
+.login .form{grid-template-columns:1fr}
+.who{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--muted);margin-left:auto}
+.who img{width:26px;height:26px;border-radius:50%}
+.banner{background:var(--cyan-soft);color:#0B7CA3;border-radius:12px;padding:10px 14px;font-size:13.5px}
+
+@media (max-width:760px){
+  .hero .wrap{grid-template-columns:1fr;padding-block:26px 22px}
+  .sign{justify-self:start;width:min(100%,260px);transform:rotate(-1.5deg);margin-top:6px;order:-1}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 12px}
+  .detail{grid-template-columns:1fr;gap:20px}
+  .form{grid-template-columns:1fr}
+  .row-p{grid-template-columns:48px 1fr}
+  .row-p .acts{grid-column:1/-1;justify-content:flex-start}
+  .brand b{font-size:18px}
+  .hdr .btn-ghost{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div id="app"><header class="hdr"><div class="wrap"><a class="brand" href="#"><img src="logo.jpg" alt="Shi Wa Nan Ma Shop logo"><b>Shi Wa Nan Ma<small>shop</small></b></a></div></header><main class="wrap"><div class="empty" style="margin:30px 0">載入商品中…</div></main></div>
+
+<script>
+(function(){
+'use strict';
+/* ===== 設定：改這裡 ===== */
+var OWNER = 'mu4540';            // GitHub 帳號
+var REPO  = 'shiwananma-shop';   // repo 名稱
+var BRANCH = 'main';
+var FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdD7IstFRiLIxHYHOI2Mis7jy6mO5Zu08U5h8P8cF6dGZGGdw/viewform';
+/* ======================== */
+var API = 'https://api.github.com/repos/' + OWNER + '/' + REPO;
+var TOKEN_KEY = 'swnm_gh_token';
+var CATS = ['上衣','褲子','裙子','洋裝','外套','配件','其他'];
+var DEFAULTS = { tagline:'越南代購 · 精選服飾', intro:'從越南挑選的衣服，每件都是限量現貨。看到喜歡的，點進去看細節，填表單就能下單。', notice:'', ig:'', formUrl:FORM_URL, shipping:'7-11 店到店取貨，運費 NT$60', currency:'NT$' };
+
+var state = { products:[], settings:Object.assign({}, DEFAULTS), sha:null, loaded:false, error:'' };
+var ui = { filter:'全部', photoIdx:0, draft:null, photos:[], busy:'', msg:'', msgKind:'', confirmId:null, token:'', me:null, canPush:false, authChecked:false };
+var app = document.getElementById('app');
+try { ui.token = localStorage.getItem(TOKEN_KEY) || ''; } catch(e){}
+
+/* ---------- helpers ---------- */
+function esc(v){ return String(v==null?'':v).replace(/[&<>"']/g,function(c){return {'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c];}); }
+function money(n){ var x = Number(n); if (!isFinite(x)) return esc(n); return state.settings.currency + ' ' + x.toLocaleString('en-US'); }
+function photoUrl(p){ return /^photos\/[A-Za-z0-9._-]+$/.test(p) ? p : ''; }
+function newId(){ return 'p-' + Date.now().toString(36) + Math.random().toString(36).slice(2,6); }
+function route(){ var h = (location.hash||'').replace(/^#/,''); if (h === 'manage') return {view:'manage'}; if (/^p-[a-z0-9]+$/.test(h)) return {view:'product', id:h}; return {view:'home'}; }
+function visible(){ return state.products.filter(function(p){ return p.status !== 'hidden'; }); }
+function applyData(d){ state.products = Array.isArray(d.products) ? d.products : []; state.settings = Object.assign({}, DEFAULTS, d.settings||{}); state.loaded = true; }
+function toast(text){ var old = document.getElementById('toast'); if (old) old.remove(); var el = document.createElement('div'); el.className='toast'; el.id='toast'; el.textContent = text; document.body.appendChild(el); setTimeout(function(){ if (el.parentNode) el.remove(); }, 2800); }
+
+/* ---------- GitHub API ---------- */
+function gh(method, path, body){
+  var h = { 'Accept':'application/vnd.github+json', 'X-GitHub-Api-Version':'2022-11-28' };
+  if (ui.token) h['Authorization'] = 'Bearer ' + ui.token;
+  if (body) h['Content-Type'] = 'application/json';
+  return fetch(API + path, { method:method, headers:h, body: body ? JSON.stringify(body) : undefined, cache:'no-store' }).then(function(r){
+    return r.text().then(function(t){ var j = {}; try { j = t ? JSON.parse(t) : {}; } catch(e){} if (!r.ok){ var e = new Error(j.message || ('HTTP ' + r.status)); e.status = r.status; throw e; } return j; });
+  });
+}
+function utf8b64(str){ return btoa(unescape(encodeURIComponent(str))); }
+function b64utf8(b){ return decodeURIComponent(escape(atob(b.replace(/\n/g,'')))); }
+function blobB64(blob){ return new Promise(function(res, rej){ var r = new FileReader(); r.onload = function(){ res(String(r.result).split(',')[1]); }; r.onerror = rej; r.readAsDataURL(blob); }); }
+function loadFromApi(){
+  return gh('GET', '/contents/products.json?ref=' + BRANCH).then(function(j){ state.sha = j.sha; applyData(JSON.parse(b64utf8(j.content))); });
+}
+function putFile(path, b64, message, sha){
+  var body = { message:message, content:b64, branch:BRANCH }; if (sha) body.sha = sha;
+  return gh('PUT', '/contents/' + path, body);
+}
+function deleteFile(path, message){
+  return gh('GET', '/contents/' + path + '?ref=' + BRANCH).then(function(j){ return gh('DELETE', '/contents/' + path, { message:message, sha:j.sha, branch:BRANCH }); }).catch(function(){});
+}
+function saveData(message){
+  var json = JSON.stringify({ products:state.products, settings:state.settings }, null, 2) + '\n';
+  return putFile('products.json', utf8b64(json), message, state.sha).then(function(j){ state.sha = j.content.sha; }, function(e){
+    if (e.status === 409 || e.status === 422){ // sha 過期：重抓再寫一次
+      var mine = { products:state.products, settings:state.settings };
+      return loadFromApi().then(function(){ state.products = mine.products; state.settings = mine.settings; return putFile('products.json', utf8b64(json), message, state.sha); }).then(function(j){ state.sha = j.content.sha; });
+    }
+    throw e;
+  });
+}
+function checkAuth(){
+  ui.authChecked = false; ui.me = null; ui.canPush = false;
+  if (!ui.token){ ui.authChecked = true; return Promise.resolve(); }
+  return gh('GET', '').then(function(repo){
+    ui.canPush = !!(repo.permissions && repo.permissions.push);
+    return fetch('https://api.github.com/user', { headers:{ 'Authorization':'Bearer ' + ui.token, 'Accept':'application/vnd.github+json' } }).then(function(r){ return r.ok ? r.json() : null; }).then(function(u){ ui.me = u; });
+  }).catch(function(){ ui.canPush = false; }).then(function(){ ui.authChecked = true; });
+}
+
+/* ---------- rendering ---------- */
+function header(){
+  var s = state.settings;
+  return '<header class="hdr"><div class="wrap">'
+    + '<a class="brand" href="#"><img src="logo.jpg" alt="Shi Wa Nan Ma Shop logo"><b>Shi Wa Nan Ma<small>shop</small></b></a>'
+    + '<nav>'
+    + (s.ig ? '<a class="btn btn-ghost btn-sm" href="https://www.instagram.com/' + esc(s.ig.replace(/^@/,'')) + '" target="_blank" rel="noopener">IG @' + esc(s.ig.replace(/^@/,'')) + '</a>' : '')
+    + '<a class="btn btn-pink btn-sm" href="' + esc(s.formUrl||FORM_URL) + '" target="_blank" rel="noopener">訂購表單 ↗</a>'
+    + (ui.canPush ? '<a class="btn btn-ink btn-sm" href="#manage">管理</a>' : '')
+    + '</nav></div></header>';
+}
+function footer(){
+  var s = state.settings;
+  return '<footer class="ftr"><div class="wrap"><div><b>Shi Wa Nan Ma shop</b> · ' + esc(s.tagline) + '</div><div>' + esc(s.shipping) + (s.ig ? ' · IG @' + esc(s.ig.replace(/^@/,'')) : '') + ' · <a href="#manage">管理</a></div></div></footer>';
+}
+function cardHtml(p){
+  var first = p.photos && p.photos[0];
+  var sold = p.status === 'sold';
+  var isNew = p.createdAt && (Date.now() - p.createdAt) < 7*864e5 && !sold;
+  return '<a class="card" href="#' + esc(p.id) + '"><div class="ph">'
+    + (first ? '<img src="' + photoUrl(first) + '" alt="' + esc(p.name) + '" loading="lazy">' : '<div class="ph-empty">尚無照片</div>')
+    + (isNew ? '<span class="tag">NEW</span>' : '')
+    + (p.photos && p.photos.length > 1 ? '<span class="count">' + p.photos.length + ' 張</span>' : '')
+    + (sold ? '<div class="sold"><span>售完</span></div>' : '')
+    + '</div><div class="meta"><div class="name">' + esc(p.name) + '</div><div class="price">' + money(p.price) + '</div>'
+    + (p.size ? '<div class="sz">尺寸 ' + esc(p.size) + '</div>' : '') + '</div></a>';
+}
+function home(){
+  var s = state.settings, items = visible();
+  var cats = ['全部'].concat(CATS.filter(function(c){ return items.some(function(p){ return p.category === c; }); }));
+  var list = ui.filter === '全部' ? items : items.filter(function(p){ return p.category === ui.filter; });
+  list = list.slice().sort(function(a,b){ return (a.status==='sold') - (b.status==='sold') || (b.createdAt||0) - (a.createdAt||0); });
+  return header()
+    + '<section class="hero"><div class="wrap"><div>'
+    + '<div class="eyebrow">Vietnam → Taiwan · 代購</div>'
+    + '<h1>Shi Wa Nan Ma <em>shop</em></h1>'
+    + '<p>' + esc(s.intro) + '</p>'
+    + '<div class="cta"><a class="btn btn-pink" href="#list">瀏覽商品</a><a class="btn btn-ghost" href="' + esc(s.formUrl||FORM_URL) + '" target="_blank" rel="noopener">填寫訂購表單 ↗</a></div>'
+    + (s.notice ? '<div class="notice"><b>公告</b><span>' + esc(s.notice) + '</span></div>' : '')
+    + '</div><img class="sign" src="logo.jpg" alt="Shi Wa Nan Ma Shop 霓虹招牌"></div></section>'
+    + '<main class="wrap" id="list">'
+    + '<div class="chips">' + cats.map(function(c){ return '<button class="chip" data-filter="' + esc(c) + '" aria-pressed="' + (ui.filter===c) + '">' + esc(c) + '</button>'; }).join('') + '</div>'
+    + '<div class="section-head"><h2>' + esc(ui.filter === '全部' ? '全部商品' : ui.filter) + '</h2><span>' + list.length + ' 件</span></div>'
+    + '<div class="grid">' + (state.error ? '<div class="empty">' + esc(state.error) + '</div>' : list.length ? list.map(cardHtml).join('') : '<div class="empty">' + (state.loaded ? '目前還沒有商品，新貨上架後會出現在這裡。' : '載入中…') + '</div>') + '</div>'
+    + '</main>' + footer();
+}
+function product(id){
+  var p = state.products.filter(function(x){ return x.id === id; })[0];
+  if (!p || p.status === 'hidden') return header() + '<main class="wrap"><a class="back" href="#">← 回商品列表</a><div class="empty" style="margin:20px 0 60px">' + (state.loaded ? '找不到這個商品，可能已經下架。' : '載入中…') + '</div></main>' + footer();
+  var s = state.settings, photos = (p.photos||[]).filter(photoUrl);
+  var idx = Math.min(ui.photoIdx, Math.max(0, photos.length-1));
+  var sold = p.status === 'sold';
+  return header()
+    + '<main class="wrap"><a class="back" href="#">← 回商品列表</a><div class="detail">'
+    + '<div class="gallery"><div class="main">' + (photos.length ? '<img id="mainPhoto" src="' + photoUrl(photos[idx]) + '" alt="' + esc(p.name) + '">' : '<div class="ph-empty">尚無照片</div>') + '</div>'
+    + (photos.length > 1 ? '<div class="thumbs">' + photos.map(function(ph,i){ return '<button type="button" data-thumb="' + i + '" aria-current="' + (i===idx) + '" aria-label="第 ' + (i+1) + ' 張"><img src="' + photoUrl(ph) + '" alt=""></button>'; }).join('') + '</div>' : '')
+    + '</div>'
+    + '<div class="info"><div class="eyebrow">' + esc(p.category||'商品') + '</div><h2>' + esc(p.name) + '</h2>'
+    + '<div class="price">' + money(p.price) + '<small>+ 運費 NT$60</small></div>'
+    + '<div style="margin-top:8px">' + (sold ? '<span class="pill sold">已售完</span>' : '<span class="pill">現貨 · 可下單</span>') + '</div>'
+    + '<dl class="specs">' + (p.size ? '<dt>尺寸</dt><dd>' + esc(p.size) + '</dd>' : '') + (p.color ? '<dt>顏色</dt><dd>' + esc(p.color) + '</dd>' : '') + '<dt>取貨</dt><dd>' + esc(s.shipping) + '</dd></dl>'
+    + (p.desc ? '<div class="desc">' + esc(p.desc) + '</div>' : '')
+    + '<div class="order"><div class="row">'
+    + '<a class="btn btn-pink" href="' + esc(s.formUrl||FORM_URL) + '" target="_blank" rel="noopener"' + (sold ? ' aria-disabled="true" style="opacity:.5"' : '') + '>我要下單 · 填寫表單 ↗</a>'
+    + '<button type="button" class="btn btn-ghost" data-copy="' + esc(p.name + (p.size ? ' / ' + p.size : '')) + '">複製商品名稱</button>'
+    + '</div><ol><li><i>1</i><span>點「我要下單」，在表單填上商品名稱與尺寸（可先按「複製商品名稱」）。</span></li><li><i>2</i><span>匯款「商品金額 + 60 元運費」，表單填入銀行代號與帳號後 5 碼。</span></li><li><i>3</i><span>填好 7-11 店名與店號，到貨後店取。</span></li></ol></div>'
+    + '</div></div></main>' + footer();
+}
+function loginHtml(){
+  var why = ui.token && ui.authChecked && !ui.canPush ? '<div class="status err">這個 Token 無法寫入 ' + esc(OWNER + '/' + REPO) + '。請確認 Token 有這個 repo 的 Contents 讀寫權限，且帳號是協作者。</div>' : '';
+  return '<div class="panel login"><h2>管理登入</h2>'
+    + '<div class="hint" style="margin-top:8px">上架會直接寫進 GitHub repo <b>' + esc(OWNER + '/' + REPO) + '</b>，需要一組 GitHub Token（只存在這台裝置的瀏覽器）。</div>'
+    + '<form class="form" id="lform"><label>GitHub Token<input id="l-token" type="password" autocomplete="off" placeholder="github_pat_…" value="' + esc(ui.token) + '"></label>'
+    + why
+    + '<div class="acts"><button class="btn btn-pink" type="submit">登入</button>' + (ui.token ? '<button class="btn btn-ghost" type="button" data-act="logout">清除 Token</button>' : '') + '<span class="status" id="l-msg"></span></div></form>'
+    + '<div class="hint">取得方式：GitHub → Settings → Developer settings → <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Fine-grained tokens → Generate new token</a> → Repository access 只選 <b>' + esc(REPO) + '</b> → Permissions：Contents = <b>Read and write</b> → 產生後貼上。</div>'
+    + '</div>';
+}
+function manage(){
+  if (!ui.authChecked) return header() + '<main class="wrap manage"><div class="empty">確認身分中…</div></main>' + footer();
+  if (!ui.canPush) return header() + '<main class="wrap manage">' + loginHtml() + '</main>' + footer();
+  var rows = state.products.slice().sort(function(a,b){ return (b.createdAt||0)-(a.createdAt||0); });
+  var d = ui.draft;
+  return header() + '<main class="wrap manage">'
+    + '<div class="banner">儲存後 GitHub Pages 約 1–2 分鐘才會更新公開網站；管理頁這裡會立即顯示最新資料。</div>'
+    + '<div class="panel"><h2>商品 <span class="status">' + rows.length + ' 件</span>' + (d ? '' : '<button class="btn btn-pink btn-sm" data-act="new">＋ 新增商品</button>') + '</h2>'
+    + (d ? formHtml(d) : '')
+    + '<div class="rows">' + (rows.length ? rows.map(function(p){
+        var st = p.status === 'sold' ? '售完' : p.status === 'hidden' ? '已下架' : '上架中';
+        return '<div class="row-p">' + (p.photos && p.photos[0] ? '<img src="' + photoUrl(p.photos[0]) + '" alt="">' : '<div style="width:56px;height:56px;border-radius:8px;background:var(--tile)"></div>')
+          + '<div class="t"><div>' + esc(p.name) + '</div><small>' + money(p.price) + ' · ' + esc(p.category||'') + ' · ' + st + '</small></div>'
+          + '<div class="acts">' + (ui.confirmId === p.id
+              ? '<span class="confirm">確定刪除？照片也會一起刪除 <button class="btn btn-danger btn-sm" data-act="delete" data-id="' + p.id + '"' + (ui.busy?' disabled':'') + '>確定刪除</button><button class="btn btn-ghost btn-sm" data-act="cancel-del">取消</button></span>'
+              : '<a class="btn btn-ghost btn-sm" href="#' + p.id + '">查看</a><button class="btn btn-ghost btn-sm" data-act="edit" data-id="' + p.id + '">編輯</button>'
+                + '<button class="btn btn-ghost btn-sm" data-act="status" data-id="' + p.id + '" data-to="' + (p.status==='sold'?'active':'sold') + '"' + (ui.busy?' disabled':'') + '>' + (p.status==='sold'?'改回現貨':'標示售完') + '</button>'
+                + '<button class="btn btn-ghost btn-sm" data-act="status" data-id="' + p.id + '" data-to="' + (p.status==='hidden'?'active':'hidden') + '"' + (ui.busy?' disabled':'') + '>' + (p.status==='hidden'?'重新上架':'下架') + '</button>'
+                + '<button class="btn btn-danger btn-sm" data-act="ask-del" data-id="' + p.id + '">刪除</button>')
+          + '</div></div>';
+      }).join('') : '<div class="hint">還沒有商品。按「新增商品」開始上架。</div>') + '</div>'
+    + '<div class="status" id="list-msg" style="margin-top:10px">' + esc(ui.busy) + '</div></div>'
+    + settingsHtml()
+    + '<div class="panel"><h2>帳號' + (ui.me ? '<span class="who"><img src="' + esc(ui.me.avatar_url) + '" alt="">' + esc(ui.me.login) + '</span>' : '') + '</h2><div class="acts" style="margin-top:10px;display:flex;gap:10px"><button class="btn btn-ghost btn-sm" data-act="logout">登出（清除這台裝置的 Token）</button></div><div class="hint">要讓別人也能上架：GitHub repo → Settings → Collaborators 加入對方帳號，對方再用自己的 Token 登入。</div></div>'
+    + '</main>' + footer();
+}
+function formHtml(d){
+  return '<form class="form" id="pform" autocomplete="off">'
+    + '<label class="full">商品名稱 *<input id="f-name" required maxlength="80" value="' + esc(d.name) + '" placeholder="例：越南亞麻寬褲（米白）"></label>'
+    + '<label>價格（' + esc(state.settings.currency) + '）*<input id="f-price" type="number" inputmode="numeric" min="0" step="1" required value="' + esc(d.price) + '"></label>'
+    + '<label>分類<select id="f-cat">' + CATS.map(function(c){ return '<option' + (d.category===c?' selected':'') + '>' + c + '</option>'; }).join('') + '</select></label>'
+    + '<label>尺寸<input id="f-size" maxlength="40" value="' + esc(d.size) + '" placeholder="例：M / 腰 68cm 褲長 95cm"></label>'
+    + '<label>顏色<input id="f-color" maxlength="40" value="' + esc(d.color) + '" placeholder="例：米白、黑"></label>'
+    + '<label class="full">商品說明<textarea id="f-desc" maxlength="1500" placeholder="材質、版型、實際尺寸、注意事項…">' + esc(d.desc) + '</textarea></label>'
+    + '<label>狀態<select id="f-status"><option value="active"' + (d.status==='active'?' selected':'') + '>上架中</option><option value="sold"' + (d.status==='sold'?' selected':'') + '>售完</option><option value="hidden"' + (d.status==='hidden'?' selected':'') + '>下架（不顯示）</option></select></label>'
+    + '<div class="full"><label>照片（最多 5 張，第 1 張是封面）<input id="f-photos" type="file" accept="image/*" multiple' + (ui.photos.length>=5?' disabled':'') + '></label>'
+    + '<div class="photos" id="photo-strip">' + photosHtml() + '</div><div class="hint">照片會自動縮到 1200px 並壓縮；第 1 張用在列表封面。</div></div>'
+    + '<div class="acts"><button class="btn btn-pink" type="submit" id="f-save"' + (ui.busy?' disabled':'') + '>' + (d.id ? '儲存變更' : '上架商品') + '</button><button class="btn btn-ghost" type="button" data-act="cancel-edit"' + (ui.busy?' disabled':'') + '>取消</button><span class="status ' + ui.msgKind + '" id="f-status-msg">' + esc(ui.busy || ui.msg) + '</span></div>'
+    + '</form>';
+}
+function photosHtml(){
+  var out = '';
+  for (var i=0;i<5;i++){
+    var ph = ui.photos[i];
+    if (ph) out += '<div class="slot"><img src="' + esc(ph.url) + '" alt=""><span class="n">' + (i===0?'封面':i+1) + '</span><button type="button" class="x" data-ph="rm" data-i="' + i + '" aria-label="移除">×</button><div class="mv">' + (i>0?'<button type="button" data-ph="left" data-i="' + i + '" aria-label="往前">‹</button>':'') + (i<ui.photos.length-1?'<button type="button" data-ph="right" data-i="' + i + '" aria-label="往後">›</button>':'') + '</div></div>';
+    else out += '<div class="slot">' + (i===ui.photos.length ? '＋ 加照片' : '') + '</div>';
+  }
+  return out;
+}
+function settingsHtml(){
+  var s = state.settings;
+  return '<div class="panel"><h2>網站設定</h2><form class="form" id="sform" autocomplete="off">'
+    + '<label class="full">首頁介紹<textarea id="s-intro" maxlength="300" style="min-height:70px">' + esc(s.intro) + '</textarea></label>'
+    + '<label class="full">公告（留空就不顯示）<input id="s-notice" maxlength="200" value="' + esc(s.notice) + '" placeholder="例：本週五截單，下週三出貨"></label>'
+    + '<label>Instagram 帳號<input id="s-ig" maxlength="40" value="' + esc(s.ig) + '" placeholder="不含 @"></label>'
+    + '<label>幣別顯示<input id="s-cur" maxlength="6" value="' + esc(s.currency) + '"></label>'
+    + '<label class="full">取貨／運費說明<input id="s-ship" maxlength="120" value="' + esc(s.shipping) + '"></label>'
+    + '<label class="full">Google 表單連結<input id="s-form" type="url" value="' + esc(s.formUrl) + '"></label>'
+    + '<div class="acts"><button class="btn btn-ink" type="submit"' + (ui.busy?' disabled':'') + '>儲存設定</button><span class="status" id="s-msg"></span></div></form></div>';
+}
+function render(){
+  var r = route();
+  if (r.view !== 'manage' && ui.draft) { ui.draft = null; ui.photos = []; }
+  app.innerHTML = r.view === 'product' ? product(r.id) : r.view === 'manage' ? manage() : home();
+  if (r.view === 'product') window.scrollTo(0,0);
+}
+function setMsg(text, kind){ ui.msg = text; ui.msgKind = kind||''; var el = document.getElementById('f-status-msg'); if (el){ el.textContent = ui.busy || text; el.className = 'status ' + (kind||''); } var s = document.getElementById('s-msg'); if (s){ s.textContent = text; s.className = 'status ' + (kind||''); } var l = document.getElementById('list-msg'); if (l){ l.textContent = ui.busy || text; l.className = 'status ' + (kind||''); } }
+function setBusy(text){ ui.busy = text; setMsg(ui.msg, ui.msgKind); var b = document.getElementById('f-save'); if (b) b.disabled = !!text; }
+function errText(e){ if (!e) return '未知錯誤'; if (e.status === 401) return 'Token 無效或過期。'; if (e.status === 403) return '沒有權限（Token 需要 Contents 讀寫）。'; if (e.status === 404) return '找不到 repo 或檔案。'; return e.message || String(e); }
+
+/* ---------- images ---------- */
+function loadImage(file){
+  return new Promise(function(res, rej){
+    var url = URL.createObjectURL(file); var img = new Image();
+    img.onload = function(){ res({img:img, url:url}); };
+    img.onerror = function(){ URL.revokeObjectURL(url); rej(new Error('decode')); };
+    img.src = url;
+  });
+}
+function compress(file){
+  return loadImage(file).then(function(r){
+    var img = r.img, max = 1200, w = img.naturalWidth, h = img.naturalHeight, k = Math.min(1, max/Math.max(w,h));
+    var c = document.createElement('canvas'); c.width = Math.round(w*k); c.height = Math.round(h*k);
+    c.getContext('2d').drawImage(img, 0, 0, c.width, c.height); URL.revokeObjectURL(r.url);
+    return new Promise(function(res, rej){ c.toBlob(function(b){ b ? res(b) : rej(new Error('encode')); }, 'image/jpeg', 0.82); });
+  });
+}
+function refreshStrip(){ var strip = document.getElementById('photo-strip'); if (strip) strip.innerHTML = photosHtml(); var inp = document.getElementById('f-photos'); if (inp){ inp.value=''; inp.disabled = ui.photos.length>=5; } }
+function addPhotos(files){
+  var room = 5 - ui.photos.length, list = Array.prototype.slice.call(files, 0, Math.max(0, room));
+  if (files.length > room) setMsg('最多 5 張，多出的 ' + (files.length - room) + ' 張沒有加入。', 'err');
+  var chain = Promise.resolve();
+  list.forEach(function(f){ chain = chain.then(function(){ return compress(f).then(function(blob){ ui.photos.push({blob:blob, url:URL.createObjectURL(blob)}); }, function(){ setMsg('「' + f.name + '」無法讀取，請改用 JPG/PNG（iPhone 請關閉 HEIC 或先轉檔）。', 'err'); }); }); });
+  chain.then(refreshStrip);
+}
+
+/* ---------- actions ---------- */
+function saveProduct(){
+  var d = ui.draft; if (!d) return;
+  var name = document.getElementById('f-name').value.trim(), price = document.getElementById('f-price').value.trim();
+  if (!name){ setMsg('請填商品名稱。', 'err'); return; }
+  if (price === '' || !(Number(price) >= 0)){ setMsg('請填價格。', 'err'); return; }
+  var id = d.id || newId();
+  var p = { id:id, name:name, price:Number(price), category:document.getElementById('f-cat').value, size:document.getElementById('f-size').value.trim(), color:document.getElementById('f-color').value.trim(), desc:document.getElementById('f-desc').value.trim(), status:document.getElementById('f-status').value, createdAt: d.createdAt || Date.now(), updatedAt: Date.now(), photos: [] };
+  var pending = ui.photos.filter(function(x){ return x.blob; }), done = 0, stamp = Date.now().toString(36);
+  var chain = Promise.resolve();
+  ui.photos.forEach(function(x, i){
+    chain = chain.then(function(){
+      if (x.path) return;
+      setBusy('上傳照片 ' + (++done) + '/' + pending.length + '…');
+      var path = 'photos/' + id + '-' + stamp + '-' + (i+1) + '.jpg';
+      return blobB64(x.blob).then(function(b64){ return putFile(path, b64, '照片：' + name); }).then(function(){ x.path = path; });
+    });
+  });
+  chain.then(function(){
+    p.photos = ui.photos.map(function(x){ return x.path; }).filter(Boolean);
+    var old = state.products.filter(function(x){ return x.id === id; })[0];
+    var removed = old ? (old.photos||[]).filter(function(ph){ return p.photos.indexOf(ph) === -1; }) : [];
+    var i = state.products.findIndex(function(x){ return x.id === id; });
+    if (i >= 0) state.products[i] = p; else state.products.unshift(p);
+    setBusy('儲存商品資料…');
+    return saveData((old ? '更新商品：' : '上架商品：') + name).then(function(){
+      var del = Promise.resolve(); removed.forEach(function(ph){ del = del.then(function(){ return deleteFile(ph, '移除照片：' + name); }); }); return del;
+    });
+  }).then(function(){
+    setBusy(''); ui.draft = null; ui.photos = []; ui.msg = ''; render(); toast('已儲存，公開網站約 1–2 分鐘後更新');
+  }).catch(function(e){ setBusy(''); setMsg('儲存失敗：' + errText(e), 'err'); });
+}
+function deleteProduct(id){
+  var p = state.products.filter(function(x){ return x.id === id; })[0]; if (!p) return;
+  ui.confirmId = null; state.products = state.products.filter(function(x){ return x.id !== id; });
+  setBusy('刪除中…'); render();
+  saveData('刪除商品：' + p.name).then(function(){
+    var del = Promise.resolve(); (p.photos||[]).forEach(function(ph){ del = del.then(function(){ return deleteFile(ph, '刪除照片：' + p.name); }); }); return del;
+  }).then(function(){ setBusy(''); render(); toast('已刪除'); }).catch(function(e){ state.products.push(p); setBusy(''); render(); setMsg('刪除失敗：' + errText(e), 'err'); });
+}
+function setStatus(id, to){
+  var p = state.products.filter(function(x){ return x.id === id; })[0]; if (!p) return;
+  var prev = p.status; p.status = to; p.updatedAt = Date.now();
+  setBusy('儲存中…'); render();
+  saveData('狀態：' + p.name + ' → ' + to).then(function(){ setBusy(''); render(); toast('已更新'); }).catch(function(e){ p.status = prev; setBusy(''); render(); setMsg('更新失敗：' + errText(e), 'err'); });
+}
+function saveSettings(){
+  var s = state.settings, form = document.getElementById('s-form').value.trim();
+  if (form && !/^https:\/\//.test(form)){ setMsg('表單連結要以 https:// 開頭。', 'err'); return; }
+  s.intro = document.getElementById('s-intro').value.trim() || DEFAULTS.intro;
+  s.notice = document.getElementById('s-notice').value.trim();
+  s.ig = document.getElementById('s-ig').value.trim().replace(/^@/,'');
+  s.currency = document.getElementById('s-cur').value.trim() || 'NT$';
+  s.shipping = document.getElementById('s-ship').value.trim() || DEFAULTS.shipping;
+  s.formUrl = form || FORM_URL;
+  ui.busy = '儲存中…'; setMsg('儲存中…');
+  saveData('更新網站設定').then(function(){ ui.busy=''; setMsg('已儲存，公開網站約 1–2 分鐘後更新。', 'ok'); }).catch(function(e){ ui.busy=''; setMsg('儲存失敗：' + errText(e), 'err'); });
+}
+function login(token){
+  ui.token = token.trim();
+  try { if (ui.token) localStorage.setItem(TOKEN_KEY, ui.token); else localStorage.removeItem(TOKEN_KEY); } catch(e){}
+  var m = document.getElementById('l-msg'); if (m) m.textContent = '確認中…';
+  return checkAuth().then(function(){ if (ui.canPush) return loadFromApi().catch(function(){}); }).then(render);
+}
+
+/* ---------- events ---------- */
+app.addEventListener('click', function(ev){
+  var t = ev.target.closest('[data-filter],[data-thumb],[data-copy],[data-act],[data-ph]'); if (!t) return;
+  if (t.dataset.filter){ ui.filter = t.dataset.filter; render(); return; }
+  if (t.dataset.thumb != null){ ui.photoIdx = +t.dataset.thumb; var main = document.getElementById('mainPhoto'); if (main) main.src = t.querySelector('img').src; app.querySelectorAll('[data-thumb]').forEach(function(b){ b.setAttribute('aria-current', b === t); }); return; }
+  if (t.dataset.copy != null){
+    var text = t.dataset.copy;
+    var fallback = function(){ var ta = document.createElement('textarea'); ta.value = text; document.body.appendChild(ta); ta.select(); try{ document.execCommand('copy'); }catch(e){} ta.remove(); };
+    try { navigator.clipboard.writeText(text).then(function(){ toast('已複製：' + text); }, function(){ fallback(); toast('已複製：' + text); }); } catch(e){ fallback(); toast('已複製：' + text); }
+    return;
+  }
+  if (t.dataset.ph){
+    var i = +t.dataset.i;
+    if (t.dataset.ph === 'rm') ui.photos.splice(i,1);
+    if (t.dataset.ph === 'left' && i>0){ var a = ui.photos[i]; ui.photos[i] = ui.photos[i-1]; ui.photos[i-1] = a; }
+    if (t.dataset.ph === 'right' && i<ui.photos.length-1){ var b = ui.photos[i]; ui.photos[i] = ui.photos[i+1]; ui.photos[i+1] = b; }
+    refreshStrip(); return;
+  }
+  var act = t.dataset.act, id = t.dataset.id;
+  if (act === 'new'){ ui.draft = {name:'',price:'',category:CATS[0],size:'',color:'',desc:'',status:'active'}; ui.photos = []; ui.msg=''; render(); document.getElementById('f-name').focus(); }
+  if (act === 'edit'){ var p = state.products.filter(function(x){ return x.id === id; })[0]; if (!p) return; ui.draft = Object.assign({}, p); ui.photos = (p.photos||[]).map(function(ph){ return {path:ph, url:photoUrl(ph)}; }); ui.msg=''; render(); window.scrollTo(0,0); }
+  if (act === 'cancel-edit'){ ui.draft = null; ui.photos = []; ui.msg=''; render(); }
+  if (act === 'ask-del'){ ui.confirmId = id; render(); }
+  if (act === 'cancel-del'){ ui.confirmId = null; render(); }
+  if (act === 'delete' && !ui.busy) deleteProduct(id);
+  if (act === 'status' && !ui.busy) setStatus(id, t.dataset.to);
+  if (act === 'logout'){ login('').then(function(){ toast('已清除 Token'); }); }
+});
+app.addEventListener('submit', function(ev){
+  ev.preventDefault();
+  if (ev.target.id === 'pform') saveProduct();
+  if (ev.target.id === 'sform') saveSettings();
+  if (ev.target.id === 'lform') login(document.getElementById('l-token').value);
+});
+app.addEventListener('change', function(ev){ if (ev.target.id === 'f-photos' && ev.target.files && ev.target.files.length) addPhotos(ev.target.files); });
+window.addEventListener('hashchange', function(){ ui.photoIdx = 0; ui.confirmId = null; render(); });
+
+/* ---------- boot ---------- */
+fetch('products.json?v=' + Date.now(), { cache:'no-store' }).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
+  .then(applyData, function(){ state.loaded = true; state.error = '商品資料載入失敗，請重新整理。'; })
+  .then(function(){ render(); return checkAuth(); })
+  .then(function(){ if (ui.canPush) return loadFromApi().catch(function(){}); })
+  .then(function(){ if (ui.canPush || route().view === 'manage') render(); });
+})();
+</script>
+</body>
+</html>
