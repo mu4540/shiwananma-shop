@@ -430,7 +430,7 @@
       "id": "p-3e5d518665",
       "brand": "Hades",
       "name": "Webby Canvas Shorts",
-      "price": 1768,
+      "price": 1880,
       "category": "褲子",
       "colors": [
         {
@@ -453,15 +453,15 @@
       "sizeNote": "女模 172cm／45kg 穿 M；男模 185cm／65kg 穿 L。",
       "desc": "寬鬆版型的牛仔短褲，面料為格紋織紋牛仔布，帶水洗效果。前片、後口袋與腰側工裝織帶皆有刺繡標誌，並有對比色明線。",
       "status": "active",
+      "createdAt": 1793154194852,
+      "updatedAt": 1793209611589,
       "photos": [
         "photos/p-3e5d518665-1.jpg",
         "photos/p-3e5d518665-2.jpg",
         "photos/p-3e5d518665-3.jpg",
         "photos/p-3e5d518665-4.jpg",
         "photos/p-3e5d518665-5.jpg"
-      ],
-      "createdAt": 1793154194852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-d9c4937a11",
