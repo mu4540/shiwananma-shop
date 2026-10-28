@@ -1101,7 +1101,7 @@
       "id": "p-c8033b1e98",
       "brand": "TWENTI",
       "name": "Baby Tee Trễ Vai In Chữ",
-      "price": 570,
+      "price": 580,
       "category": "上衣",
       "colors": [
         {
@@ -1115,14 +1115,14 @@
       "sizeNote": "TWENTI 上衣多為單一尺寸（Freesize）；下單時可在表單「備註」填身高體重，我們協助確認。",
       "desc": "TWENTI 一字肩 baby tee，修身短版剪裁，胸前有英文印字。",
       "status": "active",
+      "createdAt": 1793154173852,
+      "updatedAt": 1793208175794,
       "photos": [
         "photos/p-c8033b1e98-1.jpg",
         "photos/p-c8033b1e98-2.jpg",
         "photos/p-c8033b1e98-3.jpg",
         "photos/p-c8033b1e98-4.jpg"
-      ],
-      "createdAt": 1793154173852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-c14436411b",
