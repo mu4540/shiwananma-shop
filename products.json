@@ -868,7 +868,7 @@
         {
           "name": "海軍藍",
           "hex": "#1F2F5A",
-          "photo": 3
+          "photo": null
         }
       ],
       "sizes": [
@@ -878,17 +878,17 @@
         "XL"
       ],
       "soldOut": [],
-      "sizeNote": "外套S：胸圍 108、衣長 68、肩寬 58cmM：胸圍 114、衣長 70、肩寬 60cm,L：胸圍 120、衣長 72、肩寬 62cm,XL：胸圍 126、衣長 74、肩寬 64cm ;長褲S：腰圍 76、臀圍 106、內長 68cmM：腰圍 80、臀圍 110、內長 69cmL：腰圍 84、臀圍 114、內長 70cmXL：腰圍 88、臀圍 118、內長 71cm手工裁剪，誤差 ±1–2cm",
+      "sizeNote": "尺寸表於圖片欄",
       "desc": "Odyssey 系列 Aether 外套＋長褲套組。刻意寬鬆的中性落肩版型，品牌建議想穿合身可選小一號。每件在西貢手工裁剪製作，尺寸可能有 1–2cm 誤差。",
       "status": "active",
       "createdAt": 1793154176852,
-      "updatedAt": 1793212787831,
+      "updatedAt": 1793213017364,
       "photos": [
-        "photos/p-74b43b5aab-1.jpg",
         "photos/p-74b43b5aab-2.jpg",
         "photos/p-74b43b5aab-3.jpg",
-        "photos/p-74b43b5aab-4.jpg",
-        "photos/p-74b43b5aab-5.jpg"
+        "photos/p-74b43b5aab-5.jpg",
+        "photos/p-74b43b5aab-mvsgqbkk-4.jpg",
+        "photos/p-74b43b5aab-mvsgqbkk-5.jpg"
       ]
     },
     {
