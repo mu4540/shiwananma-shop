@@ -975,16 +975,17 @@
       ],
       "sizes": [],
       "soldOut": [],
-      "sizeNote": "TWENTI 上衣多為單一尺寸（Freesize）；下單時可在表單「備註」填身高體重，我們協助確認。",
+      "sizeNote": "單一尺寸,尺寸表於圖片最後,依序為 尺寸,體重,胸圍,腰圍",
       "desc": "TWENTI 一字肩 baby tee，修身短版剪裁，胸前有英文印字。",
       "status": "active",
       "createdAt": 1793154173852,
-      "updatedAt": 1793208175794,
+      "updatedAt": 1793212653230,
       "photos": [
         "photos/p-c8033b1e98-1.jpg",
         "photos/p-c8033b1e98-2.jpg",
         "photos/p-c8033b1e98-3.jpg",
-        "photos/p-c8033b1e98-4.jpg"
+        "photos/p-c8033b1e98-4.jpg",
+        "photos/p-c8033b1e98-mvsgiilq-5.jpg"
       ]
     },
     {
