@@ -1128,7 +1128,7 @@
       "id": "p-c14436411b",
       "brand": "TWENTI",
       "name": "Brunette Bombshell Long Sleeve",
-      "price": 570,
+      "price": 580,
       "category": "上衣",
       "colors": [
         {
@@ -1144,14 +1144,14 @@
       "sizeNote": "單一尺寸（Freesize）",
       "desc": "TWENTI 薄款長袖上衣，採用輕薄透氣、帶紙感的針織布料，胸前印有「BOMBSHELL」字樣。",
       "status": "active",
+      "createdAt": 1793154172852,
+      "updatedAt": 1793208141100,
       "photos": [
         "photos/p-c14436411b-1.jpg",
         "photos/p-c14436411b-2.jpg",
         "photos/p-c14436411b-3.jpg",
         "photos/p-c14436411b-4.jpg"
-      ],
-      "createdAt": 1793154172852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-3c7af2ace0",
