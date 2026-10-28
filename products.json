@@ -1,4 +1,1262 @@
 {
-  "products": [],
+  "products": [
+    {
+      "id": "p-7003b850d4",
+      "brand": "BadChoices",
+      "name": "Henley Racing Long Sleeve",
+      "price": 929,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": 0
+        },
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": 1
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "長袖亨利領上衣，屬於 BadChoices UNTAMED CAPSULE 系列。採用輕薄、帶紋理的針織布料，合身版型。前襟領口搭配不鏽鋼鈕扣，胸前為賽車主題印花。",
+      "status": "active",
+      "photos": [
+        "photos/p-7003b850d4-1.jpg",
+        "photos/p-7003b850d4-2.jpg",
+        "photos/p-7003b850d4-3.jpg",
+        "photos/p-7003b850d4-4.jpg"
+      ],
+      "createdAt": 1793154206852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-84736b6c73",
+      "brand": "BadChoices",
+      "name": "Toggle Denim Jacket",
+      "price": 1768,
+      "category": "外套",
+      "colors": [
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": null
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "寬鬆 boxy 版型牛仔夾克，以牛角扣（toggle）扣合。布料為無彈性牛仔布，經水洗處理。\n保養：建議手洗；扣件請輕柔開合，避免拉扯或擰轉扣件周圍。",
+      "status": "active",
+      "photos": [
+        "photos/p-84736b6c73-1.jpg",
+        "photos/p-84736b6c73-2.jpg",
+        "photos/p-84736b6c73-3.jpg",
+        "photos/p-84736b6c73-4.jpg"
+      ],
+      "createdAt": 1793154205852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-8cb011cbe2",
+      "brand": "CUBE LAMP",
+      "name": "Cube Lamp CU-18",
+      "price": 1725,
+      "category": "其他",
+      "colors": [
+        {
+          "name": "焰紅 Ember Red",
+          "hex": "#D7263D",
+          "photo": null
+        },
+        {
+          "name": "落日橘 Sunset Orange",
+          "hex": "#F28C28",
+          "photo": null
+        },
+        {
+          "name": "極光藍 Aurora Blue",
+          "hex": "#3FB6E8",
+          "photo": 0
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "",
+      "desc": "壓克力材質的模組化裝飾燈（型號 CU-18），方形透明燈罩內為霓虹造型燈管。品牌提供焰紅、落日橘、極光藍三色，照片為極光藍。尺寸與電源規格官方未公開。",
+      "status": "active",
+      "photos": [
+        "photos/p-8cb011cbe2-1.jpg"
+      ],
+      "createdAt": 1793154204852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-8d2a3d185a",
+      "brand": "CUBE LAMP",
+      "name": "Cube Lamp CU-38",
+      "price": 2325,
+      "category": "其他",
+      "colors": [
+        {
+          "name": "焰紅 Ember Red",
+          "hex": "#D7263D",
+          "photo": null
+        },
+        {
+          "name": "落日橘 Sunset Orange",
+          "hex": "#F28C28",
+          "photo": null
+        },
+        {
+          "name": "極光藍 Aurora Blue",
+          "hex": "#3FB6E8",
+          "photo": 0
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "",
+      "desc": "壓克力材質的模組化裝飾燈（型號 CU-38），方形透明燈罩內為霓虹造型燈管。品牌提供焰紅、落日橘、極光藍三色，照片為極光藍。尺寸與電源規格官方未公開。",
+      "status": "active",
+      "photos": [
+        "photos/p-8d2a3d185a-1.jpg"
+      ],
+      "createdAt": 1793154203852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-bcb0703321",
+      "brand": "Calem.Club",
+      "name": "Kaki Jeans Ver 2 Wide Leg",
+      "price": 741,
+      "category": "褲子",
+      "colors": [
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": 0
+        },
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": 1
+        },
+        {
+          "name": "奶油",
+          "hex": "#F2E6CC",
+          "photo": 3
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "高腰寬褲管長褲，男女皆可穿，可穿在高腰或肚臍下方。採用厚實卡其布，挺括、觸感平滑、無彈性。\n保養：初次穿著前以冷水清洗並晾乾，前兩週避免機洗；反面與其他顏色分開清洗，勿用漂白劑，陰乾。",
+      "status": "active",
+      "photos": [
+        "photos/p-bcb0703321-1.jpg",
+        "photos/p-bcb0703321-2.jpg",
+        "photos/p-bcb0703321-3.jpg",
+        "photos/p-bcb0703321-4.jpg"
+      ],
+      "createdAt": 1793154202852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-7b78fa7560",
+      "brand": "Calem.Club",
+      "name": "Libre Et 07 Off-Shoulder Top",
+      "price": 875,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "深藍",
+          "hex": "#1F2F5A",
+          "photo": 0
+        },
+        {
+          "name": "淺棕",
+          "hex": "#B88A62",
+          "photo": 2
+        },
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": 1
+        },
+        {
+          "name": "薄荷綠",
+          "hex": "#9ED9C9",
+          "photo": 3
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "女款露肩長袖上衣，版型基本。採用略有彈性的紋理針織布，穿著舒適。衣身有「LIBRE ET 07」印字並搭配鈕扣設計。",
+      "status": "active",
+      "photos": [
+        "photos/p-7b78fa7560-1.jpg",
+        "photos/p-7b78fa7560-2.jpg",
+        "photos/p-7b78fa7560-3.jpg",
+        "photos/p-7b78fa7560-4.jpg"
+      ],
+      "createdAt": 1793154201852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-53d67b1984",
+      "brand": "Devotus",
+      "name": "Ego Shirt",
+      "price": 1679,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "模特兒 180cm／69kg 穿 L。",
+      "desc": "白色 boxy 寬鬆版型襯衫，衣身寬、衣長落在臀部上方。採用 Kate 布料，正面有紅色皮革 logo 標，背面為絹印框線圖案。\n模特兒 180cm／69kg 穿 L。保養：僅限手洗，勿用漂白劑。",
+      "status": "active",
+      "photos": [
+        "photos/p-53d67b1984-1.jpg",
+        "photos/p-53d67b1984-2.jpg",
+        "photos/p-53d67b1984-3.jpg",
+        "photos/p-53d67b1984-4.jpg",
+        "photos/p-53d67b1984-5.jpg"
+      ],
+      "createdAt": 1793154200852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-41771b9212",
+      "brand": "Drobe",
+      "name": "Pixel Ringer Tee - White",
+      "price": 1054,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "soldOut": [],
+      "sizeNote": "",
+      "desc": "Baby tee 版型短袖上衣，100% 棉。羅紋領口搭配淺藍色滾邊，正面印有「Drobe House」logo 圖案，搭配星星、愛心與四葉草圖樣。可機洗，越南製造。",
+      "status": "active",
+      "photos": [
+        "photos/p-41771b9212-1.jpg",
+        "photos/p-41771b9212-2.jpg",
+        "photos/p-41771b9212-3.jpg"
+      ],
+      "createdAt": 1793154199852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-4f8dde0ed1",
+      "brand": "Fabriclism",
+      "name": "Raglan Button Tee - Our Legacy",
+      "price": 875,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "白／藍",
+          "hex": "#DCE6F5",
+          "photo": null
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "白身藍袖的插肩袖（raglan）短袖上衣，領口有鈕扣設計，胸前印有「FABRICLISM OUR LEGACY」字樣。採用雙向彈性棉布，男生穿為一般版型、女生穿為 baby tee 合身感。",
+      "status": "active",
+      "photos": [
+        "photos/p-4f8dde0ed1-1.jpg",
+        "photos/p-4f8dde0ed1-2.jpg",
+        "photos/p-4f8dde0ed1-3.jpg",
+        "photos/p-4f8dde0ed1-4.jpg",
+        "photos/p-4f8dde0ed1-5.jpg"
+      ],
+      "createdAt": 1793154198852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-b2b9e21453",
+      "brand": "Gamble",
+      "name": "Dual Zip Knit Jacket",
+      "price": 2661,
+      "category": "外套",
+      "colors": [
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": 0
+        },
+        {
+          "name": "苔綠 Moss",
+          "hex": "#6B7046",
+          "photo": null
+        },
+        {
+          "name": "灰",
+          "hex": "#9A9AA0",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "soldOut": [],
+      "sizeNote": "官方尺寸表為圖片未能讀取；下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "針織面料外套，越南製造。高領設計，搭配多處拉鍊開口，拉鍊頭為 YKK 訂製 Gamble 標誌款。插肩袖剪裁，胸前有 Gamble 刺繡標誌，修身版型。品牌有黑、苔綠、灰三色，照片為黑色。",
+      "status": "active",
+      "photos": [
+        "photos/p-b2b9e21453-1.jpg",
+        "photos/p-b2b9e21453-2.jpg",
+        "photos/p-b2b9e21453-3.jpg",
+        "photos/p-b2b9e21453-4.jpg",
+        "photos/p-b2b9e21453-5.jpg"
+      ],
+      "createdAt": 1793154197852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-cbe85f29e9",
+      "brand": "Gamble",
+      "name": "GBME Baby Tee",
+      "price": 700,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "陶土 Clay",
+          "hex": "#8A5A44",
+          "photo": 0
+        },
+        {
+          "name": "海洋藍 Marine",
+          "hex": "#22406E",
+          "photo": 1
+        },
+        {
+          "name": "暗影灰 Shadow",
+          "hex": "#4A4A50",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "XS",
+        "S",
+        "M",
+        "L"
+      ],
+      "soldOut": [],
+      "sizeNote": "官方尺寸表為圖片未能讀取；下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "Gamble 的 baby tee 短版合身 T 恤，胸前為 GBME 字樣印花。照片為陶土（Clay）與海洋藍（Marine）兩色，品牌另有暗影灰（Shadow）。官網未標示材質。",
+      "status": "active",
+      "photos": [
+        "photos/p-cbe85f29e9-1.jpg",
+        "photos/p-cbe85f29e9-2.jpg"
+      ],
+      "createdAt": 1793154196852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-35e67f344d",
+      "brand": "Hades",
+      "name": "Archive Baby Tee",
+      "price": 946,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "萊姆綠",
+          "hex": "#D8E36A",
+          "photo": 0
+        },
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": 1
+        },
+        {
+          "name": "紅",
+          "hex": "#C8242F",
+          "photo": 4
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "soldOut": [],
+      "sizeNote": "模特兒 171cm／48kg 穿 M。",
+      "desc": "合身剪裁的 baby tee，採用輕薄柔軟的竹節棉（cotton slub）面料，彈性佳。胸前印有 H.D.S 圖樣。照片可見萊姆綠、白、紅等配色。",
+      "status": "active",
+      "photos": [
+        "photos/p-35e67f344d-1.jpg",
+        "photos/p-35e67f344d-2.jpg",
+        "photos/p-35e67f344d-3.jpg",
+        "photos/p-35e67f344d-4.jpg",
+        "photos/p-35e67f344d-5.jpg"
+      ],
+      "createdAt": 1793154195852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-3e5d518665",
+      "brand": "Hades",
+      "name": "Webby Canvas Shorts",
+      "price": 1768,
+      "category": "褲子",
+      "colors": [
+        {
+          "name": "海軍藍",
+          "hex": "#1F2F5A",
+          "photo": 1
+        },
+        {
+          "name": "淺色格紋",
+          "hex": "#E6DCC8",
+          "photo": 2
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "soldOut": [],
+      "sizeNote": "女模 172cm／45kg 穿 M；男模 185cm／65kg 穿 L。",
+      "desc": "寬鬆版型的牛仔短褲，面料為格紋織紋牛仔布，帶水洗效果。前片、後口袋與腰側工裝織帶皆有刺繡標誌，並有對比色明線。",
+      "status": "active",
+      "photos": [
+        "photos/p-3e5d518665-1.jpg",
+        "photos/p-3e5d518665-2.jpg",
+        "photos/p-3e5d518665-3.jpg",
+        "photos/p-3e5d518665-4.jpg",
+        "photos/p-3e5d518665-5.jpg"
+      ],
+      "createdAt": 1793154194852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-d9c4937a11",
+      "brand": "ISME",
+      "name": "Basic Logo Cropped Jacket",
+      "price": 1179,
+      "category": "外套",
+      "colors": [
+        {
+          "name": "灰",
+          "hex": "#9A9AA0",
+          "photo": 0
+        },
+        {
+          "name": "橄欖綠",
+          "hex": "#5B6B3A",
+          "photo": 1
+        },
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": 4
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "ISME 短版皮革感外套，立領搭配前拉鍊，胸前有品牌 logo，下襬為弧形短版剪裁。照片可見灰、橄欖綠、黑三色。（官方商品資訊未公開，以上依照片描述）",
+      "status": "active",
+      "photos": [
+        "photos/p-d9c4937a11-1.jpg",
+        "photos/p-d9c4937a11-2.jpg",
+        "photos/p-d9c4937a11-3.jpg",
+        "photos/p-d9c4937a11-4.jpg",
+        "photos/p-d9c4937a11-5.jpg"
+      ],
+      "createdAt": 1793154193852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-c6e42a43a1",
+      "brand": "ISME",
+      "name": "Belt Tube Top",
+      "price": 821,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "灰",
+          "hex": "#9A9AA0",
+          "photo": null
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "ISME 平口抹胸上衣，胸前有皮帶扣環造型設計。（官方商品資訊未公開，以上依照片描述）",
+      "status": "active",
+      "photos": [
+        "photos/p-c6e42a43a1-1.jpg"
+      ],
+      "createdAt": 1793154192852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-71546983ee",
+      "brand": "ISME",
+      "name": "Tribal Wooly Baby Tee",
+      "price": 1071,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "灰",
+          "hex": "#9A9AA0",
+          "photo": 0
+        },
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": 2
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "ISME 短版合身 baby tee，前襟為拉鍊領設計，胸前有部落風圖騰。照片可見灰、黑兩色。（官方商品資訊未公開，以上依照片描述）",
+      "status": "active",
+      "photos": [
+        "photos/p-71546983ee-1.jpg",
+        "photos/p-71546983ee-2.jpg",
+        "photos/p-71546983ee-3.jpg",
+        "photos/p-71546983ee-4.jpg"
+      ],
+      "createdAt": 1793154191852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-986c4ff904",
+      "brand": "Insane",
+      "name": "Double Sleeve Shirt",
+      "price": 1429,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "紅",
+          "hex": "#C8242F",
+          "photo": 0
+        },
+        {
+          "name": "藍",
+          "hex": "#2F5FB0",
+          "photo": 2
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "soldOut": [],
+      "sizeNote": "女模 172cm 穿 M；男模 185cm 穿 L。",
+      "desc": "採用進口襯衫布料，輕薄。條紋設計搭配厚實立體的刺繡圖案，Boxy 寬方版型，也可當作薄外搭。有紅、藍兩款刺繡配色。\n保養：建議翻面手洗、陰涼處晾乾，勿直接熨燙繡花處。",
+      "status": "active",
+      "photos": [
+        "photos/p-986c4ff904-1.jpg",
+        "photos/p-986c4ff904-2.jpg",
+        "photos/p-986c4ff904-3.jpg",
+        "photos/p-986c4ff904-4.jpg",
+        "photos/p-986c4ff904-5.jpg"
+      ],
+      "createdAt": 1793154190852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-e730cba0b1",
+      "brand": "Insane",
+      "name": "Fog Jersey",
+      "price": 1714,
+      "category": "上衣",
+      "colors": [],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "男模 185cm 穿 XL；女模 168cm 穿 M。",
+      "desc": "採用進口聚酯纖維（Polyester）運動布料。胸前為織標 Logo 布章，結合刺繡與網版印刷，衣身為熱轉印圖案。Oversized 寬鬆版型。\n保養：建議翻面洗滌、避免高溫烘乾。",
+      "status": "active",
+      "photos": [
+        "photos/p-e730cba0b1-1.jpg",
+        "photos/p-e730cba0b1-2.jpg",
+        "photos/p-e730cba0b1-3.jpg",
+        "photos/p-e730cba0b1-4.jpg"
+      ],
+      "createdAt": 1793154189852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-a4229550b6",
+      "brand": "Insane",
+      "name": "Hennessy Tee - Washed Grey",
+      "price": 1249,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "水洗灰",
+          "hex": "#8E8E93",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "女模 171cm 穿 M；男模 185cm 穿 L。",
+      "desc": "採用 100% 棉雙向針織布，已做防縮與固色處理。經水洗處理呈現復古刷色效果，搭配網版印刷圖案。Regular Slim 合身版型。\n保養：建議翻面洗滌，勿直接熨燙印花。",
+      "status": "active",
+      "photos": [
+        "photos/p-a4229550b6-1.jpg"
+      ],
+      "createdAt": 1793154188852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-59197c02ba",
+      "brand": "Insane",
+      "name": "League Jersey Collection",
+      "price": 1714,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "Milano",
+          "hex": "#B0182B",
+          "photo": null
+        },
+        {
+          "name": "Samba",
+          "hex": "#F2D33B",
+          "photo": null
+        },
+        {
+          "name": "Fog",
+          "hex": "#F4F4F4",
+          "photo": null
+        },
+        {
+          "name": "Predator",
+          "hex": "#D7263D",
+          "photo": null
+        },
+        {
+          "name": "Redline Stripe",
+          "hex": "#E9E9EE",
+          "photo": null
+        },
+        {
+          "name": "Tango",
+          "hex": "#8CC4EA",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "男模 185cm 穿 XL；女模 168cm 穿 M。",
+      "desc": "Insane LEAGUE 系列球衣，可選款式：Milano、Samba、Fog、Predator、Redline Stripe、Tango（請在上方「顏色」選款式）。採用進口聚酯纖維（Polyester）運動布料。胸前為織標 Logo 布章，結合刺繡與網版印刷，衣身為熱轉印圖案。Oversized 寬鬆版型。",
+      "status": "active",
+      "photos": [
+        "photos/p-59197c02ba-1.jpg",
+        "photos/p-59197c02ba-2.jpg"
+      ],
+      "createdAt": 1793154187852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-1e028157e6",
+      "brand": "Insane",
+      "name": "Predator W Jersey",
+      "price": 1286,
+      "category": "上衣",
+      "colors": [],
+      "sizes": [
+        "S",
+        "M"
+      ],
+      "soldOut": [],
+      "sizeNote": "模特兒 168cm、50kg 以下穿 M。",
+      "desc": "女款球衣。採用進口聚酯纖維（Polyester）運動布料。胸前為織標 Logo 布章，結合刺繡與網版印刷，衣身為熱轉印圖案。SlimFit 合身版型。",
+      "status": "active",
+      "photos": [
+        "photos/p-1e028157e6-1.jpg"
+      ],
+      "createdAt": 1793154186852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-b10d2d5615",
+      "brand": "Insane",
+      "name": "Samba Jersey",
+      "price": 1714,
+      "category": "上衣",
+      "colors": [],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "男模 185cm 穿 XL；女模 168cm 穿 M。",
+      "desc": "採用進口聚酯纖維（Polyester）運動布料。胸前為織標 Logo 布章，結合刺繡與網版印刷，衣身為熱轉印圖案。Oversized 寬鬆版型。\n保養：建議翻面洗滌、避免高溫烘乾。",
+      "status": "active",
+      "photos": [
+        "photos/p-b10d2d5615-1.jpg"
+      ],
+      "createdAt": 1793154185852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-6d7279f2fa",
+      "brand": "Insane",
+      "name": "Sponsor W / Predator W Jersey",
+      "price": 1286,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "Sponsor W",
+          "hex": "#2F6FD0",
+          "photo": null
+        },
+        {
+          "name": "Predator W",
+          "hex": "#D7263D",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "S",
+        "M"
+      ],
+      "soldOut": [],
+      "sizeNote": "模特兒 168–170cm、50kg 以下穿 M。",
+      "desc": "女款球衣，Sponsor W 與 Predator W 兩款任選（請在上方「顏色」選款式），價格為單件。採用進口聚酯纖維（Polyester）運動布料。胸前為織標 Logo 布章，結合刺繡與網版印刷，衣身為熱轉印圖案。SlimFit 合身版型。",
+      "status": "active",
+      "photos": [
+        "photos/p-6d7279f2fa-1.jpg"
+      ],
+      "createdAt": 1793154184852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-f00340aaf8",
+      "brand": "Insane",
+      "name": "Tango Jersey",
+      "price": 1714,
+      "category": "上衣",
+      "colors": [],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "男模 185cm 穿 XL；女模 168cm 穿 M。",
+      "desc": "採用進口聚酯纖維（Polyester）運動布料。胸前為織標 Logo 布章，結合刺繡與網版印刷，衣身為熱轉印圖案。Oversized 寬鬆版型。\n保養：建議翻面洗滌、避免高溫烘乾。",
+      "status": "active",
+      "photos": [
+        "photos/p-f00340aaf8-1.jpg"
+      ],
+      "createdAt": 1793154183852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-b53822ac45",
+      "brand": "Insane",
+      "name": "Twin Heart Tee - Red",
+      "price": 1108,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "紅",
+          "hex": "#C8242F",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "女模 172cm 穿 M；男模 183cm 穿 XL。",
+      "desc": "採用 100% 棉雙向針織布，已做防縮與固色處理。紅色愛心圖案為網點網版印刷，Boxy 寬方版型。\n保養：建議翻面手洗或放洗衣袋輕柔洗，勿直接熨燙印花。",
+      "status": "active",
+      "photos": [
+        "photos/p-b53822ac45-1.jpg",
+        "photos/p-b53822ac45-2.jpg",
+        "photos/p-b53822ac45-3.jpg",
+        "photos/p-b53822ac45-4.jpg",
+        "photos/p-b53822ac45-5.jpg"
+      ],
+      "createdAt": 1793154182852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-3ef5c0433a",
+      "brand": "Insane",
+      "name": "Vesper Belt - Red",
+      "price": 2125,
+      "category": "配件",
+      "colors": [
+        {
+          "name": "紅",
+          "hex": "#C8242F",
+          "photo": null
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "",
+      "desc": "Insane Vesper 系列皮帶，紅色款，搭配金屬扣環與鉚釘裝飾。品牌官網尚未提供材質與長度資訊。",
+      "status": "active",
+      "photos": [
+        "photos/p-3ef5c0433a-1.jpg"
+      ],
+      "createdAt": 1793154181852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-62c3cae8ff",
+      "brand": "Insane",
+      "name": "Wellington Tee - Black",
+      "price": 1250,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "女模 171cm 穿 M；男模 185cm 穿 XL。",
+      "desc": "採用進口雙面針織布料，圖案為網點印刷效果，Oversized 寬鬆版型。\n保養：建議翻面洗滌，勿直接熨燙印花。",
+      "status": "active",
+      "photos": [
+        "photos/p-62c3cae8ff-1.jpg"
+      ],
+      "createdAt": 1793154180852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-b8e96d1f94",
+      "brand": "PUSH PUSH",
+      "name": "Gigi Raglan Tee - Red",
+      "price": 958,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "紅",
+          "hex": "#C8242F",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L"
+      ],
+      "soldOut": [],
+      "sizeNote": "模特兒 171cm／49kg 穿 S。",
+      "desc": "經典插肩袖 T 恤的新版本，採用混紡針織布（30% 嫘縈、35% 棉、30% 壓克力纖維、5% 彈性纖維），240gsm，有彈性。布料柔軟、有保暖性，適合日常內搭疊穿，正面有立體刺繡。",
+      "status": "active",
+      "photos": [
+        "photos/p-b8e96d1f94-1.jpg"
+      ],
+      "createdAt": 1793154179852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-c64fe568bf",
+      "brand": "Paradise",
+      "name": "Gai Dam Tee",
+      "price": 2558,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "S：肩寬 41、胸寬 46、衣長 58.5、袖長 17cm（建議 40–55kg）\nM：肩寬 47、胸寬 52、衣長 65、袖長 20cm（建議 60–75kg）\nL：肩寬 52、胸寬 58、衣長 68、袖長 23cm（建議 60–75kg）\nXL：肩寬 58、胸寬 66、衣長 73.5、袖長 24cm（建議 70–85kg）\n誤差約 ±2cm",
+      "desc": "採用 250gsm 厚磅棉質布料，搭配羅紋圓領，經典版型、平直下襬。前後皆為網版印刷圖案，屬於「After The Fire」系列，越南西貢設計製作。",
+      "status": "active",
+      "photos": [
+        "photos/p-c64fe568bf-1.jpg",
+        "photos/p-c64fe568bf-2.jpg",
+        "photos/p-c64fe568bf-3.jpg",
+        "photos/p-c64fe568bf-4.jpg"
+      ],
+      "createdAt": 1793154178852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-5c0e3e7795",
+      "brand": "Paradise",
+      "name": "Madame Tee",
+      "price": 2558,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": 0
+        },
+        {
+          "name": "紅",
+          "hex": "#C8242F",
+          "photo": 2
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "同系列 Gai Dam Tee 尺寸表（供參考）：\nS：肩寬 41、胸寬 46、衣長 58.5、袖長 17cm（建議 40–55kg）\nM：肩寬 47、胸寬 52、衣長 65、袖長 20cm（建議 60–75kg）\nL：肩寬 52、胸寬 58、衣長 68、袖長 23cm（建議 60–75kg）\nXL：肩寬 58、胸寬 66、衣長 73.5、袖長 24cm（建議 70–85kg）\n誤差約 ±2cm",
+      "desc": "採用 250gsm 厚磅棉質布料，搭配羅紋圓領，經典版型、平直下襬。前後皆為網版印刷，屬於「After The Fire」系列，越南西貢設計製作。",
+      "status": "active",
+      "photos": [
+        "photos/p-5c0e3e7795-1.jpg",
+        "photos/p-5c0e3e7795-2.jpg",
+        "photos/p-5c0e3e7795-3.jpg",
+        "photos/p-5c0e3e7795-4.jpg",
+        "photos/p-5c0e3e7795-5.jpg"
+      ],
+      "createdAt": 1793154177852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-74b43b5aab",
+      "brand": "RVB",
+      "name": "Odyssey Aether Set",
+      "price": 5250,
+      "category": "外套",
+      "colors": [
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": 0
+        },
+        {
+          "name": "海軍藍",
+          "hex": "#1F2F5A",
+          "photo": 3
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "外套\nS：胸圍 108、衣長 68、肩寬 58cm\nM：胸圍 114、衣長 70、肩寬 60cm\nL：胸圍 120、衣長 72、肩寬 62cm\nXL：胸圍 126、衣長 74、肩寬 64cm\n長褲\nS：腰圍 76、臀圍 106、內長 68cm\nM：腰圍 80、臀圍 110、內長 69cm\nL：腰圍 84、臀圍 114、內長 70cm\nXL：腰圍 88、臀圍 118、內長 71cm\n手工裁剪，誤差 ±1–2cm",
+      "desc": "Odyssey 系列 Aether 外套＋長褲套組。刻意寬鬆的中性落肩版型，品牌建議想穿合身可選小一號。每件在西貢手工裁剪製作，尺寸可能有 1–2cm 誤差。",
+      "status": "active",
+      "photos": [
+        "photos/p-74b43b5aab-1.jpg",
+        "photos/p-74b43b5aab-2.jpg",
+        "photos/p-74b43b5aab-3.jpg",
+        "photos/p-74b43b5aab-4.jpg",
+        "photos/p-74b43b5aab-5.jpg"
+      ],
+      "createdAt": 1793154176852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-71bdce3bcc",
+      "brand": "RVB",
+      "name": "Odyssey Trace Pants - White",
+      "price": 2196,
+      "category": "褲子",
+      "colors": [
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "S",
+        "M",
+        "L",
+        "XL"
+      ],
+      "soldOut": [],
+      "sizeNote": "S：腰圍 76、臀圍 106、內長 68cm\nM：腰圍 80、臀圍 110、內長 69cm\nL：腰圍 84、臀圍 114、內長 70cm\nXL：腰圍 88、臀圍 118、內長 71cm\n手工裁剪，誤差 ±1–2cm",
+      "desc": "Odyssey 系列 Trace 長褲，白色款。寬鬆中性版型，品牌建議想穿合身可選小一號。每件在西貢手工裁剪製作，尺寸可能有 1–2cm 誤差。",
+      "status": "active",
+      "photos": [
+        "photos/p-71bdce3bcc-1.jpg",
+        "photos/p-71bdce3bcc-2.jpg",
+        "photos/p-71bdce3bcc-3.jpg"
+      ],
+      "createdAt": 1793154175852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-c3e9d80b84",
+      "brand": "Saigonswagger",
+      "name": "SGS Velo Baguette Bag",
+      "price": 1304,
+      "category": "配件",
+      "colors": [
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": 2
+        },
+        {
+          "name": "灰燼灰 Ash Grey",
+          "hex": "#8C8C8C",
+          "photo": null
+        },
+        {
+          "name": "石色 Stone",
+          "hex": "#C9C1B1",
+          "photo": null
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "尺寸：42 × 13 × 12 cm（底寬 42cm、開口寬 26cm）",
+      "desc": "長形法棍包，主體採用經表面處理的 PU 皮革，表面光滑；內裡為防潑水牛津布，拉鍊為防鏽金屬材質。包內有一個主隔層和一個內袋。品牌另有灰、石色。",
+      "status": "active",
+      "photos": [
+        "photos/p-c3e9d80b84-1.jpg",
+        "photos/p-c3e9d80b84-2.jpg",
+        "photos/p-c3e9d80b84-3.jpg",
+        "photos/p-c3e9d80b84-4.jpg",
+        "photos/p-c3e9d80b84-5.jpg"
+      ],
+      "createdAt": 1793154174852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-c8033b1e98",
+      "brand": "TWENTI",
+      "name": "Baby Tee Trễ Vai In Chữ",
+      "price": 570,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": null
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "TWENTI 上衣多為單一尺寸（Freesize）；下單時可在表單「備註」填身高體重，我們協助確認。",
+      "desc": "TWENTI 一字肩 baby tee，修身短版剪裁，胸前有英文印字。",
+      "status": "active",
+      "photos": [
+        "photos/p-c8033b1e98-1.jpg",
+        "photos/p-c8033b1e98-2.jpg",
+        "photos/p-c8033b1e98-3.jpg",
+        "photos/p-c8033b1e98-4.jpg"
+      ],
+      "createdAt": 1793154173852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-c14436411b",
+      "brand": "TWENTI",
+      "name": "Brunette Bombshell Long Sleeve",
+      "price": 570,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "F"
+      ],
+      "soldOut": [],
+      "sizeNote": "單一尺寸（Freesize）",
+      "desc": "TWENTI 薄款長袖上衣，採用輕薄透氣、帶紙感的針織布料，胸前印有「BOMBSHELL」字樣。",
+      "status": "active",
+      "photos": [
+        "photos/p-c14436411b-1.jpg",
+        "photos/p-c14436411b-2.jpg",
+        "photos/p-c14436411b-3.jpg",
+        "photos/p-c14436411b-4.jpg"
+      ],
+      "createdAt": 1793154172852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-3c7af2ace0",
+      "brand": "TWENTI",
+      "name": "Hot Girl Club Raglan Tee",
+      "price": 570,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "白／黑",
+          "hex": "#E8E8E8",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "F"
+      ],
+      "soldOut": [],
+      "sizeNote": "單一尺寸（F），建議體重 55kg 以下",
+      "desc": "TWENTI 薄款透膚上衣，衣身印有 HOT GIRL CLUB 復古字母，搭配撞色插肩袖，合身版型。\n保養：冷水手洗或機洗，請勿烘乾。",
+      "status": "active",
+      "photos": [
+        "photos/p-3c7af2ace0-1.jpg",
+        "photos/p-3c7af2ace0-2.jpg"
+      ],
+      "createdAt": 1793154171852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-92c5bb25f7",
+      "brand": "TWENTI",
+      "name": "Hot Girl Club Tee",
+      "price": 361,
+      "category": "上衣",
+      "colors": [
+        {
+          "name": "白／黑",
+          "hex": "#E8E8E8",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "F"
+      ],
+      "soldOut": [],
+      "sizeNote": "單一尺寸（F），建議體重 55kg 以下",
+      "desc": "TWENTI HOT GIRL CLUB 印字上衣，白色衣身搭配黑色袖子，合身版型。",
+      "status": "active",
+      "photos": [
+        "photos/p-92c5bb25f7-1.jpg"
+      ],
+      "createdAt": 1793154170852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-1e6fdb3826",
+      "brand": "Uncover",
+      "name": "Sparking Eleven Pants",
+      "price": 4714,
+      "category": "褲子",
+      "colors": [
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": null
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "Uncover 寬版長褲，白色褲身搭配鉚釘裝飾。（官方商品資訊未公開，以上依照片描述）",
+      "status": "active",
+      "photos": [
+        "photos/p-1e6fdb3826-1.jpg",
+        "photos/p-1e6fdb3826-2.jpg",
+        "photos/p-1e6fdb3826-3.jpg",
+        "photos/p-1e6fdb3826-4.jpg"
+      ],
+      "createdAt": 1793154169852,
+      "updatedAt": 1793154206852
+    },
+    {
+      "id": "p-f7d4567fc3",
+      "brand": "Uncover",
+      "name": "UNCV 11 Plaid Jorts",
+      "price": 1661,
+      "category": "褲子",
+      "colors": [
+        {
+          "name": "咖啡格紋",
+          "hex": "#7A5232",
+          "photo": null
+        }
+      ],
+      "sizes": [],
+      "soldOut": [],
+      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "desc": "Uncover 格紋寬版及膝短褲，棕色系格紋。（官方商品資訊未公開，以上依照片描述）",
+      "status": "active",
+      "photos": [
+        "photos/p-f7d4567fc3-1.jpg",
+        "photos/p-f7d4567fc3-2.jpg",
+        "photos/p-f7d4567fc3-3.jpg",
+        "photos/p-f7d4567fc3-4.jpg"
+      ],
+      "createdAt": 1793154168852,
+      "updatedAt": 1793154206852
+    }
+  ],
   "settings": {}
 }

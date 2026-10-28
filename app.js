@@ -16,7 +16,7 @@ var QUICK_COLORS = ['黑','白','米白','灰','卡其','咖啡','深藍','淺�
 var DEFAULTS = { tagline:'越南代購 · 精選服飾', intro:'從越南挑選的衣服，每件都是限量現貨。看到喜歡的，點進去選顏色和尺寸，填表單就能下單。', notice:'', ig:'', formUrl:FORM_URL, formEntry:'', shipping:'7-11 店到店取貨，運費 NT$60', currency:'NT$' };
 
 var state = { products:[], settings:Object.assign({}, DEFAULTS), loaded:false, error:'' };
-var ui = { filter:'全部', photoIdx:0, sel:null, draft:null, photos:[], busy:'', msg:'', msgKind:'', confirmId:null, token:'', me:null, canPush:false, authChecked:false,
+var ui = { filter:'全部', brand:'全部', photoIdx:0, sel:null, draft:null, photos:[], busy:'', msg:'', msgKind:'', confirmId:null, token:'', me:null, canPush:false, authChecked:false,
   batch:{ items:[], mode:'name', n:3, progress:0, uploading:false, msg:'', msgKind:'' } };
 var app = document.getElementById('app');
 try { ui.token = localStorage.getItem(TOKEN_KEY) || ''; } catch(e){}
@@ -28,6 +28,7 @@ function photoUrl(p){ return /^photos\/[A-Za-z0-9._-]+$/.test(p) ? p : ''; }
 var idSeq = 0;
 function newId(){ return 'p-' + Date.now().toString(36) + (idSeq++).toString(36) + Math.random().toString(36).slice(2,5); }
 function route(){ var h = (location.hash||'').replace(/^#/,''); if (h === 'manage' || h === 'batch') return {view:h}; if (/^p-[a-z0-9]+$/.test(h)) return {view:'product', id:h}; return {view:'home'}; }
+function allBrands(){ return state.products.map(function(p){ return p.brand; }).filter(function(b, i, a){ return b && a.indexOf(b) === i; }).sort(natCmp); }
 function byId(id){ return state.products.filter(function(x){ return x.id === id; })[0]; }
 function visible(){ return state.products.filter(function(p){ return p.status !== 'hidden'; }); }
 function safeHex(h){ return /^#[0-9a-fA-F]{6}$/.test(h||'') ? h : '#CCCCCC'; }
@@ -47,6 +48,7 @@ function normalize(p){
   if (!Array.isArray(p.soldOut)) p.soldOut = [];
   if (p.sizeNote == null) p.sizeNote = p.size || '';
   if (!Array.isArray(p.photos)) p.photos = [];
+  p.brand = String(p.brand||'').trim();
   p.colors = p.colors.map(function(c){ return {name:String(c.name||''), hex:safeHex(c.hex), photo:(c.photo === 0 || c.photo > 0) ? +c.photo : null}; }).filter(function(c){ return c.name; });
   delete p.size; delete p.color;
   return p;
@@ -185,13 +187,15 @@ function cardHtml(p){
     + (isNew ? '<span class="tag">NEW</span>' : '')
     + (p.photos.length > 1 ? '<span class="count">' + p.photos.length + ' 張</span>' : '')
     + (sold ? '<div class="sold"><span>售完</span></div>' : '')
-    + '</div><div class="meta">' + (dots ? '<div class="dots">' + dots + '</div>' : '') + '<div class="name">' + esc(p.name) + '</div><div class="price">' + money(p.price) + '</div>'
+    + '</div><div class="meta">' + (dots ? '<div class="dots">' + dots + '</div>' : '') + (p.brand ? '<div class="brand">' + esc(p.brand) + '</div>' : '') + '<div class="name">' + esc(p.name) + '</div><div class="price">' + money(p.price) + '</div>'
     + (sizes ? '<div class="sizes">' + sizes + '</div>' : '') + '</div></a>';
 }
 function home(){
   var s = state.settings, items = visible();
   var cats = ['全部'].concat(CATS.filter(function(c){ return items.some(function(p){ return p.category === c; }); }));
-  var list = ui.filter === '全部' ? items : items.filter(function(p){ return p.category === ui.filter; });
+  var brands = items.map(function(p){ return p.brand; }).filter(function(b, i, a){ return b && a.indexOf(b) === i; }).sort(natCmp);
+  if (ui.brand !== '全部' && brands.indexOf(ui.brand) === -1) ui.brand = '全部';
+  var list = items.filter(function(p){ return (ui.filter === '全部' || p.category === ui.filter) && (ui.brand === '全部' || p.brand === ui.brand); });
   list = list.slice().sort(function(a,b){ return (allSold(a)?1:0) - (allSold(b)?1:0) || (b.createdAt||0) - (a.createdAt||0); });
   return header()
     + '<section class="hero"><div class="wrap"><div>'
@@ -203,7 +207,8 @@ function home(){
     + '</div><img class="sign" src="logo.jpg" alt="Shi Wa Nan Ma Shop 霓虹招牌"></div></section>'
     + '<main class="wrap" id="list">'
     + '<div class="chips">' + cats.map(function(c){ return '<button class="chip" data-filter="' + esc(c) + '" aria-pressed="' + (ui.filter===c) + '">' + esc(c) + '</button>'; }).join('') + '</div>'
-    + '<div class="section-head"><h2>' + esc(ui.filter === '全部' ? '全部商品' : ui.filter) + '</h2><span>' + list.length + ' 件</span></div>'
+    + (brands.length > 1 ? '<div class="chips brands"><span class="chips-label">品牌</span>' + ['全部'].concat(brands).map(function(b){ return '<button class="chip" data-brand="' + esc(b) + '" aria-pressed="' + (ui.brand===b) + '">' + esc(b) + '</button>'; }).join('') + '</div>' : '')
+    + '<div class="section-head"><h2>' + esc([ui.brand === '全部' ? '' : ui.brand, ui.filter === '全部' ? (ui.brand === '全部' ? '全部商品' : '') : ui.filter].filter(Boolean).join(' · ')) + '</h2><span>' + list.length + ' 件</span></div>'
     + '<div class="grid">' + (state.error ? '<div class="empty">' + esc(state.error) + '</div>' : list.length ? list.map(cardHtml).join('') : '<div class="empty">' + (state.loaded ? '目前還沒有商品，新貨上架後會出現在這裡。' : '載入中…') + '</div>') + '</div>'
     + '</main>' + footer();
 }
@@ -235,7 +240,7 @@ function product(id){
     + '<div class="gallery"><div class="main">' + (photos.length ? '<img id="mainPhoto" src="' + photoUrl(photos[idx]) + '" alt="' + esc(p.name) + '">' : '<div class="ph-empty">尚無照片</div>') + '</div>'
     + (photos.length > 1 ? '<div class="thumbs">' + photos.map(function(ph,i){ return '<button type="button" data-thumb="' + i + '" aria-current="' + (i===idx) + '" aria-label="第 ' + (i+1) + ' 張"><img src="' + photoUrl(ph) + '" alt=""></button>'; }).join('') + '</div>' : '')
     + '</div>'
-    + '<div class="info"><div class="eyebrow">' + esc(p.category||'商品') + '</div><h2>' + esc(p.name) + '</h2>'
+    + '<div class="info"><div class="eyebrow">' + esc([p.brand, p.category||'商品'].filter(Boolean).join(' · ')) + '</div><h2>' + esc(p.name) + '</h2>'
     + '<div class="price">' + money(p.price) + '<small>+ 運費 NT$60</small></div>'
     + '<div style="margin-top:8px">' + (sold ? '<span class="pill sold">已售完</span>' : '<span class="pill">現貨 · 可下單</span>') + '</div>'
     + colorsHtml + sizesHtml
@@ -273,7 +278,7 @@ function manage(){
     + (d ? formHtml(d) : '')
     + '<div class="rows">' + (rows.length ? rows.map(function(p){
         var st = p.status === 'hidden' ? '已下架' : allSold(p) ? '售完' : '上架中';
-        var meta = [money(p.price), esc(p.category||'')].concat(p.colors.length ? [p.colors.length + ' 色'] : []).concat(p.sizes.length ? [esc(p.sizes.join('/'))] : []).concat([st]).join(' · ');
+        var meta = (p.brand ? [esc(p.brand)] : []).concat([money(p.price), esc(p.category||'')]).concat(p.colors.length ? [p.colors.length + ' 色'] : []).concat(p.sizes.length ? [esc(p.sizes.join('/'))] : []).concat([st]).join(' · ');
         return '<div class="row-p">' + (p.photos[0] ? '<img src="' + photoUrl(p.photos[0]) + '" alt="">' : '<div style="width:56px;height:56px;border-radius:8px;background:var(--tile)"></div>')
           + '<div class="t"><div>' + esc(p.name) + '</div><small>' + meta + '</small></div>'
           + '<div class="acts">' + (ui.confirmId === p.id
@@ -293,7 +298,8 @@ function manage(){
 /* ---------- single product form ---------- */
 function formHtml(d){
   return '<form class="form" id="pform" autocomplete="off">'
-    + '<label class="full">商品名稱 *<input id="f-name" data-f="name" required maxlength="80" value="' + esc(d.name) + '" placeholder="例：越南亞麻寬褲"></label>'
+    + '<label>品牌<input id="f-brand" data-f="brand" maxlength="40" value="' + esc(d.brand) + '" placeholder="例：Insane" list="brand-list"></label><datalist id="brand-list">' + allBrands().map(function(b){ return '<option value="' + esc(b) + '">'; }).join('') + '</datalist>'
+    + '<label>商品名稱 *<input id="f-name" data-f="name" required maxlength="80" value="' + esc(d.name) + '" placeholder="例：越南亞麻寬褲"></label>'
     + '<label>價格（' + esc(state.settings.currency) + '）*<input id="f-price" data-f="price" type="number" inputmode="numeric" min="0" step="1" required value="' + esc(d.price) + '"></label>'
     + '<label>分類<select id="f-cat" data-f="category">' + CATS.map(function(c){ return '<option' + (d.category===c?' selected':'') + '>' + c + '</option>'; }).join('') + '</select></label>'
     + '<div class="full"><div class="flabel">照片（最多 5 張，第 1 張是封面）<input id="f-photos" class="fld" type="file" accept="image/*" multiple' + (ui.photos.length>=MAX_PHOTOS?' disabled':'') + '></div>'
@@ -363,7 +369,7 @@ function saveProduct(){
   if (price === '' || !(Number(price) >= 0)){ setMsg('請填價格。', 'err'); return; }
   var id = d.id || newId(), stamp = Date.now().toString(36), files = [];
   var paths = ui.photos.map(function(x, i){ if (x.path) return x.path; var path = 'photos/' + id + '-' + stamp + '-' + (i+1) + '.jpg'; files.push({path:path, blob:x.blob}); return path; });
-  var p = cleanVariants(normalize({ id:id, name:name, price:Number(price), category:d.category, colors:d.colors.map(function(c){ return Object.assign({}, c); }), sizes:d.sizes, soldOut:d.soldOut.slice(), sizeNote:String(d.sizeNote||'').trim(), desc:String(d.desc||'').trim(), status:d.status, createdAt:d.createdAt || Date.now(), updatedAt:Date.now(), photos:paths }));
+  var p = cleanVariants(normalize({ id:id, brand:String(d.brand||'').trim(), name:name, price:Number(price), category:d.category, colors:d.colors.map(function(c){ return Object.assign({}, c); }), sizes:d.sizes, soldOut:d.soldOut.slice(), sizeNote:String(d.sizeNote||'').trim(), desc:String(d.desc||'').trim(), status:d.status, createdAt:d.createdAt || Date.now(), updatedAt:Date.now(), photos:paths }));
   setBusy('準備中…');
   commit({ files:files, message:(d.id ? '更新商品：' : '上架商品：') + name, onProgress:function(t){ if (t) setBusy(t); },
     mutate:function(data){
@@ -430,7 +436,7 @@ function groupKey(filename){
   if (m && m[1] && (m[2] || /[^\x00-\x7F]$/.test(m[1]))) return m[1].replace(/[\s_\-–—.(（]+$/, '').trim() || base;
   return base;
 }
-function makeItem(key, photos){ return { key:key, name:'', price:'', category:CATS[0], sizes:'', colors:'', sizeNote:'', desc:'', status:'active', photos:photos }; }
+function makeItem(key, photos){ return { key:key, brand:'', name:'', price:'', category:CATS[0], sizes:'', colors:'', sizeNote:'', desc:'', status:'active', photos:photos }; }
 function groupPhotos(photos, mode, n){
   var items = [];
   if (mode === 'single') photos.forEach(function(ph){ items.push(makeItem(groupKey(ph.name), [ph])); });
@@ -498,6 +504,7 @@ function batchHtml(){
 function commonHtml(){
   return '<div class="panel"><h2>2. 共同設定（選填）</h2><div class="hint">填了的欄位會套用到下面全部商品；沒填的不會動。</div>'
     + '<div class="form" id="b-common">'
+    + '<label>品牌<input id="bc-brand" placeholder="例：Insane" list="brand-list"></label><datalist id="brand-list">' + allBrands().map(function(b){ return '<option value="' + esc(b) + '">'; }).join('') + '</datalist>'
     + '<label>價格<input id="bc-price" type="number" min="0" step="1" inputmode="numeric"></label>'
     + '<label>分類<select id="bc-cat"><option value="">（不改）</option>' + CATS.map(function(c){ return '<option>' + c + '</option>'; }).join('') + '</select></label>'
     + '<label>尺寸<input id="bc-sizes" placeholder="例：S M L"></label>'
@@ -535,7 +542,8 @@ function listHtml(bad){
         + '<button type="button" class="btn btn-danger btn-xs" data-act="b-del" data-i="' + i + '">刪除這件</button></span></div>'
         + '<div class="bphotos">' + (ph || '<div class="hint">沒有照片</div>') + '</div>'
         + '<div class="bfields">'
-        + '<label class="w2">名稱 *<input class="fld" data-bi="' + i + '" data-bk="name" value="' + esc(it.name) + '" maxlength="80"></label>'
+        + '<label>品牌<input class="fld" data-bi="' + i + '" data-bk="brand" value="' + esc(it.brand) + '" maxlength="40" list="brand-list"></label>'
+        + '<label>名稱 *<input class="fld" data-bi="' + i + '" data-bk="name" value="' + esc(it.name) + '" maxlength="80"></label>'
         + '<label>價格 *<input class="fld" data-bi="' + i + '" data-bk="price" type="number" min="0" step="1" inputmode="numeric" value="' + esc(it.price) + '"></label>'
         + '<label>分類<select class="fld" data-bi="' + i + '" data-bk="category">' + CATS.map(function(c){ return '<option' + (it.category===c?' selected':'') + '>' + c + '</option>'; }).join('') + '</select></label>'
         + '<label>尺寸<input class="fld" data-bi="' + i + '" data-bk="sizes" value="' + esc(it.sizes) + '" placeholder="S M L"></label>'
@@ -560,9 +568,9 @@ function refreshBatchStatus(){
 }
 function applyCommon(){
   var v = function(id){ return document.getElementById(id).value.trim(); };
-  var price = v('bc-price'), cat = v('bc-cat'), sizes = v('bc-sizes'), colors = v('bc-colors'), note = v('bc-note'), n = 0;
-  ui.batch.items.forEach(function(it){ if (price !== ''){ it.price = price; } if (cat) it.category = cat; if (sizes) it.sizes = sizes; if (colors) it.colors = colors; if (note) it.sizeNote = note; });
-  n = [price, cat, sizes, colors, note].filter(Boolean).length;
+  var brand = v('bc-brand'), price = v('bc-price'), cat = v('bc-cat'), sizes = v('bc-sizes'), colors = v('bc-colors'), note = v('bc-note'), n = 0;
+  ui.batch.items.forEach(function(it){ if (brand) it.brand = brand; if (price !== ''){ it.price = price; } if (cat) it.category = cat; if (sizes) it.sizes = sizes; if (colors) it.colors = colors; if (note) it.sizeNote = note; });
+  n = [brand, price, cat, sizes, colors, note].filter(Boolean).length;
   render(); toast(n ? '已套用到 ' + ui.batch.items.length + ' 件' : '共同設定都是空的');
 }
 function applyPaste(){
@@ -589,7 +597,7 @@ function uploadBatch(){
   var prods = b.items.map(function(it, i){
     var id = newId();
     var paths = it.photos.map(function(ph, j){ var path = 'photos/' + id + '-' + stamp + '-' + (j+1) + '.jpg'; files.push({ path:path, blob:ph.blob }); return path; });
-    return cleanVariants(normalize({ id:id, name:String(it.name).trim(), price:Number(it.price), category:it.category, colors:parseColors(it.colors), sizes:parseSizes(it.sizes), soldOut:[], sizeNote:String(it.sizeNote||'').trim(), desc:String(it.desc||'').trim(), status:'active', createdAt:now - i, updatedAt:now, photos:paths }));
+    return cleanVariants(normalize({ id:id, brand:String(it.brand||'').trim(), name:String(it.name).trim(), price:Number(it.price), category:it.category, colors:parseColors(it.colors), sizes:parseSizes(it.sizes), soldOut:[], sizeNote:String(it.sizeNote||'').trim(), desc:String(it.desc||'').trim(), status:'active', createdAt:now - i, updatedAt:now, photos:paths }));
   });
   b.uploading = true; b.progress = 0; render();
   commit({ files:files, message:'批次上架 ' + prods.length + ' 件',
@@ -635,9 +643,10 @@ function setBusy(text){ ui.busy = text; setMsg(ui.msg, ui.msgKind); var b = docu
 
 /* ---------- events ---------- */
 app.addEventListener('click', function(ev){
-  var t = ev.target.closest('[data-filter],[data-thumb],[data-act],[data-ph],[data-color],[data-size],#orderBtn,[data-scroll]'); if (!t) return;
+  var t = ev.target.closest('[data-brand],[data-filter],[data-thumb],[data-act],[data-ph],[data-color],[data-size],#orderBtn,[data-scroll]'); if (!t) return;
   if (t.dataset.scroll){ ev.preventDefault(); var el = document.getElementById(t.dataset.scroll); if (el) el.scrollIntoView({behavior:'smooth'}); return; }
   if (t.dataset.filter){ ui.filter = t.dataset.filter; render(); return; }
+  if (t.dataset.brand){ ui.brand = t.dataset.brand; render(); return; }
   if (t.dataset.thumb != null){ ui.photoIdx = +t.dataset.thumb; var main = document.getElementById('mainPhoto'); if (main) main.src = t.querySelector('img').src; app.querySelectorAll('[data-thumb]').forEach(function(b){ b.setAttribute('aria-current', b === t); }); return; }
   if (t.dataset.color != null){
     var p = byId(route().id); if (!p) return; var sel = selFor(p);
@@ -667,7 +676,7 @@ app.addEventListener('click', function(ev){
   var act = t.dataset.act, id = t.dataset.id;
   if (/^b-/.test(act)) return batchClick(act, t);
   var d = ui.draft;
-  if (act === 'new'){ ui.draft = normalize({name:'',price:'',category:CATS[0],sizeNote:'',desc:'',status:'active'}); ui.photos = []; ui.msg=''; render(); document.getElementById('f-name').focus(); }
+  if (act === 'new'){ ui.draft = normalize({brand:'',name:'',price:'',category:CATS[0],sizeNote:'',desc:'',status:'active'}); ui.photos = []; ui.msg=''; render(); document.getElementById('f-name').focus(); }
   if (act === 'edit'){ var pe = byId(id); if (!pe) return; ui.draft = JSON.parse(JSON.stringify(pe)); ui.photos = pe.photos.map(function(ph){ return {path:ph, url:photoUrl(ph)}; }); ui.msg=''; render(); window.scrollTo(0,0); }
   if (act === 'cancel-edit'){ ui.draft = null; ui.photos = []; ui.msg=''; render(); }
   if (act === 'ask-del'){ ui.confirmId = id; render(); }
