@@ -561,7 +561,7 @@
       "id": "p-986c4ff904",
       "brand": "Insane",
       "name": "Double Sleeve Shirt",
-      "price": 1429,
+      "price": 1380,
       "category": "上衣",
       "colors": [
         {
@@ -584,15 +584,15 @@
       "sizeNote": "女模 172cm 穿 M；男模 185cm 穿 L。",
       "desc": "採用進口襯衫布料，輕薄。條紋設計搭配厚實立體的刺繡圖案，Boxy 寬方版型，也可當作薄外搭。有紅、藍兩款刺繡配色。\n保養：建議翻面手洗、陰涼處晾乾，勿直接熨燙繡花處。",
       "status": "active",
+      "createdAt": 1793154190852,
+      "updatedAt": 1793209190675,
       "photos": [
         "photos/p-986c4ff904-1.jpg",
         "photos/p-986c4ff904-2.jpg",
         "photos/p-986c4ff904-3.jpg",
         "photos/p-986c4ff904-4.jpg",
         "photos/p-986c4ff904-5.jpg"
-      ],
-      "createdAt": 1793154190852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-a4229550b6",
