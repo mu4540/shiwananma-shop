@@ -204,11 +204,11 @@
         "M"
       ],
       "soldOut": [],
-      "sizeNote": "尺寸表放於圖片欄最後一張",
+      "sizeNote": "尺寸表放於圖片欄最後一張,上到下依序為:胸圍,腰圍,身高,體重,手臂圍,胸寬,袖長,衣長",
       "desc": "女款露肩長袖上衣，版型基本。採用略有彈性的紋理針織布，穿著舒適。衣身有「LIBRE ET 07」印字並搭配鈕扣設計。",
       "status": "active",
       "createdAt": 1793154201852,
-      "updatedAt": 1793210433888,
+      "updatedAt": 1793210866579,
       "photos": [
         "photos/p-7b78fa7560-1.jpg",
         "photos/p-7b78fa7560-2.jpg",
