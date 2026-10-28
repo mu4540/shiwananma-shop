@@ -174,7 +174,7 @@
       "id": "p-7b78fa7560",
       "brand": "Calem.Club",
       "name": "Libre Et 07 Off-Shoulder Top",
-      "price": 875,
+      "price": 580,
       "category": "上衣",
       "colors": [
         {
@@ -198,19 +198,23 @@
           "photo": 3
         }
       ],
-      "sizes": [],
+      "sizes": [
+        "S",
+        "M"
+      ],
       "soldOut": [],
-      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "sizeNote": "尺寸表放於圖片欄最後一張",
       "desc": "女款露肩長袖上衣，版型基本。採用略有彈性的紋理針織布，穿著舒適。衣身有「LIBRE ET 07」印字並搭配鈕扣設計。",
       "status": "active",
+      "createdAt": 1793154201852,
+      "updatedAt": 1793210433888,
       "photos": [
         "photos/p-7b78fa7560-1.jpg",
         "photos/p-7b78fa7560-2.jpg",
         "photos/p-7b78fa7560-3.jpg",
-        "photos/p-7b78fa7560-4.jpg"
-      ],
-      "createdAt": 1793154201852,
-      "updatedAt": 1793154206852
+        "photos/p-7b78fa7560-4.jpg",
+        "photos/p-7b78fa7560-mvsf6y5c-5.jpg"
+      ]
     },
     {
       "id": "p-53d67b1984",
