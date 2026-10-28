@@ -784,7 +784,7 @@
       "id": "p-b53822ac45",
       "brand": "Insane",
       "name": "Twin Heart Tee - Red",
-      "price": 1108,
+      "price": 1180,
       "category": "上衣",
       "colors": [
         {
@@ -803,15 +803,15 @@
       "sizeNote": "女模 172cm 穿 M；男模 183cm 穿 XL。",
       "desc": "採用 100% 棉雙向針織布，已做防縮與固色處理。紅色愛心圖案為網點網版印刷，Boxy 寬方版型。\n保養：建議翻面手洗或放洗衣袋輕柔洗，勿直接熨燙印花。",
       "status": "active",
+      "createdAt": 1793154182852,
+      "updatedAt": 1793208907248,
       "photos": [
         "photos/p-b53822ac45-1.jpg",
         "photos/p-b53822ac45-2.jpg",
         "photos/p-b53822ac45-3.jpg",
         "photos/p-b53822ac45-4.jpg",
         "photos/p-b53822ac45-5.jpg"
-      ],
-      "createdAt": 1793154182852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-3ef5c0433a",
