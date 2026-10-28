@@ -529,7 +529,7 @@
       "id": "p-71546983ee",
       "brand": "ISME",
       "name": "Tribal Wooly Baby Tee",
-      "price": 1071,
+      "price": 980,
       "category": "上衣",
       "colors": [
         {
@@ -548,14 +548,14 @@
       "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
       "desc": "ISME 短版合身 baby tee，前襟為拉鍊領設計，胸前有部落風圖騰。照片可見灰、黑兩色。（官方商品資訊未公開，以上依照片描述）",
       "status": "active",
+      "createdAt": 1793154191852,
+      "updatedAt": 1793209311172,
       "photos": [
         "photos/p-71546983ee-1.jpg",
         "photos/p-71546983ee-2.jpg",
         "photos/p-71546983ee-3.jpg",
         "photos/p-71546983ee-4.jpg"
-      ],
-      "createdAt": 1793154191852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-986c4ff904",
