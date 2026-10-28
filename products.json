@@ -1063,7 +1063,7 @@
       "id": "p-c3e9d80b84",
       "brand": "Saigonswagger",
       "name": "SGS Velo Baguette Bag",
-      "price": 1304,
+      "price": 1380,
       "category": "配件",
       "colors": [
         {
@@ -1087,15 +1087,15 @@
       "sizeNote": "尺寸：42 × 13 × 12 cm（底寬 42cm、開口寬 26cm）",
       "desc": "長形法棍包，主體採用經表面處理的 PU 皮革，表面光滑；內裡為防潑水牛津布，拉鍊為防鏽金屬材質。包內有一個主隔層和一個內袋。品牌另有灰、石色。",
       "status": "active",
+      "createdAt": 1793154174852,
+      "updatedAt": 1793208234982,
       "photos": [
         "photos/p-c3e9d80b84-1.jpg",
         "photos/p-c3e9d80b84-2.jpg",
         "photos/p-c3e9d80b84-3.jpg",
         "photos/p-c3e9d80b84-4.jpg",
         "photos/p-c3e9d80b84-5.jpg"
-      ],
-      "createdAt": 1793154174852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-c8033b1e98",
