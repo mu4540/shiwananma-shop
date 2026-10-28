@@ -4,7 +4,7 @@
       "id": "p-7003b850d4",
       "brand": "BadChoices",
       "name": "Henley Racing Long Sleeve",
-      "price": 929,
+      "price": 890,
       "category": "上衣",
       "colors": [
         {
@@ -23,14 +23,14 @@
       "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
       "desc": "長袖亨利領上衣，屬於 BadChoices UNTAMED CAPSULE 系列。採用輕薄、帶紋理的針織布料，合身版型。前襟領口搭配不鏽鋼鈕扣，胸前為賽車主題印花。",
       "status": "active",
+      "createdAt": 1793154206852,
+      "updatedAt": 1793207276491,
       "photos": [
         "photos/p-7003b850d4-1.jpg",
         "photos/p-7003b850d4-2.jpg",
         "photos/p-7003b850d4-3.jpg",
         "photos/p-7003b850d4-4.jpg"
-      ],
-      "createdAt": 1793154206852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-84736b6c73",
