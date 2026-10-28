@@ -1184,7 +1184,7 @@
       "id": "p-92c5bb25f7",
       "brand": "TWENTI",
       "name": "Hot Girl Club Tee",
-      "price": 361,
+      "price": 380,
       "category": "上衣",
       "colors": [
         {
@@ -1200,11 +1200,11 @@
       "sizeNote": "單一尺寸（F），建議體重 55kg 以下",
       "desc": "TWENTI HOT GIRL CLUB 印字上衣，白色衣身搭配黑色袖子，合身版型。",
       "status": "active",
+      "createdAt": 1793154170852,
+      "updatedAt": 1793207532912,
       "photos": [
         "photos/p-92c5bb25f7-1.jpg"
-      ],
-      "createdAt": 1793154170852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-1e6fdb3826",
