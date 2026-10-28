@@ -766,6 +766,26 @@
           "name": "紅",
           "hex": "#C8242F",
           "photo": null
+        },
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": null
+        },
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": null
+        },
+        {
+          "name": "灰",
+          "hex": "#9A9AA0",
+          "photo": null
+        },
+        {
+          "name": "咖啡",
+          "hex": "#7B5236",
+          "photo": null
         }
       ],
       "sizes": [
@@ -774,13 +794,17 @@
         "L"
       ],
       "soldOut": [],
-      "sizeNote": "模特兒 171cm／49kg 穿 S。",
+      "sizeNote": "S 胸寬31  衣長50  袖長20.5 cm  ;  M 胸寬32  衣長51  袖長22  ; L  胸寬33  衣長52  袖長23 ;  模特兒 171cm／49kg 穿 S。",
       "desc": "經典插肩袖 T 恤的新版本，採用混紡針織布（30% 嫘縈、35% 棉、30% 壓克力纖維、5% 彈性纖維），240gsm，有彈性。布料柔軟、有保暖性，適合日常內搭疊穿，正面有立體刺繡。",
       "status": "active",
       "createdAt": 1793154179852,
-      "updatedAt": 1793208778567,
+      "updatedAt": 1793213398674,
       "photos": [
-        "photos/p-b8e96d1f94-1.jpg"
+        "photos/p-b8e96d1f94-1.jpg",
+        "photos/p-b8e96d1f94-mvsgyhsi-2.jpg",
+        "photos/p-b8e96d1f94-mvsgyhsi-3.jpg",
+        "photos/p-b8e96d1f94-mvsgyhsi-4.jpg",
+        "photos/p-b8e96d1f94-mvsgyhsi-5.jpg"
       ]
     },
     {
