@@ -682,38 +682,6 @@
       ]
     },
     {
-      "id": "p-6d7279f2fa",
-      "brand": "Insane",
-      "name": "Sponsor W / Predator W Jersey",
-      "price": 1286,
-      "category": "上衣",
-      "colors": [
-        {
-          "name": "Sponsor W",
-          "hex": "#2F6FD0",
-          "photo": 0
-        },
-        {
-          "name": "Predator W",
-          "hex": "#D7263D",
-          "photo": 0
-        }
-      ],
-      "sizes": [
-        "S",
-        "M"
-      ],
-      "soldOut": [],
-      "sizeNote": "模特兒 168–170cm、50kg 以下穿 M。",
-      "desc": "女款球衣，Sponsor W 與 Predator W 兩款任選（請在上方「顏色」選款式），價格為單件。採用進口聚酯纖維（Polyester）運動布料。胸前為織標 Logo 布章，結合刺繡與網版印刷，衣身為熱轉印圖案。SlimFit 合身版型。",
-      "status": "active",
-      "photos": [
-        "photos/p-6d7279f2fa-1.jpg"
-      ],
-      "createdAt": 1793154184852,
-      "updatedAt": 1793154206852
-    },
-    {
       "id": "p-b53822ac45",
       "brand": "Insane",
       "name": "Twin Heart Tee - Red",
