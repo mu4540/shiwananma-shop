@@ -598,7 +598,7 @@
       "id": "p-a4229550b6",
       "brand": "Insane",
       "name": "Hennessy Tee - Washed Grey",
-      "price": 1249,
+      "price": 1280,
       "category": "上衣",
       "colors": [
         {
@@ -617,11 +617,11 @@
       "sizeNote": "女模 171cm 穿 M；男模 185cm 穿 L。",
       "desc": "採用 100% 棉雙向針織布，已做防縮與固色處理。經水洗處理呈現復古刷色效果，搭配網版印刷圖案。Regular Slim 合身版型。\n保養：建議翻面洗滌，勿直接熨燙印花。",
       "status": "active",
+      "createdAt": 1793154188852,
+      "updatedAt": 1793209156616,
       "photos": [
         "photos/p-a4229550b6-1.jpg"
-      ],
-      "createdAt": 1793154188852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-59197c02ba",
