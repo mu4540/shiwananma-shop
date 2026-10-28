@@ -1031,8 +1031,8 @@
     {
       "id": "p-71bdce3bcc",
       "brand": "RVB",
-      "name": "Odyssey Trace Pants - White",
-      "price": 2196,
+      "name": "Odyssey Trace Pants",
+      "price": 2180,
       "category": "褲子",
       "colors": [
         {
@@ -1049,15 +1049,15 @@
       ],
       "soldOut": [],
       "sizeNote": "S：腰圍 76、臀圍 106、內長 68cm\nM：腰圍 80、臀圍 110、內長 69cm\nL：腰圍 84、臀圍 114、內長 70cm\nXL：腰圍 88、臀圍 118、內長 71cm\n手工裁剪，誤差 ±1–2cm",
-      "desc": "Odyssey 系列 Trace 長褲，白色款。寬鬆中性版型，品牌建議想穿合身可選小一號。每件在西貢手工裁剪製作，尺寸可能有 1–2cm 誤差。",
+      "desc": "Odyssey 系列 Trace 長褲，寬鬆中性版型，品牌建議想穿合身可選小一號。每件在西貢手工裁剪製作，尺寸可能有 1–2cm 誤差。",
       "status": "active",
+      "createdAt": 1793154175852,
+      "updatedAt": 1793208340197,
       "photos": [
         "photos/p-71bdce3bcc-1.jpg",
         "photos/p-71bdce3bcc-2.jpg",
         "photos/p-71bdce3bcc-3.jpg"
-      ],
-      "createdAt": 1793154175852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-c3e9d80b84",
