@@ -664,12 +664,12 @@
         {
           "name": "Samba",
           "hex": "#F2D33B",
-          "photo": null
+          "photo": 2
         },
         {
           "name": "Fog",
           "hex": "#F4F4F4",
-          "photo": null
+          "photo": 4
         },
         {
           "name": "Predator",
@@ -684,7 +684,7 @@
         {
           "name": "Tango",
           "hex": "#8CC4EA",
-          "photo": null
+          "photo": 3
         }
       ],
       "sizes": [
@@ -699,7 +699,10 @@
       "status": "active",
       "photos": [
         "photos/p-59197c02ba-1.jpg",
-        "photos/p-59197c02ba-2.jpg"
+        "photos/p-59197c02ba-2.jpg",
+        "photos/p-59197c02ba-3.jpg",
+        "photos/p-59197c02ba-4.jpg",
+        "photos/p-59197c02ba-5.jpg"
       ],
       "createdAt": 1793154187852,
       "updatedAt": 1793154206852
@@ -758,12 +761,12 @@
         {
           "name": "Sponsor W",
           "hex": "#2F6FD0",
-          "photo": null
+          "photo": 0
         },
         {
           "name": "Predator W",
           "hex": "#D7263D",
-          "photo": null
+          "photo": 0
         }
       ],
       "sizes": [

@@ -406,17 +406,13 @@ function settingsHtml(){
     + '<label>幣別顯示<input id="s-cur" maxlength="6" value="' + esc(s.currency) + '"></label>'
     + '<label class="full">取貨／運費說明<input id="s-ship" maxlength="120" value="' + esc(s.shipping) + '"></label>'
     + '<label class="full">訂單接收網址（Apps Script 網頁應用程式）<input id="s-order" type="url" value="' + esc(s.orderUrl) + '" placeholder="https://script.google.com/macros/s/…/exec"></label>'
-    + '<div class="hint full" style="margin-top:-6px">設定後客人可在網站直接下單，訂單自動寫入試算表「訂單管理」。目前：' + (s.orderUrl ? '<b>已設定</b> · <a href="' + esc(s.orderUrl) + '" target="_blank" rel="noopener">測試連線 ↗</a>（看到 ok:true 代表正常）' : '未設定（客人會改用 Google 表單）') + '</div>'
+    + '<div class="hint full" style="margin-top:-6px">設定後客人可在網站直接下單，訂單自動寫入試算表「訂單管理」。目前：' + (s.orderUrl ? '<b>已設定</b> · <a href="' + esc(s.orderUrl) + '" target="_blank" rel="noopener">測試連線 ↗</a>（看到 ok:true 代表正常）' : '<b style="color:var(--red)">未設定，客人目前無法送出訂單</b>') + '</div>'
     + '<label class="full">匯款帳戶（顯示在結帳頁）<textarea id="s-bank" maxlength="300" style="min-height:70px" placeholder="例：中國信託（822）\n帳號 1234-5678-9012\n戶名 王小明">' + esc(s.bankInfo) + '</textarea></label>'
-    + '<label class="full">Google 表單連結（備用）<input id="s-form" type="url" value="' + esc(s.formUrl) + '"></label>'
-    + '<label class="full">自動帶入商品到表單（選填）<input id="s-prefill" value="' + esc(s.formEntry) + '" placeholder="貼上表單的「預先填入連結」"></label>'
-    + '<div class="hint full" style="margin-top:-6px">設定方式：Google 表單編輯頁 → 右上 ⋮ → <b>取得預先填入的連結</b> → 在「購買物品名稱、尺寸」填 <code>TEST</code> → 取得連結 → 複製後貼到上面。設定後客人按下單，商品／顏色／尺寸會自動填好。目前：' + (s.formEntry ? '<b>已設定 ' + esc(s.formEntry) + '</b>' : '未設定') + '</div>'
     + '<div class="acts"><button class="btn btn-ink" type="submit"' + (ui.busy?' disabled':'') + '>儲存設定</button><span class="status" id="s-msg"></span></div></form></div>';
 }
 function saveSettings(){
   if (ui.busy) return;
-  var form = document.getElementById('s-form').value.trim(), pre = document.getElementById('s-prefill').value.trim();
-  if (form && !/^https:\/\//.test(form)){ setMsg('表單連結要以 https:// 開頭。', 'err'); return; }
+  var form = state.settings.formUrl, pre = '';
   var orderUrl = document.getElementById('s-order').value.trim();
   if (orderUrl && !/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(orderUrl)){ setMsg('訂單接收網址格式不對，應為 https://script.google.com/macros/s/…/exec', 'err'); return; }
   var entry = '';
@@ -428,7 +424,7 @@ function saveSettings(){
     currency: document.getElementById('s-cur').value.trim() || 'NT$',
     shipping: document.getElementById('s-ship').value.trim() || DEFAULTS.shipping,
     formUrl: form || FORM_URL,
-    formEntry: entry,
+    formEntry: state.settings.formEntry || '',
     orderUrl: orderUrl,
     bankInfo: document.getElementById('s-bank').value.trim()
   };
@@ -665,6 +661,16 @@ function cartTotals(){
   var ship = n ? SHIP_FEE : 0;
   return { sub:sub, ship:ship, total:sub + ship, bad:bad, n:n };
 }
+function variantPhoto(p, color){
+  var c = color ? p.colors.filter(function(k){ return k.name === color; })[0] : null;
+  var idx = c && c.photo != null && p.photos[c.photo] ? c.photo : 0;
+  return { src: p.photos[idx] ? photoUrl(p.photos[idx]) : '', own: !c || (c.photo != null && !!p.photos[c.photo]), hex: c ? safeHex(c.hex) : '' };
+}
+function thumbHtml(p, color, cls){
+  if (!p) return '<span class="' + cls + '"></span>';
+  var v = variantPhoto(p, color);
+  return '<span class="' + cls + '">' + (v.src ? '<img src="' + v.src + '" alt="">' : '') + (color && !v.own ? '<i class="vsw" style="background:' + v.hex + '" title="' + esc(color) + '"></i>' : '') + '</span>';
+}
 function specText(x){ return [x.color, x.size].filter(Boolean).join(' / '); }
 function loadCustomer(){ try { return JSON.parse(localStorage.getItem(CUST_KEY) || '{}') || {}; } catch(e){ return {}; } }
 
@@ -674,10 +680,9 @@ function cartHtml(){
   var body = !cart.length
     ? '<div class="empty" style="margin:10px 0 40px">購物車是空的。<div style="margin-top:14px"><a class="btn btn-pink" href="#">去逛逛</a></div></div>'
     : '<div class="cart-layout"><div class="panel cart-lines">' + cart.map(function(x, i){
-        var s = lineStatus(x), p = s.p, img = p && p.photos[0] ? photoUrl(p.photos[0]) : '';
-        if (p && x.color){ var c = p.colors.filter(function(k){ return k.name === x.color; })[0]; if (c && c.photo != null && p.photos[c.photo]) img = photoUrl(p.photos[c.photo]); }
+        var s = lineStatus(x), p = s.p;
         return '<div class="cline' + (s.err ? ' bad' : '') + '">'
-          + '<a class="cimg" href="#' + esc(x.id) + '">' + (img ? '<img src="' + img + '" alt="">' : '') + '</a>'
+          + '<a class="cimg" href="#' + esc(x.id) + '">' + thumbHtml(p, x.color, 'tw') + '</a>'
           + '<div class="cinfo">' + (p && p.brand ? '<div class="brand">' + esc(p.brand) + '</div>' : '') + '<a class="name" href="#' + esc(x.id) + '">' + esc(p ? p.name : '已下架商品') + '</a>'
           + (specText(x) ? '<div class="spec">' + esc(specText(x)) + '</div>' : '') + (p ? '<div class="unit">' + money(p.price) + '</div>' : '')
           + (s.err ? '<div class="cerr">' + esc(s.err) + '，請移除</div>' : '') + '</div>'
@@ -702,14 +707,9 @@ function checkoutHtml(){
   var c = loadCustomer(), f = ui.co || {};
   var v = function(k){ return esc(f[k] != null ? f[k] : (c[k] || '')); };
   var cash = f.payType === 'cash';
-  var summary = '<aside class="panel summary"><h2>訂單內容</h2><ul class="mini">' + cart.map(function(x){ var p = byId(x.id); return '<li><span>' + esc((p.brand ? p.brand + ' ' : '') + p.name) + (specText(x) ? '<small>' + esc(specText(x)) + '</small>' : '') + '</span><b>×' + x.qty + '</b><em>' + money(p.price * x.qty) + '</em></li>'; }).join('') + '</ul>'
+  var summary = '<aside class="panel summary"><h2>訂單內容</h2><ul class="mini">' + cart.map(function(x){ var p = byId(x.id); return '<li class="withimg">' + thumbHtml(p, x.color, 'mthumb') + '<span>' + esc((p.brand ? p.brand + ' ' : '') + p.name) + (specText(x) ? '<small>' + esc(specText(x)) + '</small>' : '') + '</span><b>×' + x.qty + '</b><em>' + money(p.price * x.qty) + '</em></li>'; }).join('') + '</ul>'
     + '<dl><dt>商品小計</dt><dd>' + money(t.sub) + '</dd><dt>運費（7-11 店到店）</dt><dd>' + money(t.ship) + '</dd><dt class="tot">應付總額</dt><dd class="tot">' + money(t.total) + '</dd></dl>'
     + '<a class="btn btn-ghost btn-block btn-sm" href="#cart">修改購物車</a></aside>';
-  if (!s.orderUrl){
-    var text = cart.map(function(x){ var p = byId(x.id); return (p.brand ? p.brand + ' ' : '') + p.name + (specText(x) ? ' / ' + specText(x) : '') + ' ×' + x.qty; }).join('；');
-    return header() + '<main class="wrap cartpage"><a class="back" href="#cart">← 回購物車</a><h1 class="page-title">填寫訂購資訊</h1><div class="cart-layout"><div class="panel"><div class="banner">線上下單即將開放。目前請改用 Google 表單下單：先按「複製訂單內容」，再到表單貼上。</div>'
-      + '<div class="acts-row" style="margin-top:14px"><button type="button" class="btn btn-ghost" data-copy="' + esc(text) + '">複製訂單內容</button><a class="btn btn-pink" href="' + esc(s.formUrl || FORM_URL) + '" target="_blank" rel="noopener">前往 Google 表單 ↗</a></div></div>' + summary + '</div></main>' + footer();
-  }
   return header() + '<main class="wrap cartpage"><a class="back" href="#cart">← 回購物車</a><h1 class="page-title">填寫訂購資訊</h1>'
     + '<div class="cart-layout"><form class="panel co" id="coform" autocomplete="on" novalidate>'
     + '<h2>聯絡資訊</h2><div class="form">'
@@ -776,6 +776,7 @@ function submitOrder(){
   var f = readCheckout(), bad = coValidate(f);
   if (bad){ coMsg(bad[1], 'err'); var el = document.getElementById(bad[0]); if (el){ el.focus(); el.scrollIntoView({block:'center'}); } return; }
   var t = cartTotals(); if (!t.n || t.bad){ location.hash = 'cart'; return; }
+  if (!state.settings.orderUrl){ coMsg('線上下單暫時無法使用，請稍後再試，或透過 Instagram 與我們聯絡。', 'err'); return; }
   if (!ui.pendingId) ui.pendingId = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
   var payload = {
     clientId: ui.pendingId, website: (document.getElementById('co-website') || {}).value || '',

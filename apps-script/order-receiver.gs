@@ -2,7 +2,11 @@
  * Shi Wa Nan Ma Shop — 網站訂單接收器（Google Apps Script Web App）
  *
  * 功能：接收網站購物車送出的訂單 → 用網站最新的 products.json 重新核對品項與價格
- *      → 寫入試算表「訂單管理」工作表（依標題名稱對欄位）→ Email 通知店家（與客人）。
+ *      → 寫入試算表「訂單管理」工作表（每個商品規格一列，同一訂單共用訂單編號；依標題名稱對欄位）
+ *      → Email 通知店家（與客人）。
+ *
+ * 每列金額：「商品金額」= 該列小計；「國內超商運費」只記在訂單第一列（NT$60）；
+ *          「客人付款總額」= 商品金額 + 該列運費 → 把同一訂單各列加總就是客人應付總額。
  *
  * 部署方式（建立「獨立」Apps Script 專案，不影響試算表原有的程式）：
  *   1. 打開 https://script.new  → 把這整份程式貼上（取代預設內容）→ 存檔
@@ -64,23 +68,26 @@ function doPost(e) {
 
       var total = priced.subtotal + SHIPPING;
       var payment = pay.cashName ? ('無摺存款：' + pay.cashName) : (pay.bank + ' / ' + pay.last5);
-      var values = {
-        '訂單編號': orderId,
-        '下單時間': now,
-        'Instagram': c.ig,
-        '購買商品': priced.lines.join('\n'),
-        '收件人姓名': c.name,
-        '收件人電話': c.phone,
-        'Email': c.email,
-        '取貨方式': '7-11店取',
-        '7-11門市': c.storeName + ' ' + c.storeNo,
-        '匯款資訊': payment,
-        '客人付款總額': total,
-        '商品金額': priced.subtotal,
-        '國內超商運費': SHIPPING,
-        '客人備註': note
-      };
-      writeRow_(sheet, values);
+      var rows = priced.items.map(function (it, i) {
+        var ship = i === 0 ? SHIPPING : '';
+        return {
+          '訂單編號': orderId,
+          '下單時間': now,
+          'Instagram': c.ig,
+          '購買商品': it.text,
+          '收件人姓名': c.name,
+          '收件人電話': c.phone,
+          'Email': c.email,
+          '取貨方式': '7-11店取',
+          '7-11門市': c.storeName + ' ' + c.storeNo,
+          '匯款資訊': payment,
+          '客人付款總額': it.amount + (ship || 0),
+          '商品金額': it.amount,
+          '國內超商運費': ship,
+          '客人備註': i === 0 ? note : ''
+        };
+      });
+      writeRows_(sheet, rows);
       result = { ok: true, orderId: orderId, subtotal: priced.subtotal, shipping: SHIPPING, total: total, lines: priced.lines };
     } finally {
       lock.releaseLock();
@@ -132,7 +139,7 @@ function priceItems_(items) {
   if (items.length > MAX_LINES) return { error: '一次最多 ' + MAX_LINES + ' 項商品' };
   var products = loadProducts_(), byId = {};
   products.forEach(function (p) { byId[p.id] = p; });
-  var lines = [], subtotal = 0;
+  var lines = [], list = [], subtotal = 0;
   for (var i = 0; i < items.length; i++) {
     var it = items[i] || {}, p = byId[String(it.id)];
     var color = str_(it.color, 40), size = str_(it.size, 20), qty = Math.floor(Number(it.qty));
@@ -145,12 +152,14 @@ function priceItems_(items) {
     if (p.soldOut.indexOf((color || '') + '|' + (size || '')) !== -1) return { error: '「' + label + ' ' + [color, size].filter(String).join('/') + '」已缺貨' };
     var line = p.price * qty;
     subtotal += line;
-    lines.push([label, color, size].filter(String).join(' / ') + ' ×' + qty + '（NT$' + line + '）');
+    var text = [label, color, size].filter(String).join(' / ') + ' ×' + qty;
+    lines.push(text + '（NT$' + line + '）');
+    list.push({ text: text, amount: line });
   }
-  return { lines: lines, subtotal: subtotal };
+  return { lines: lines, items: list, subtotal: subtotal };
 }
 
-function writeRow_(sheet, values) {
+function writeRows_(sheet, rowsValues) {
   var lastCol = sheet.getLastColumn();
   var headers = sheet.getRange(1, 1, 1, lastCol).getDisplayValues()[0].map(function (h) { return String(h).replace(/\s/g, ''); });
   // 找最後一筆有「訂單編號」或「下單時間」的列，寫在它的下一列（不受下拉選單、公式影響）
@@ -159,8 +168,9 @@ function writeRow_(sheet, values) {
   var a = sheet.getRange(2, idCol, n, 1).getValues(), b = sheet.getRange(2, timeCol, n, 1).getValues();
   var last = 1;
   for (var i = 0; i < n; i++) if (String(a[i][0]).trim() || String(b[i][0]).trim()) last = i + 2;
-  var row = last + 1;
   // 只寫對應到的欄位，其他欄（成本、狀態、內部備註、公式）不動
+  rowsValues.forEach(function (values, r) {
+  var row = last + 1 + r;
   Object.keys(values).forEach(function (key) {
     var k = key.replace(/\s/g, '');
     var idx = headers.indexOf(k);
@@ -171,6 +181,7 @@ function writeRow_(sheet, values) {
     if (key === '客人付款總額' || key === '商品金額' || key === '國內超商運費') cell.setNumberFormat('"NT$"#,##0');
     if (key === '下單時間') cell.setNumberFormat('yyyy/MM/dd HH:mm');
     cell.setValue(values[key]);
+  });
   });
 }
 
