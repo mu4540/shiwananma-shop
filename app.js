@@ -260,7 +260,8 @@ function loginHtml(){
     + '<form class="form" id="lform"><label>GitHub Token<input id="l-token" type="password" autocomplete="off" placeholder="github_pat_…" value="' + esc(ui.token) + '"></label>'
     + why
     + '<div class="acts"><button class="btn btn-pink" type="submit">登入</button>' + (ui.token ? '<button class="btn btn-ghost" type="button" data-act="logout">清除 Token</button>' : '') + '<span class="status" id="l-msg"></span></div></form>'
-    + '<div class="hint">取得方式：GitHub → Settings → Developer settings → <a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Fine-grained tokens → Generate new token</a> → Repository access 只選 <b>' + esc(REPO) + '</b> → Permissions：Contents = <b>Read and write</b> → 產生後貼上。</div>'
+    + '<div class="hint"><b>網站擁有者（' + esc(OWNER) + '）</b>：<a href="https://github.com/settings/personal-access-tokens/new" target="_blank" rel="noopener">Fine-grained token</a> → Repository access 只選 <b>' + esc(REPO) + '</b> → Permissions：Contents = <b>Read and write</b> → 產生後貼上。</div>'
+    + '<div class="hint"><b>協作管理員</b>（被邀請加入的人）：先接受 repo 邀請，再建立 <a href="https://github.com/settings/tokens/new?scopes=public_repo&description=shiwananma-shop" target="_blank" rel="noopener">Classic token</a> → 勾選 <b>public_repo</b> → Generate token → 複製後貼上。</div>'
     + '</div>';
 }
 function gate(){
