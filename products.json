@@ -682,27 +682,6 @@
       ]
     },
     {
-      "id": "p-1e028157e6",
-      "brand": "Insane",
-      "name": "Predator W Jersey",
-      "price": 1286,
-      "category": "上衣",
-      "colors": [],
-      "sizes": [
-        "S",
-        "M"
-      ],
-      "soldOut": [],
-      "sizeNote": "模特兒 168cm、50kg 以下穿 M。",
-      "desc": "女款球衣。採用進口聚酯纖維（Polyester）運動布料。胸前為織標 Logo 布章，結合刺繡與網版印刷，衣身為熱轉印圖案。SlimFit 合身版型。",
-      "status": "active",
-      "photos": [
-        "photos/p-1e028157e6-1.jpg"
-      ],
-      "createdAt": 1793154186852,
-      "updatedAt": 1793154206852
-    },
-    {
       "id": "p-6d7279f2fa",
       "brand": "Insane",
       "name": "Sponsor W / Predator W Jersey",
