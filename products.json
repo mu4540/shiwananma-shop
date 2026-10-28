@@ -131,7 +131,7 @@
       "id": "p-bcb0703321",
       "brand": "Calem.Club",
       "name": "Kaki Jeans Ver 2 Wide Leg",
-      "price": 741,
+      "price": 680,
       "category": "褲子",
       "colors": [
         {
@@ -158,17 +158,18 @@
         "XL"
       ],
       "soldOut": [],
-      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
+      "sizeNote": "尺寸表於照片最後,上到下依序為: 腰圍,臀圍,大腿寬,褲管寬",
       "desc": "高腰寬褲管長褲，男女皆可穿，可穿在高腰或肚臍下方。採用厚實卡其布，挺括、觸感平滑、無彈性。\n保養：初次穿著前以冷水清洗並晾乾，前兩週避免機洗；反面與其他顏色分開清洗，勿用漂白劑，陰乾。",
       "status": "active",
+      "createdAt": 1793154202852,
+      "updatedAt": 1793210663093,
       "photos": [
         "photos/p-bcb0703321-1.jpg",
         "photos/p-bcb0703321-2.jpg",
         "photos/p-bcb0703321-3.jpg",
-        "photos/p-bcb0703321-4.jpg"
-      ],
-      "createdAt": 1793154202852,
-      "updatedAt": 1793154206852
+        "photos/p-bcb0703321-4.jpg",
+        "photos/p-bcb0703321-mvsfbv05-5.jpg"
+      ]
     },
     {
       "id": "p-7b78fa7560",
