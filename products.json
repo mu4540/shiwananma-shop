@@ -306,7 +306,7 @@
       "id": "p-b2b9e21453",
       "brand": "Gamble",
       "name": "Dual Zip Knit Jacket",
-      "price": 2661,
+      "price": 2680,
       "category": "外套",
       "colors": [
         {
@@ -332,17 +332,17 @@
       ],
       "soldOut": [],
       "sizeNote": "官方尺寸表為圖片未能讀取；下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
-      "desc": "針織面料外套，越南製造。高領設計，搭配多處拉鍊開口，拉鍊頭為 YKK 訂製 Gamble 標誌款。插肩袖剪裁，胸前有 Gamble 刺繡標誌，修身版型。品牌有黑、苔綠、灰三色，照片為黑色。",
+      "desc": "針織面料外套，越南製造。高領設計，搭配多處拉鍊開口，拉鍊頭為 YKK 訂製 Gamble 標誌款。插肩袖剪裁，胸前有 Gamble 刺繡標誌，修身版型。品牌有黑、苔綠、灰三色。",
       "status": "active",
+      "createdAt": 1793154197852,
+      "updatedAt": 1793209932156,
       "photos": [
         "photos/p-b2b9e21453-1.jpg",
         "photos/p-b2b9e21453-2.jpg",
         "photos/p-b2b9e21453-3.jpg",
         "photos/p-b2b9e21453-4.jpg",
         "photos/p-b2b9e21453-5.jpg"
-      ],
-      "createdAt": 1793154197852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-cbe85f29e9",
