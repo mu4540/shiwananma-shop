@@ -843,7 +843,7 @@
       "id": "p-3ef5c0433a",
       "brand": "Insane",
       "name": "Vesper Belt - Red",
-      "price": 2125,
+      "price": 2180,
       "category": "配件",
       "colors": [
         {
@@ -857,11 +857,11 @@
       "sizeNote": "",
       "desc": "Insane Vesper 系列皮帶，紅色款，搭配金屬扣環與鉚釘裝飾。品牌官網尚未提供材質與長度資訊。",
       "status": "active",
+      "createdAt": 1793154181852,
+      "updatedAt": 1793208834322,
       "photos": [
         "photos/p-3ef5c0433a-1.jpg"
-      ],
-      "createdAt": 1793154181852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-62c3cae8ff",
