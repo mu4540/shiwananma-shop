@@ -502,43 +502,6 @@
       "updatedAt": 1793154206852
     },
     {
-      "id": "p-c6e42a43a1",
-      "brand": "ISME",
-      "name": "BASIC LOGO CROPPED JACKET",
-      "price": 1180,
-      "category": "上衣",
-      "colors": [
-        {
-          "name": "灰",
-          "hex": "#9A9AA0",
-          "photo": null
-        },
-        {
-          "name": "黑",
-          "hex": "#1C1C1C",
-          "photo": null
-        },
-        {
-          "name": "卡其",
-          "hex": "#C3A77A",
-          "photo": null
-        }
-      ],
-      "sizes": [
-        "1",
-        "2"
-      ],
-      "soldOut": [],
-      "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
-      "desc": "",
-      "status": "active",
-      "createdAt": 1793154192852,
-      "updatedAt": 1793209465904,
-      "photos": [
-        "photos/p-c6e42a43a1-1.jpg"
-      ]
-    },
-    {
       "id": "p-71546983ee",
       "brand": "ISME",
       "name": "Tribal Wooly Baby Tee",
