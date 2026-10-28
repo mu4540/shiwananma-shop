@@ -36,7 +36,7 @@
       "id": "p-84736b6c73",
       "brand": "BadChoices",
       "name": "Toggle Denim Jacket",
-      "price": 1768,
+      "price": 1780,
       "category": "外套",
       "colors": [
         {
@@ -50,14 +50,14 @@
       "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
       "desc": "寬鬆 boxy 版型牛仔夾克，以牛角扣（toggle）扣合。布料為無彈性牛仔布，經水洗處理。\n保養：建議手洗；扣件請輕柔開合，避免拉扯或擰轉扣件周圍。",
       "status": "active",
+      "createdAt": 1793154205852,
+      "updatedAt": 1793207325408,
       "photos": [
         "photos/p-84736b6c73-1.jpg",
         "photos/p-84736b6c73-2.jpg",
         "photos/p-84736b6c73-3.jpg",
         "photos/p-84736b6c73-4.jpg"
-      ],
-      "createdAt": 1793154205852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-8cb011cbe2",
