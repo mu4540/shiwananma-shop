@@ -1157,7 +1157,7 @@
       "id": "p-3c7af2ace0",
       "brand": "TWENTI",
       "name": "Hot Girl Club Raglan Tee",
-      "price": 570,
+      "price": 580,
       "category": "上衣",
       "colors": [
         {
@@ -1173,12 +1173,12 @@
       "sizeNote": "單一尺寸（F），建議體重 55kg 以下",
       "desc": "TWENTI 薄款透膚上衣，衣身印有 HOT GIRL CLUB 復古字母，搭配撞色插肩袖，合身版型。\n保養：冷水手洗或機洗，請勿烘乾。",
       "status": "active",
+      "createdAt": 1793154171852,
+      "updatedAt": 1793208032165,
       "photos": [
         "photos/p-3c7af2ace0-1.jpg",
         "photos/p-3c7af2ace0-2.jpg"
-      ],
-      "createdAt": 1793154171852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-1e6fdb3826",
