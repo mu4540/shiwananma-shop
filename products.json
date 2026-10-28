@@ -97,7 +97,7 @@
       "id": "p-8d2a3d185a",
       "brand": "CUBE LAMP",
       "name": "Cube Lamp CU-38",
-      "price": 2325,
+      "price": 4790,
       "category": "家居選品",
       "colors": [
         {
@@ -121,11 +121,11 @@
       "sizeNote": "",
       "desc": "壓克力材質的模組化裝飾燈（型號 CU-38），方形透明燈罩內為霓虹造型燈管。品牌提供焰紅、落日橘、極光藍三色，照片為極光藍。尺寸與電源規格官方未公開。",
       "status": "active",
+      "createdAt": 1793154203852,
+      "updatedAt": 1793207230764,
       "photos": [
         "photos/p-8d2a3d185a-1.jpg"
-      ],
-      "createdAt": 1793154203852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-bcb0703321",
