@@ -703,29 +703,6 @@
       "updatedAt": 1793154206852
     },
     {
-      "id": "p-b10d2d5615",
-      "brand": "Insane",
-      "name": "Samba Jersey",
-      "price": 1714,
-      "category": "上衣",
-      "colors": [],
-      "sizes": [
-        "S",
-        "M",
-        "L",
-        "XL"
-      ],
-      "soldOut": [],
-      "sizeNote": "男模 185cm 穿 XL；女模 168cm 穿 M。",
-      "desc": "採用進口聚酯纖維（Polyester）運動布料。胸前為織標 Logo 布章，結合刺繡與網版印刷，衣身為熱轉印圖案。Oversized 寬鬆版型。\n保養：建議翻面洗滌、避免高溫烘乾。",
-      "status": "active",
-      "photos": [
-        "photos/p-b10d2d5615-1.jpg"
-      ],
-      "createdAt": 1793154185852,
-      "updatedAt": 1793154206852
-    },
-    {
       "id": "p-6d7279f2fa",
       "brand": "Insane",
       "name": "Sponsor W / Predator W Jersey",
