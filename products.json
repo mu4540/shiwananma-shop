@@ -278,7 +278,7 @@
       "id": "p-4f8dde0ed1",
       "brand": "Fabriclism",
       "name": "Raglan Button Tee - Our Legacy",
-      "price": 875,
+      "price": 880,
       "category": "上衣",
       "colors": [
         {
@@ -290,17 +290,17 @@
       "sizes": [],
       "soldOut": [],
       "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
-      "desc": "白身藍袖的插肩袖（raglan）短袖上衣，領口有鈕扣設計，胸前印有「FABRICLISM OUR LEGACY」字樣。採用雙向彈性棉布，男生穿為一般版型、女生穿為 baby tee 合身感。",
+      "desc": "白身藍袖的插肩袖（raglan）短袖上衣，領口有鈕扣設計，胸前印有「FABRICLISM OUR LEGACY」字樣。採用雙向彈性棉布。",
       "status": "active",
+      "createdAt": 1793154198852,
+      "updatedAt": 1793209991951,
       "photos": [
         "photos/p-4f8dde0ed1-1.jpg",
         "photos/p-4f8dde0ed1-2.jpg",
         "photos/p-4f8dde0ed1-3.jpg",
         "photos/p-4f8dde0ed1-4.jpg",
         "photos/p-4f8dde0ed1-5.jpg"
-      ],
-      "createdAt": 1793154198852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-b2b9e21453",
