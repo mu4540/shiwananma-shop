@@ -993,8 +993,8 @@
     {
       "id": "p-74b43b5aab",
       "brand": "RVB",
-      "name": "Odyssey Aether Set",
-      "price": 5250,
+      "name": "Odyssey Aether Set(可拆買外套或褲子)",
+      "price": 5180,
       "category": "外套",
       "colors": [
         {
@@ -1018,15 +1018,15 @@
       "sizeNote": "外套\nS：胸圍 108、衣長 68、肩寬 58cm\nM：胸圍 114、衣長 70、肩寬 60cm\nL：胸圍 120、衣長 72、肩寬 62cm\nXL：胸圍 126、衣長 74、肩寬 64cm\n長褲\nS：腰圍 76、臀圍 106、內長 68cm\nM：腰圍 80、臀圍 110、內長 69cm\nL：腰圍 84、臀圍 114、內長 70cm\nXL：腰圍 88、臀圍 118、內長 71cm\n手工裁剪，誤差 ±1–2cm",
       "desc": "Odyssey 系列 Aether 外套＋長褲套組。刻意寬鬆的中性落肩版型，品牌建議想穿合身可選小一號。每件在西貢手工裁剪製作，尺寸可能有 1–2cm 誤差。",
       "status": "active",
+      "createdAt": 1793154176852,
+      "updatedAt": 1793208479956,
       "photos": [
         "photos/p-74b43b5aab-1.jpg",
         "photos/p-74b43b5aab-2.jpg",
         "photos/p-74b43b5aab-3.jpg",
         "photos/p-74b43b5aab-4.jpg",
         "photos/p-74b43b5aab-5.jpg"
-      ],
-      "createdAt": 1793154176852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-71bdce3bcc",
