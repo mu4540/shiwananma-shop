@@ -1210,7 +1210,7 @@
       "id": "p-1e6fdb3826",
       "brand": "Uncover",
       "name": "Sparking Eleven Pants",
-      "price": 4714,
+      "price": 4780,
       "category": "褲子",
       "colors": [
         {
@@ -1224,14 +1224,14 @@
       "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
       "desc": "Uncover 寬版長褲，白色褲身搭配鉚釘裝飾。（官方商品資訊未公開，以上依照片描述）",
       "status": "active",
+      "createdAt": 1793154169852,
+      "updatedAt": 1793207915684,
       "photos": [
         "photos/p-1e6fdb3826-1.jpg",
         "photos/p-1e6fdb3826-2.jpg",
         "photos/p-1e6fdb3826-3.jpg",
         "photos/p-1e6fdb3826-4.jpg"
-      ],
-      "createdAt": 1793154169852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-f7d4567fc3",
