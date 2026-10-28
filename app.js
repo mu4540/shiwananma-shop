@@ -48,6 +48,9 @@ function normalize(p){
   if (!Array.isArray(p.soldOut)) p.soldOut = [];
   if (p.sizeNote == null) p.sizeNote = p.size || '';
   if (!Array.isArray(p.photos)) p.photos = [];
+  var sc = p.sizeChart && typeof p.sizeChart === 'object' ? p.sizeChart : {};
+  p.sizeChart = { cols: Array.isArray(sc.cols) ? sc.cols.map(String) : [], rows: sc.rows && typeof sc.rows === 'object' ? sc.rows : {} };
+  p.sizeChartImg = photoUrl(p.sizeChartImg || '') ? p.sizeChartImg : '';
   p.brand = String(p.brand||'').trim();
   p.colors = p.colors.map(function(c){ return {name:String(c.name||''), hex:safeHex(c.hex), photo:(c.photo === 0 || c.photo > 0) ? +c.photo : null}; }).filter(function(c){ return c.name; });
   delete p.size; delete p.color;
@@ -55,6 +58,9 @@ function normalize(p){
 }
 function applyData(d){ state.products = (Array.isArray(d.products) ? d.products : []).map(normalize); state.settings = Object.assign({}, DEFAULTS, d.settings||{}); state.loaded = true; }
 function serialize(){ return JSON.stringify({ products:state.products, settings:state.settings }, null, 2) + '\n'; }
+var FLAG_RE = /官方[^。]{0,8}(未公開|未提供|未標示|未能)|尚未提供|未能讀取|查無|依照片描述|無法證實|無法確認|待確認|未找到/;
+function needsReview(p){ return FLAG_RE.test((p.desc || '') + ' ' + (p.sizeNote || '')); }
+function chartHasData(p){ var sc = p.sizeChart; return sc.cols.length && p.sizes.some(function(z){ return (sc.rows[z] || []).some(function(v){ return String(v || '').trim(); }); }); }
 function combo(c, s){ return (c||'') + '|' + (s||''); }
 function avail(p, c, s){ return p.soldOut.indexOf(combo(c, s)) === -1; }
 function colorNames(p){ return p.colors.length ? p.colors.map(function(c){ return c.name; }) : ['']; }
@@ -112,7 +118,8 @@ function commit(opts){
         data.products = (Array.isArray(data.products) ? data.products : []).map(normalize);
         data.settings = Object.assign({}, DEFAULTS, data.settings||{});
         var res = opts.mutate(data) || {};
-        var deletes = (res.deletes || []).filter(photoUrl);
+        var used = {}; data.products.forEach(function(x){ (x.photos || []).forEach(function(ph){ used[ph] = 1; }); if (x.sizeChartImg) used[x.sizeChartImg] = 1; });
+        var deletes = (res.deletes || []).filter(photoUrl).filter(function(ph, i, a){ return !used[ph] && a.indexOf(ph) === i; });
         var json = JSON.stringify({ products:data.products, settings:data.settings }, null, 2) + '\n';
         return gh('POST', '/git/blobs', { content:utf8b64(json), encoding:'base64' }).then(function(jb){
           var tree = uploaded.map(function(u){ return {path:u.path, mode:'100644', type:'blob', sha:u.sha}; });
@@ -212,6 +219,17 @@ function home(){
     + '<div class="grid">' + (state.error ? '<div class="empty">' + esc(state.error) + '</div>' : list.length ? list.map(cardHtml).join('') : '<div class="empty">' + (state.loaded ? '目前還沒有商品，新貨上架後會出現在這裡。' : '載入中…') + '</div>') + '</div>'
     + '</main>' + footer();
 }
+function sizeChartHtml(p){
+  var out = '';
+  if (chartHasData(p)){
+    var sc = p.sizeChart;
+    out += '<div class="schart-wrap"><table class="schart"><thead><tr><th>尺寸</th>' + sc.cols.map(function(c){ return '<th>' + esc(c) + '</th>'; }).join('') + '</tr></thead><tbody>'
+      + p.sizes.filter(function(z){ return (sc.rows[z] || []).some(function(v){ return String(v || '').trim(); }); }).map(function(z){ return '<tr><th>' + esc(z) + '</th>' + sc.cols.map(function(c, j){ return '<td>' + esc((sc.rows[z] || [])[j] || '—') + '</td>'; }).join('') + '</tr>'; }).join('')
+      + '</tbody></table><div class="hint" style="margin-top:4px">單位：cm，平放測量，誤差約 ±2cm</div></div>';
+  }
+  if (p.sizeChartImg) out += '<a class="scimg" href="' + photoUrl(p.sizeChartImg) + '" target="_blank" rel="noopener"><img src="' + photoUrl(p.sizeChartImg) + '" alt="' + esc(p.name) + ' 尺寸表" loading="lazy"></a>';
+  return out;
+}
 function selFor(p){
   if (!ui.sel || ui.sel.id !== p.id){
     var c = p.colors.length === 1 ? p.colors[0].name : '', s = '';
@@ -233,7 +251,7 @@ function product(id){
     + '</div></div>' : '';
   var sizesHtml = p.sizes.length ? '<div class="opt"><div class="opt-label">尺寸<b>' + esc(sel.size || '請選擇') + '</b></div><div class="sizebtns">'
     + p.sizes.map(function(z){ var ok = sel.color ? avail(p, sel.color, z) : sizeAnyAvail(p, z); return '<button type="button" class="sz-btn" data-size="' + esc(z) + '" aria-pressed="' + (sel.size===z) + '"' + (ok && !sold ? '' : ' disabled') + '><span>' + esc(z) + '</span>' + (ok ? '' : '<small>缺貨</small>') + '</button>'; }).join('')
-    + '</div>' + (p.sizeNote ? '<div class="sizenote">' + esc(p.sizeNote) + '</div>' : '') + '</div>' : (p.sizeNote ? '<div class="opt"><div class="opt-label">尺寸</div><div class="sizenote">' + esc(p.sizeNote) + '</div></div>' : '');
+    + '</div>' + sizeChartHtml(p) + (p.sizeNote ? '<div class="sizenote">' + esc(p.sizeNote) + '</div>' : '') + '<div class="hint">不確定尺寸？結帳時在「備註」填身高體重，我們幫你確認。</div></div>' : ((p.sizeNote || chartHasData(p) || p.sizeChartImg) ? '<div class="opt"><div class="opt-label">尺寸</div>' + sizeChartHtml(p) + (p.sizeNote ? '<div class="sizenote">' + esc(p.sizeNote) + '</div>' : '') + '</div>' : '');
   var picked = sold ? '這件已售完' : missing.length ? (sel.err ? '請先選擇' + missing.join('和') : '請選擇' + missing.join('和')) : '已選：<b>' + esc(selText(p, sel)) + '</b>';
   return header()
     + '<main class="wrap"><a class="back" href="#">← 回商品列表</a><div class="detail">'
@@ -275,6 +293,9 @@ function manage(){
   var rows = state.products.slice().sort(function(a,b){ return (b.createdAt||0)-(a.createdAt||0); });
   var d = ui.draft;
   return header() + '<main class="wrap manage">'
+    + (!state.settings.orderUrl ? '<div class="banner warn"><b>還沒設定訂單接收網址：</b>客人目前無法送出訂單。部署 apps-script/order-receiver.gs 後，把網址貼到下方「網站設定 → 訂單接收網址」。 <a href="#settings" data-scroll="settings">前往設定 ↓</a></div>' : '')
+    + (!state.settings.bankInfo ? '<div class="banner warn"><b>還沒填匯款帳戶：</b>結帳頁看不到帳號，只會顯示「請透過 Instagram 詢問」。到下方「網站設定 → 匯款帳戶」填上銀行（代號）、帳號、戶名。 <a href="#settings" data-scroll="settings">前往設定 ↓</a></div>' : '')
+    + (rows.some(needsReview) ? '<div class="banner warn"><b>' + rows.filter(needsReview).length + ' 件商品的說明含有「官方未公開」這類字句</b>（標示「說明待確認」），建議改成自己確認過的內容。</div>' : '')
     + '<div class="banner">儲存後 GitHub Pages 約 1–2 分鐘才會更新公開網站；管理頁會立即顯示最新資料。</div>'
     + '<div class="panel"><h2>商品 <span class="status">' + rows.length + ' 件</span>' + (d ? '' : '<span class="grow"><a class="btn btn-ink btn-sm" href="#batch">批次上架</a><button class="btn btn-pink btn-sm" data-act="new">＋ 新增商品</button></span>') + '</h2>'
     + (d ? formHtml(d) : '')
@@ -282,17 +303,17 @@ function manage(){
         var st = p.status === 'hidden' ? '已下架' : allSold(p) ? '售完' : '上架中';
         var meta = (p.brand ? [esc(p.brand)] : []).concat([money(p.price), esc(p.category||'')]).concat(p.colors.length ? [p.colors.length + ' 色'] : []).concat(p.sizes.length ? [esc(p.sizes.join('/'))] : []).concat([st]).join(' · ');
         return '<div class="row-p">' + (p.photos[0] ? '<img src="' + photoUrl(p.photos[0]) + '" alt="">' : '<div style="width:56px;height:56px;border-radius:8px;background:var(--tile)"></div>')
-          + '<div class="t"><div>' + esc(p.name) + '</div><small>' + meta + '</small></div>'
+          + '<div class="t"><div>' + esc(p.name) + (needsReview(p) ? ' <span class="chip-warn">說明待確認</span>' : '') + '</div><small>' + meta + '</small></div>'
           + '<div class="acts">' + (ui.confirmId === p.id
-              ? '<span class="confirm">確定刪除？照片也會一起刪除 <button class="btn btn-danger btn-sm" data-act="delete" data-id="' + p.id + '"' + (ui.busy?' disabled':'') + '>確定刪除</button><button class="btn btn-ghost btn-sm" data-act="cancel-del">取消</button></span>'
-              : '<a class="btn btn-ghost btn-sm" href="#' + p.id + '">查看</a><button class="btn btn-ghost btn-sm" data-act="edit" data-id="' + p.id + '">編輯</button>'
+              ? '<span class="confirm">確定刪除？（其他商品沒用到的照片會一起刪除） <button class="btn btn-danger btn-sm" data-act="delete" data-id="' + p.id + '"' + (ui.busy?' disabled':'') + '>確定刪除</button><button class="btn btn-ghost btn-sm" data-act="cancel-del">取消</button></span>'
+              : '<a class="btn btn-ghost btn-sm" href="#' + p.id + '">查看</a><button class="btn btn-ghost btn-sm" data-act="edit" data-id="' + p.id + '">編輯</button><button class="btn btn-ghost btn-sm" data-act="dup" data-id="' + p.id + '" title="用同一組照片新增另一件商品（例如同一組照片裡的上衣和褲子）">複製</button>'
                 + '<button class="btn btn-ghost btn-sm" data-act="status" data-id="' + p.id + '" data-to="' + (p.status==='sold'?'active':'sold') + '"' + (ui.busy?' disabled':'') + '>' + (p.status==='sold'?'改回現貨':'標示售完') + '</button>'
                 + '<button class="btn btn-ghost btn-sm" data-act="status" data-id="' + p.id + '" data-to="' + (p.status==='hidden'?'active':'hidden') + '"' + (ui.busy?' disabled':'') + '>' + (p.status==='hidden'?'重新上架':'下架') + '</button>'
                 + '<button class="btn btn-danger btn-sm" data-act="ask-del" data-id="' + p.id + '">刪除</button>')
           + '</div></div>';
       }).join('') : '<div class="hint">還沒有商品。按「新增商品」或「批次上架」開始。</div>') + '</div>'
     + '<div class="status" id="list-msg" style="margin-top:10px">' + esc(ui.busy) + '</div></div>'
-    + settingsHtml()
+    + '<div id="settings"></div>' + settingsHtml()
     + '<div class="panel"><h2>帳號' + (ui.me ? '<span class="who"><img src="' + esc(ui.me.avatar_url) + '" alt="">' + esc(ui.me.login) + '</span>' : '') + '</h2><div style="margin-top:10px;display:flex;gap:10px"><button class="btn btn-ghost btn-sm" data-act="logout">登出（清除這台裝置的 Token）</button></div><div class="hint">要讓別人也能上架：GitHub repo → Settings → Collaborators 加入對方帳號，對方再用自己的 Token 登入。</div></div>'
     + '</main>' + footer();
 }
@@ -305,9 +326,11 @@ function formHtml(d){
     + '<label>價格（' + esc(state.settings.currency) + '）*<input id="f-price" data-f="price" type="number" inputmode="numeric" min="0" step="1" required value="' + esc(d.price) + '"></label>'
     + '<label>分類<select id="f-cat" data-f="category">' + CATS.map(function(c){ return '<option' + (d.category===c?' selected':'') + '>' + c + '</option>'; }).join('') + '</select></label>'
     + '<div class="full"><div class="flabel">照片（最多 5 張，第 1 張是封面）<input id="f-photos" class="fld" type="file" accept="image/*" multiple' + (ui.photos.length>=MAX_PHOTOS?' disabled':'') + '></div>'
-    + '<div class="photos" id="photo-strip">' + photosHtml() + '</div><div class="hint">照片會自動縮到 1200px 並壓縮。</div></div>'
+    + '<div class="photos" id="photo-strip">' + photosHtml() + '</div><div class="hint">照片會自動縮到 1200px 並壓縮。同一組照片裡有多件商品（例如上衣＋褲子）時，可以用下面的「從現有照片挑選」或商品列表的「複製」共用照片。</div>'
+    + '<button type="button" class="btn btn-ghost btn-sm" data-act="pick-toggle" style="margin-top:8px">' + (ui.picker ? '收起現有照片' : '從現有照片挑選') + '</button><div id="picker">' + pickerHtml() + '</div></div>'
     + '<div class="vbox" id="vbox">' + variantHtml(d) + '</div>'
     + '<label class="full">商品說明<textarea id="f-desc" data-f="desc" maxlength="1500" placeholder="材質、版型、注意事項…">' + esc(d.desc) + '</textarea></label>'
+    + '<div class="full status err" id="f-flag"' + (FLAG_RE.test((d.desc||'') + ' ' + (d.sizeNote||'')) ? '' : ' hidden') + '>說明或尺寸說明裡有「官方未公開／依照片描述」這類字句，建議刪掉或改成確認過的內容。</div>'
     + '<label>狀態<select id="f-status" data-f="status"><option value="active"' + (d.status==='active'?' selected':'') + '>上架中</option><option value="sold"' + (d.status==='sold'?' selected':'') + '>售完（整件）</option><option value="hidden"' + (d.status==='hidden'?' selected':'') + '>下架（不顯示）</option></select></label>'
     + '<div class="acts"><button class="btn btn-pink" type="submit" id="f-save"' + (ui.busy?' disabled':'') + '>' + (d.id ? '儲存變更' : '上架商品') + '</button><button class="btn btn-ghost" type="button" data-act="cancel-edit"' + (ui.busy?' disabled':'') + '>取消</button><span class="status ' + ui.msgKind + '" id="f-status-msg">' + esc(ui.busy || ui.msg) + '</span></div>'
     + '</form>';
@@ -323,8 +346,27 @@ function variantHtml(d){
     + '<h3>尺寸</h3><input class="fld" id="f-sizes" value="' + esc(d.sizes.join(' ')) + '" placeholder="用空格或逗號分開，例：S M L XL" aria-label="尺寸">'
     + '<div class="quick">快速填入：' + SIZE_PRESETS.map(function(p){ return '<button type="button" data-act="s-preset" data-v="' + esc(p[1]) + '">' + esc(p[0]) + '</button>'; }).join('') + '</div>'
     + '<label class="flabel">尺寸說明（選填，顯示在尺寸按鈕下方）<input class="fld" data-f="sizeNote" value="' + esc(d.sizeNote) + '" maxlength="200" placeholder="例：M 腰圍 68cm、褲長 95cm；模特兒 160cm 穿 M"></label>'
+    + '<div id="schart">' + chartEditorHtml(d) + '</div>'
     + '<div id="matrix">' + matrixHtml(d) + '</div>';
 }
+var CHART_TPL = { '上衣':['肩寬','胸寬','衣長','袖長'], '褲子':['腰圍','臀圍','褲長','褲管寬'], '裙子':['腰圍','臀圍','裙長'], '外套':['肩寬','胸寬','衣長','袖長'] };
+function chartEditorHtml(d){
+  var sc = d.sizeChart, img = ui.scImg;
+  var head = '<h3>尺寸表（選填，單位 cm）</h3><div class="quick">套用欄位：' + Object.keys(CHART_TPL).map(function(k){ return '<button type="button" data-act="sc-tpl" data-k="' + k + '">' + k + '</button>'; }).join('') + '<button type="button" data-act="sc-add">＋ 加一欄</button>' + (sc.cols.length ? '<button type="button" data-act="sc-clear">清除表格</button>' : '') + '</div>';
+  var table = !sc.cols.length ? '' : !d.sizes.length ? '<div class="hint" style="margin:0">先在上面填尺寸，表格才會出現每個尺寸的列。</div>'
+    : '<div class="matrix-wrap"><table class="matrix sced"><thead><tr><th>尺寸</th>' + sc.cols.map(function(c, j){ return '<th><input class="fld" data-scc="' + j + '" value="' + esc(c) + '" maxlength="12" aria-label="欄位名稱"><button type="button" class="x" data-act="sc-rmcol" data-j="' + j + '" aria-label="刪除欄位">×</button></th>'; }).join('') + '</tr></thead><tbody>'
+      + d.sizes.map(function(z){ return '<tr><th>' + esc(z) + '</th>' + sc.cols.map(function(c, j){ return '<td><input class="fld" data-scr="' + esc(z) + '" data-scj="' + j + '" value="' + esc((sc.rows[z] || [])[j] || '') + '" inputmode="decimal" maxlength="10" aria-label="' + esc(z + ' ' + c) + '"></td>'; }).join('') + '</tr>'; }).join('') + '</tbody></table></div>';
+  var imgHtml = '<div class="flabel">尺寸表圖片（選填，例如品牌官網的尺寸表截圖）' + (img ? '<div class="scprev"><img src="' + esc(img.url) + '" alt="尺寸表"><button type="button" class="x" data-act="sc-img-rm" aria-label="移除尺寸表圖片">×</button></div>' : '<input id="f-scimg" class="fld" type="file" accept="image/*">') + '</div>';
+  return head + table + imgHtml;
+}
+function refreshChart(){ var el = document.getElementById('schart'); if (el && ui.draft) el.innerHTML = chartEditorHtml(ui.draft); }
+function pickerHtml(){
+  if (!ui.picker) return '';
+  var cur = ui.photos.map(function(x){ return x.path; }), seen = {};
+  var groups = state.products.map(function(p){ return { name:[p.brand, p.name].filter(Boolean).join(' '), photos:p.photos.filter(function(ph){ if (seen[ph]) return false; seen[ph] = 1; return true; }) }; }).filter(function(g){ return g.photos.length; });
+  return '<div class="picker">' + groups.map(function(g){ return '<div class="pgroup"><div class="pname">' + esc(g.name) + '</div><div class="pthumbs">' + g.photos.map(function(ph){ var on = cur.indexOf(ph) !== -1; return '<button type="button" data-act="pick" data-path="' + esc(ph) + '" aria-pressed="' + on + '"' + (on || ui.photos.length >= MAX_PHOTOS ? ' disabled' : '') + '><img src="' + photoUrl(ph) + '" alt="" loading="lazy"></button>'; }).join('') + '</div></div>'; }).join('') + '</div>';
+}
+function refreshPicker(){ var el = document.getElementById('picker'); if (el) el.innerHTML = pickerHtml(); }
 function matrixHtml(d){
   if (!d.colors.length && !d.sizes.length) return '';
   var cs = d.colors.length ? d.colors.map(function(c){ return c.name; }).filter(Boolean) : [''], ss = d.sizes.length ? d.sizes : [''];
@@ -347,7 +389,7 @@ function refreshStrip(){
   var strip = document.getElementById('photo-strip'); if (strip) strip.innerHTML = photosHtml();
   var inp = document.getElementById('f-photos'); if (inp){ inp.value=''; inp.disabled = ui.photos.length>=MAX_PHOTOS; }
   ui.draft.colors.forEach(function(c){ if (c.photo != null && c.photo >= ui.photos.length) c.photo = null; });
-  refreshVariants();
+  refreshVariants(); refreshPicker();
 }
 function addPhotos(files){
   var room = MAX_PHOTOS - ui.photos.length, list = Array.prototype.slice.call(files, 0, Math.max(0, room));
@@ -371,22 +413,27 @@ function saveProduct(){
   if (price === '' || !(Number(price) >= 0)){ setMsg('請填價格。', 'err'); return; }
   var id = d.id || newId(), stamp = Date.now().toString(36), files = [];
   var paths = ui.photos.map(function(x, i){ if (x.path) return x.path; var path = 'photos/' + id + '-' + stamp + '-' + (i+1) + '.jpg'; files.push({path:path, blob:x.blob}); return path; });
-  var p = cleanVariants(normalize({ id:id, brand:String(d.brand||'').trim(), name:name, price:Number(price), category:d.category, colors:d.colors.map(function(c){ return Object.assign({}, c); }), sizes:d.sizes, soldOut:d.soldOut.slice(), sizeNote:String(d.sizeNote||'').trim(), desc:String(d.desc||'').trim(), status:d.status, createdAt:d.createdAt || Date.now(), updatedAt:Date.now(), photos:paths }));
+  var scImg = '';
+  if (ui.scImg){ if (ui.scImg.path) scImg = ui.scImg.path; else { scImg = 'photos/' + id + '-' + stamp + '-size.jpg'; files.push({path:scImg, blob:ui.scImg.blob}); } }
+  var chart = { cols: d.sizeChart.cols.map(function(c){ return String(c).trim(); }), rows: {} };
+  d.sizes.forEach(function(z){ var src = d.sizeChart.rows[z] || [], r = []; for (var j = 0; j < chart.cols.length; j++) r.push(String(src[j] == null ? '' : src[j]).trim()); if (r.some(Boolean)) chart.rows[z] = r; });
+  if (!chart.cols.some(Boolean)) chart = { cols:[], rows:{} };
+  var p = cleanVariants(normalize({ id:id, brand:String(d.brand||'').trim(), name:name, price:Number(price), category:d.category, colors:d.colors.map(function(c){ return Object.assign({}, c); }), sizes:d.sizes, soldOut:d.soldOut.slice(), sizeNote:String(d.sizeNote||'').trim(), desc:String(d.desc||'').trim(), status:d.status, createdAt:d.createdAt || Date.now(), updatedAt:Date.now(), photos:paths, sizeChart:chart, sizeChartImg:scImg }));
   setBusy('準備中…');
   commit({ files:files, message:(d.id ? '更新商品：' : '上架商品：') + name, onProgress:function(t){ if (t) setBusy(t); },
     mutate:function(data){
       var i = data.products.findIndex(function(x){ return x.id === id; }), deletes = [];
-      if (i >= 0){ deletes = data.products[i].photos.filter(function(ph){ return paths.indexOf(ph) === -1; }); data.products[i] = p; }
+      if (i >= 0){ var old = data.products[i]; deletes = old.photos.filter(function(ph){ return paths.indexOf(ph) === -1; }); if (old.sizeChartImg && old.sizeChartImg !== scImg) deletes.push(old.sizeChartImg); data.products[i] = p; }
       else data.products.unshift(p);
       return { deletes:deletes };
     }
-  }).then(function(){ setBusy(''); ui.draft = null; ui.photos = []; ui.msg = ''; render(); toast('已儲存，公開網站約 1–2 分鐘後更新'); })
+  }).then(function(){ setBusy(''); ui.draft = null; ui.photos = []; ui.scImg = null; ui.picker = false; ui.msg = ''; render(); toast('已儲存，公開網站約 1–2 分鐘後更新'); })
     .catch(function(e){ setBusy(''); setMsg('儲存失敗：' + errText(e), 'err'); });
 }
 function deleteProduct(id){
   var p = byId(id); if (!p || ui.busy) return;
   ui.confirmId = null; setBusy('刪除中…'); render();
-  commit({ message:'刪除商品：' + p.name, mutate:function(data){ var t = data.products.filter(function(x){ return x.id === id; })[0]; data.products = data.products.filter(function(x){ return x.id !== id; }); return { deletes: t ? t.photos : [] }; } })
+  commit({ message:'刪除商品：' + p.name, mutate:function(data){ var t = data.products.filter(function(x){ return x.id === id; })[0]; data.products = data.products.filter(function(x){ return x.id !== id; }); return { deletes: t ? t.photos.concat(t.sizeChartImg ? [t.sizeChartImg] : []) : [] }; } })
     .then(function(){ setBusy(''); render(); toast('已刪除'); }, function(e){ setBusy(''); render(); setMsg('刪除失敗：' + errText(e), 'err'); });
 }
 function setStatus(id, to){
@@ -543,6 +590,7 @@ function listHtml(bad){
       var e = bad[i];
       return '<div class="bitem' + (e.length ? ' bad' : '') + '"><div class="bhead"><b>#' + (i+1) + '</b><span>' + esc(it.key) + ' · ' + it.photos.length + ' 張</span><span class="grow">'
         + (i>0 ? '<button type="button" class="btn btn-ghost btn-xs" data-act="b-merge" data-i="' + i + '">合併到上一件</button>' : '')
+        + '<button type="button" class="btn btn-ghost btn-xs" data-act="b-dup" data-i="' + i + '" title="同一組照片要上架成兩件商品（例如上衣＋褲子）時用">複製這件</button>'
         + (it.photos.length > 1 ? '<button type="button" class="btn btn-ghost btn-xs" data-act="b-split" data-i="' + i + '">拆成每張一件</button>' : '')
         + '<button type="button" class="btn btn-danger btn-xs" data-act="b-del" data-i="' + i + '">刪除這件</button></span></div>'
         + '<div class="bphotos">' + (ph || '<div class="hint">沒有照片</div>') + '</div>'
@@ -601,7 +649,7 @@ function uploadBatch(){
   var stamp = Date.now().toString(36), now = Date.now(), files = [];
   var prods = b.items.map(function(it, i){
     var id = newId();
-    var paths = it.photos.map(function(ph, j){ var path = 'photos/' + id + '-' + stamp + '-' + (j+1) + '.jpg'; files.push({ path:path, blob:ph.blob }); return path; });
+    var paths = it.photos.map(function(ph, j){ if (ph._path) return ph._path; var path = 'photos/' + id + '-' + stamp + '-' + (j+1) + '.jpg'; ph._path = path; files.push({ path:path, blob:ph.blob }); return path; });  // 複製的商品共用同一張照片檔
     return cleanVariants(normalize({ id:id, brand:String(it.brand||'').trim(), name:String(it.name).trim(), price:Number(it.price), category:it.category, colors:parseColors(it.colors), sizes:parseSizes(it.sizes), soldOut:[], sizeNote:String(it.sizeNote||'').trim(), desc:String(it.desc||'').trim(), status:'active', createdAt:now - i, updatedAt:now, photos:paths }));
   });
   b.uploading = true; b.progress = 0; render();
@@ -611,7 +659,7 @@ function uploadBatch(){
   }).then(function(){
     b.items.forEach(function(it){ it.photos.forEach(function(p){ URL.revokeObjectURL(p.url); }); });
     b.items = []; b.uploading = false; b.msg = ''; location.hash = 'manage'; render(); toast('已上架 ' + prods.length + ' 件，公開網站約 1–2 分鐘後更新');
-  }).catch(function(e){ b.uploading = false; render(); var m = document.getElementById('b-up-msg'); if (m){ m.textContent = '上架失敗：' + errText(e) + '（照片還在，可以再按一次）'; m.className = 'status err'; } });
+  }).catch(function(e){ b.items.forEach(function(it){ it.photos.forEach(function(ph){ delete ph._path; }); }); b.uploading = false; render(); var m = document.getElementById('b-up-msg'); if (m){ m.textContent = '上架失敗：' + errText(e) + '（照片還在，可以再按一次）'; m.className = 'status err'; } });
 }
 function batchClick(act, t){
   var b = ui.batch, i = +t.dataset.i, j = +t.dataset.j, items = b.items;
@@ -620,10 +668,11 @@ function batchClick(act, t){
   else if (act === 'b-apply') return applyCommon();
   else if (act === 'b-paste') return applyPaste();
   else if (act === 'b-upload') return uploadBatch();
-  else if (act === 'b-del'){ items[i].photos.forEach(function(p){ URL.revokeObjectURL(p.url); }); items.splice(i, 1); }
+  else if (act === 'b-del'){ items.splice(i, 1); }
   else if (act === 'b-merge'){ items[i-1].photos = items[i-1].photos.concat(items[i].photos); items.splice(i, 1); if (items[i-1].photos.length > MAX_PHOTOS) toast('第 ' + i + ' 件超過 5 張，請移除或移走部分照片'); }
+  else if (act === 'b-dup'){ var cp = makeItem(items[i].key, items[i].photos.slice()); cp.brand = items[i].brand; cp.category = items[i].category; items.splice(i + 1, 0, cp); toast('已複製，請在下一件填名稱和價格'); }
   else if (act === 'b-split'){ var parts = items[i].photos.map(function(p){ var it = makeItem(items[i].key, [p]); it.name = items[i].name; it.price = items[i].price; it.category = items[i].category; it.sizes = items[i].sizes; it.colors = items[i].colors; return it; }); Array.prototype.splice.apply(items, [i, 1].concat(parts)); }
-  else if (act === 'b-ph-rm'){ URL.revokeObjectURL(items[i].photos[j].url); items[i].photos.splice(j, 1); if (!items[i].photos.length) items.splice(i, 1); }
+  else if (act === 'b-ph-rm'){ items[i].photos.splice(j, 1); if (!items[i].photos.length) items.splice(i, 1); }
   else if (act === 'b-ph-cover'){ var c = items[i].photos.splice(j, 1)[0]; items[i].photos.unshift(c); }
   else if (act === 'b-ph-up' || act === 'b-ph-down'){
     var to = act === 'b-ph-up' ? i-1 : i+1, ph = items[i].photos.splice(j, 1)[0];
@@ -856,8 +905,10 @@ app.addEventListener('click', function(ev){
   var act = t.dataset.act, id = t.dataset.id;
   if (/^b-/.test(act)) return batchClick(act, t);
   var d = ui.draft;
-  if (act === 'new'){ ui.draft = normalize({brand:'',name:'',price:'',category:CATS[0],sizeNote:'',desc:'',status:'active'}); ui.photos = []; ui.msg=''; render(); document.getElementById('f-name').focus(); }
-  if (act === 'edit'){ var pe = byId(id); if (!pe) return; ui.draft = JSON.parse(JSON.stringify(pe)); ui.photos = pe.photos.map(function(ph){ return {path:ph, url:photoUrl(ph)}; }); ui.msg=''; render(); window.scrollTo(0,0); }
+  if (act === 'new'){ ui.draft = normalize({brand:'',name:'',price:'',category:CATS[0],sizeNote:'',desc:'',status:'active'}); ui.photos = []; ui.scImg = null; ui.picker = false; ui.msg=''; render(); document.getElementById('f-name').focus(); }
+  if (act === 'edit' || act === 'dup'){ var pe = byId(id); if (!pe) return; ui.draft = JSON.parse(JSON.stringify(pe)); ui.photos = pe.photos.map(function(ph){ return {path:ph, url:photoUrl(ph)}; }); ui.scImg = pe.sizeChartImg ? {path:pe.sizeChartImg, url:photoUrl(pe.sizeChartImg)} : null; ui.picker = false; ui.msg='';
+    if (act === 'dup'){ delete ui.draft.id; delete ui.draft.createdAt; ui.draft.name = pe.name + '（複製）'; ui.draft.soldOut = []; ui.msg = '已複製（共用同一組照片）。改好名稱、價格、尺寸後按「上架商品」。'; ui.msgKind = 'ok'; }
+    render(); window.scrollTo(0,0); if (act === 'dup'){ var fn = document.getElementById('f-name'); if (fn){ fn.focus(); fn.select(); } } }
   if (act === 'cancel-edit'){ ui.draft = null; ui.photos = []; ui.msg=''; render(); }
   if (act === 'ask-del'){ ui.confirmId = id; render(); }
   if (act === 'cancel-del'){ ui.confirmId = null; render(); }
@@ -868,6 +919,13 @@ app.addEventListener('click', function(ev){
   if (d && act === 'c-quick'){ d.colors.push({name:t.dataset.name, hex:colorHex(t.dataset.name), photo:null}); refreshVariants(); }
   if (d && act === 'c-rm'){ d.colors.splice(+t.dataset.i, 1); refreshVariants(); }
   if (d && act === 's-preset'){ d.sizes = parseSizes(t.dataset.v); refreshVariants(); }
+  if (d && act === 'pick-toggle'){ ui.picker = !ui.picker; t.textContent = ui.picker ? '收起現有照片' : '從現有照片挑選'; refreshPicker(); }
+  if (d && act === 'pick' && ui.photos.length < MAX_PHOTOS){ var pp = t.dataset.path; if (photoUrl(pp) && !ui.photos.some(function(x){ return x.path === pp; })){ ui.photos.push({path:pp, url:photoUrl(pp)}); refreshStrip(); } }
+  if (d && act === 'sc-tpl'){ d.sizeChart.cols = CHART_TPL[t.dataset.k].slice(); d.sizeChart.rows = {}; refreshChart(); }
+  if (d && act === 'sc-add'){ d.sizeChart.cols.push(''); refreshChart(); var hs = app.querySelectorAll('[data-scc]'); if (hs.length) hs[hs.length-1].focus(); }
+  if (d && act === 'sc-rmcol'){ var j = +t.dataset.j; d.sizeChart.cols.splice(j, 1); Object.keys(d.sizeChart.rows).forEach(function(z){ (d.sizeChart.rows[z] || []).splice(j, 1); }); refreshChart(); }
+  if (d && act === 'sc-clear'){ d.sizeChart = { cols:[], rows:{} }; refreshChart(); }
+  if (d && act === 'sc-img-rm'){ ui.scImg = null; refreshChart(); }
 });
 app.addEventListener('input', function(ev){
   var t = ev.target, d = ui.draft;
@@ -876,11 +934,15 @@ app.addEventListener('input', function(ev){
   if (!d) return;
   if (t.dataset.f) d[t.dataset.f] = t.value;
   if (t.dataset.ci != null){ var c = d.colors[+t.dataset.ci]; if (!c) return; if (t.dataset.ck === 'name'){ var old = c.name; c.name = t.value; d.soldOut = d.soldOut.map(function(k){ return k.split('|')[0] === old ? combo(c.name, k.split('|')[1]) : k; }); refreshMatrix(); } else if (t.dataset.ck === 'hex') c.hex = t.value; }
-  if (t.id === 'f-sizes'){ d.sizes = parseSizes(t.value); refreshMatrix(); }
+  if (t.id === 'f-sizes'){ d.sizes = parseSizes(t.value); refreshMatrix(); refreshChart(); }
+  if (t.dataset.scc != null){ d.sizeChart.cols[+t.dataset.scc] = t.value; }
+  if (t.dataset.scr != null){ var z = t.dataset.scr, r = d.sizeChart.rows[z] || (d.sizeChart.rows[z] = []); r[+t.dataset.scj] = t.value; }
+  if (t.id === 'f-desc' || t.dataset.f === 'sizeNote'){ var fl = document.getElementById('f-flag'); if (fl) fl.hidden = !FLAG_RE.test((d.desc||'') + ' ' + (d.sizeNote||'')); }
 });
 app.addEventListener('change', function(ev){
   var t = ev.target, d = ui.draft;
   if (t.id === 'f-photos' && t.files && t.files.length) return addPhotos(t.files);
+  if (t.id === 'f-scimg' && t.files && t.files[0]){ var sf = t.files[0]; return compress(sf).then(function(blob){ ui.scImg = { blob:blob, url:URL.createObjectURL(blob) }; refreshChart(); }, function(){ setMsg('「' + sf.name + '」無法讀取，請改用 JPG/PNG。', 'err'); }); }
   if (t.id === 'b-files' && t.files && t.files.length){ addBatchFiles(t.files); t.value = ''; return; }
   if (t.name === 'b-mode'){ ui.batch.mode = t.value; return; }
   if (t.name === 'payType'){ readCheckout(); render(); return; }
@@ -901,7 +963,7 @@ app.addEventListener('submit', function(ev){
 ['dragover','dragenter'].forEach(function(type){ app.addEventListener(type, function(ev){ var z = ev.target.closest && ev.target.closest('#b-drop'); if (z){ ev.preventDefault(); z.classList.add('over'); } }); });
 app.addEventListener('dragleave', function(ev){ var z = ev.target.closest && ev.target.closest('#b-drop'); if (z) z.classList.remove('over'); });
 app.addEventListener('drop', function(ev){ var z = ev.target.closest && ev.target.closest('#b-drop'); if (z){ ev.preventDefault(); z.classList.remove('over'); if (ev.dataTransfer && ev.dataTransfer.files.length) addBatchFiles(ev.dataTransfer.files); } });
-window.addEventListener('beforeunload', function(ev){ if (ui.batch.items.length || (ui.draft && ui.photos.some(function(p){ return p.blob; }))){ ev.preventDefault(); ev.returnValue = ''; } });
+window.addEventListener('beforeunload', function(ev){ if (ui.batch.items.length || (ui.draft && (ui.photos.some(function(p){ return p.blob; }) || (ui.scImg && ui.scImg.blob)))){ ev.preventDefault(); ev.returnValue = ''; } });
 window.addEventListener('hashchange', function(){ ui.photoIdx = 0; ui.confirmId = null; ui.sel = null; ui.qty = 1; ui.added = null; ui.coMsg = ''; render(); if (route().view !== 'home') window.scrollTo(0,0); });
 
 function login(token){
