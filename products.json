@@ -867,7 +867,7 @@
       "id": "p-62c3cae8ff",
       "brand": "Insane",
       "name": "Wellington Tee - Black",
-      "price": 1250,
+      "price": 1280,
       "category": "上衣",
       "colors": [
         {
@@ -886,11 +886,11 @@
       "sizeNote": "女模 171cm 穿 M；男模 185cm 穿 XL。",
       "desc": "採用進口雙面針織布料，圖案為網點印刷效果，Oversized 寬鬆版型。\n保養：建議翻面洗滌，勿直接熨燙印花。",
       "status": "active",
+      "createdAt": 1793154180852,
+      "updatedAt": 1793208805123,
       "photos": [
         "photos/p-62c3cae8ff-1.jpg"
-      ],
-      "createdAt": 1793154180852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-b8e96d1f94",
