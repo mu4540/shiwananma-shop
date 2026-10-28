@@ -352,7 +352,7 @@
       "category": "上衣",
       "colors": [
         {
-          "name": "陶土 Clay",
+          "name": "棕褐 Clay",
           "hex": "#8A5A44",
           "photo": 0
         },
@@ -378,7 +378,7 @@
       "desc": "Gamble 的 baby tee 短版合身 T 恤，胸前為 GBME 字樣印花。照片為陶土（Clay）與海洋藍（Marine）兩色，品牌另有暗影灰（Shadow）。",
       "status": "active",
       "createdAt": 1793154196852,
-      "updatedAt": 1793209686996,
+      "updatedAt": 1793209727548,
       "photos": [
         "photos/p-cbe85f29e9-1.jpg",
         "photos/p-cbe85f29e9-2.jpg"
