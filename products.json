@@ -653,7 +653,7 @@
       "id": "p-59197c02ba",
       "brand": "Insane",
       "name": "League Jersey Collection",
-      "price": 1714,
+      "price": 1580,
       "category": "上衣",
       "colors": [
         {
@@ -697,15 +697,15 @@
       "sizeNote": "男模 185cm 穿 XL；女模 168cm 穿 M。",
       "desc": "Insane LEAGUE 系列球衣，可選款式：Milano、Samba、Fog、Predator、Redline Stripe、Tango（請在上方「顏色」選款式）。採用進口聚酯纖維（Polyester）運動布料。胸前為織標 Logo 布章，結合刺繡與網版印刷，衣身為熱轉印圖案。Oversized 寬鬆版型。",
       "status": "active",
+      "createdAt": 1793154187852,
+      "updatedAt": 1793207610777,
       "photos": [
         "photos/p-59197c02ba-1.jpg",
         "photos/p-59197c02ba-2.jpg",
         "photos/p-59197c02ba-3.jpg",
         "photos/p-59197c02ba-4.jpg",
         "photos/p-59197c02ba-5.jpg"
-      ],
-      "createdAt": 1793154187852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-1e028157e6",
