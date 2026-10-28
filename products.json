@@ -388,7 +388,7 @@
       "id": "p-35e67f344d",
       "brand": "Hades",
       "name": "Archive Baby Tee",
-      "price": 946,
+      "price": 980,
       "category": "上衣",
       "colors": [
         {
@@ -416,15 +416,15 @@
       "sizeNote": "模特兒 171cm／48kg 穿 M。",
       "desc": "合身剪裁的 baby tee，採用輕薄柔軟的竹節棉（cotton slub）面料，彈性佳。胸前印有 H.D.S 圖樣。照片可見萊姆綠、白、紅等配色。",
       "status": "active",
+      "createdAt": 1793154195852,
+      "updatedAt": 1793209655537,
       "photos": [
         "photos/p-35e67f344d-1.jpg",
         "photos/p-35e67f344d-2.jpg",
         "photos/p-35e67f344d-3.jpg",
         "photos/p-35e67f344d-4.jpg",
         "photos/p-35e67f344d-5.jpg"
-      ],
-      "createdAt": 1793154195852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-3e5d518665",
