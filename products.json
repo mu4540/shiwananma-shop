@@ -504,7 +504,7 @@
     {
       "id": "p-c6e42a43a1",
       "brand": "ISME",
-      "name": "Belt Tube Top",
+      "name": "BASIC LOGO CROPPED JACKET",
       "price": 1180,
       "category": "上衣",
       "colors": [
@@ -512,15 +512,28 @@
           "name": "灰",
           "hex": "#9A9AA0",
           "photo": null
+        },
+        {
+          "name": "黑",
+          "hex": "#1C1C1C",
+          "photo": null
+        },
+        {
+          "name": "卡其",
+          "hex": "#C3A77A",
+          "photo": null
         }
       ],
-      "sizes": [],
+      "sizes": [
+        "1",
+        "2"
+      ],
       "soldOut": [],
       "sizeNote": "官方未公開尺寸表。下單時可在表單「備註」填身高體重，我們協助確認尺寸。",
-      "desc": "ISME 平口抹胸上衣，胸前有皮帶扣環造型設計。（官方商品資訊未公開，以上依照片描述）",
+      "desc": "",
       "status": "active",
       "createdAt": 1793154192852,
-      "updatedAt": 1793209402597,
+      "updatedAt": 1793209465904,
       "photos": [
         "photos/p-c6e42a43a1-1.jpg"
       ]
