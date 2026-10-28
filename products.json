@@ -247,32 +247,31 @@
     {
       "id": "p-41771b9212",
       "brand": "Drobe",
-      "name": "Pixel Ringer Tee - White",
-      "price": 1054,
-      "category": "上衣",
+      "name": "Plaid Collar Parachute Jacket",
+      "price": 1680,
+      "category": "外套",
       "colors": [
         {
-          "name": "白",
-          "hex": "#FFFFFF",
+          "name": "卡其",
+          "hex": "#C3A77A",
           "photo": null
         }
       ],
       "sizes": [
         "S",
-        "M",
-        "L"
+        "M"
       ],
       "soldOut": [],
       "sizeNote": "",
-      "desc": "Baby tee 版型短袖上衣，100% 棉。羅紋領口搭配淺藍色滾邊，正面印有「Drobe House」logo 圖案，搭配星星、愛心與四葉草圖樣。可機洗，越南製造。",
+      "desc": "",
       "status": "active",
+      "createdAt": 1793154199852,
+      "updatedAt": 1793210056407,
       "photos": [
         "photos/p-41771b9212-1.jpg",
         "photos/p-41771b9212-2.jpg",
         "photos/p-41771b9212-3.jpg"
-      ],
-      "createdAt": 1793154199852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-4f8dde0ed1",
