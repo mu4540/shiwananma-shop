@@ -13,10 +13,10 @@ var CATS = ['上衣','褲子','裙子','洋裝','外套','配件','家居選品'
 var SIZE_PRESETS = [['S M L','S M L'],['S–XL','S M L XL'],['XS–3XL','XS S M L XL 2XL 3XL'],['F（單一尺寸）','F'],['褲 26–32','26 27 28 29 30 31 32']];
 var COLOR_MAP = [['米白','#F2EBDD'],['奶油','#F6EBC8'],['酒紅','#7B1E2E'],['桃紅','#FF2D8A'],['深藍','#1F2F5A'],['海軍藍','#1F2F5A'],['淺藍','#9CC8EE'],['牛仔','#4A6E98'],['天藍','#7EC4EA'],['深灰','#55555C'],['淺灰','#CFCFD4'],['軍綠','#5B6B3A'],['墨綠','#2F4A3A'],['橄欖','#6B6B2F'],['卡其','#C3A77A'],['咖啡','#7B5236'],['焦糖','#B5712E'],['駝','#C19A6B'],['杏','#E8D3B9'],['米','#EADFCB'],['奶茶','#C8AD95'],['黑','#1C1C1C'],['白','#FFFFFF'],['灰','#9A9AA0'],['紅','#D7263D'],['粉','#F6A5C0'],['橘','#F28C28'],['黃','#F7D046'],['綠','#3E9B5B'],['藍','#2F6FD0'],['紫','#8A5CC2'],['棕','#8B5A3C'],['銀','#C0C0C8'],['金','#C9A646'],['條紋','#DADCE8'],['花','#F3C6D3']];
 var QUICK_COLORS = ['黑','白','米白','灰','卡其','咖啡','深藍','淺藍','粉','綠'];
-var DEFAULTS = { tagline:'越南代購 · 精選服飾', intro:'從越南挑選的衣服，每件都是限量現貨。看到喜歡的，點進去選顏色和尺寸，填表單就能下單。', notice:'', ig:'', formUrl:FORM_URL, formEntry:'', shipping:'7-11 店到店取貨，運費 NT$60', currency:'NT$' };
+var DEFAULTS = { tagline:'越南代購 · 精選服飾', intro:'從越南挑選的衣服，每件都是限量現貨。看到喜歡的，點進去選顏色和尺寸，填表單就能下單。', notice:'', ig:'', formUrl:FORM_URL, formEntry:'', orderUrl:'', bankInfo:'', shipping:'7-11 店到店取貨，運費 NT$60', currency:'NT$' };
 
 var state = { products:[], settings:Object.assign({}, DEFAULTS), loaded:false, error:'' };
-var ui = { filter:'全部', brand:'全部', photoIdx:0, sel:null, draft:null, photos:[], busy:'', msg:'', msgKind:'', confirmId:null, token:'', me:null, canPush:false, authChecked:false,
+var ui = { filter:'全部', brand:'全部', qty:1, added:null, co:null, coMsg:'', coBusy:false, pendingId:null, lastOrder:null, photoIdx:0, sel:null, draft:null, photos:[], busy:'', msg:'', msgKind:'', confirmId:null, token:'', me:null, canPush:false, authChecked:false,
   batch:{ items:[], mode:'name', n:3, progress:0, uploading:false, msg:'', msgKind:'' } };
 var app = document.getElementById('app');
 try { ui.token = localStorage.getItem(TOKEN_KEY) || ''; } catch(e){}
@@ -27,7 +27,7 @@ function money(n){ var x = Number(n); if (!isFinite(x)) return esc(n); return es
 function photoUrl(p){ return /^photos\/[A-Za-z0-9._-]+$/.test(p) ? p : ''; }
 var idSeq = 0;
 function newId(){ return 'p-' + Date.now().toString(36) + (idSeq++).toString(36) + Math.random().toString(36).slice(2,5); }
-function route(){ var h = (location.hash||'').replace(/^#/,''); if (h === 'manage' || h === 'batch') return {view:h}; if (/^p-[a-z0-9]+$/.test(h)) return {view:'product', id:h}; return {view:'home'}; }
+function route(){ var h = (location.hash||'').replace(/^#/,''); if (h === 'manage' || h === 'batch' || h === 'cart' || h === 'checkout' || h === 'done') return {view:h}; if (/^p-[a-z0-9]+$/.test(h)) return {view:'product', id:h}; return {view:'home'}; }
 function allBrands(){ return state.products.map(function(p){ return p.brand; }).filter(function(b, i, a){ return b && a.indexOf(b) === i; }).sort(natCmp); }
 function byId(id){ return state.products.filter(function(x){ return x.id === id; })[0]; }
 function visible(){ return state.products.filter(function(p){ return p.status !== 'hidden'; }); }
@@ -167,13 +167,13 @@ function header(){
     + '<a class="brand" href="#"><img src="logo.jpg" alt="Shi Wa Nan Ma Shop logo"><b>Shi Wa Nan Ma<small>shop</small></b></a>'
     + '<nav>'
     + (s.ig ? '<a class="btn btn-ghost btn-sm" href="https://www.instagram.com/' + esc(s.ig.replace(/^@/,'')) + '" target="_blank" rel="noopener">IG @' + esc(s.ig.replace(/^@/,'')) + '</a>' : '')
-    + '<a class="btn btn-pink btn-sm" href="' + esc(s.formUrl||FORM_URL) + '" target="_blank" rel="noopener">訂購表單 ↗</a>'
+    + '<a class="btn btn-pink btn-sm cart-btn" href="#cart" aria-label="購物車，' + cartCount() + ' 件"><svg viewBox="0 0 24 24" width="16" height="16" aria-hidden="true"><path fill="currentColor" d="M7 18a2 2 0 1 0 0 4 2 2 0 0 0 0-4Zm10 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4ZM5.2 4l.6 3H21l-2 8H7.3L4.4 2H1v2h2.6l2.9 13H19v-2H8.2l-.4-2H20.6L23 5H6.2l-.2-1Z"/></svg>購物車' + (cartCount() ? '<span class="badge">' + cartCount() + '</span>' : '') + '</a>'
     + (ui.canPush ? '<a class="btn btn-ink btn-sm" href="#manage">管理</a>' : '')
     + '</nav></div></header>';
 }
 function footer(){
   var s = state.settings;
-  return '<footer class="ftr"><div class="wrap"><div><b>Shi Wa Nan Ma shop</b> · ' + esc(s.tagline) + '</div><div>' + esc(s.shipping) + (s.ig ? ' · IG @' + esc(s.ig.replace(/^@/,'')) : '') + ' · <a href="#manage">管理</a></div></div></footer>';
+  return '<footer class="ftr"><div class="wrap"><div><b>Shi Wa Nan Ma shop</b> · ' + esc(s.tagline) + '</div><div>' + esc(s.shipping) + (s.ig ? ' · IG @' + esc(s.ig.replace(/^@/,'')) : '') + ' · <a href="#cart">購物車</a> · <a href="#manage">管理</a></div></div></footer>';
 }
 
 /* ---------- storefront ---------- */
@@ -202,7 +202,7 @@ function home(){
     + '<div class="eyebrow">Vietnam → Taiwan · 代購</div>'
     + '<h1>Shi Wa Nan Ma <em>shop</em></h1>'
     + '<p>' + esc(s.intro) + '</p>'
-    + '<div class="cta"><a class="btn btn-pink" href="#list" data-scroll="list">瀏覽商品</a><a class="btn btn-ghost" href="' + esc(s.formUrl||FORM_URL) + '" target="_blank" rel="noopener">填寫訂購表單 ↗</a></div>'
+    + '<div class="cta"><a class="btn btn-pink" href="#list" data-scroll="list">瀏覽商品</a><a class="btn btn-ghost" href="#cart">查看購物車' + (cartCount() ? '（' + cartCount() + '）' : '') + '</a></div>'
     + (s.notice ? '<div class="notice"><b>公告</b><span>' + esc(s.notice) + '</span></div>' : '')
     + '</div><img class="sign" src="logo.jpg" alt="Shi Wa Nan Ma Shop 霓虹招牌"></div></section>'
     + '<main class="wrap" id="list">'
@@ -245,8 +245,9 @@ function product(id){
     + '<div style="margin-top:8px">' + (sold ? '<span class="pill sold">已售完</span>' : '<span class="pill">現貨 · 可下單</span>') + '</div>'
     + colorsHtml + sizesHtml
     + '<div class="picked' + (sel.err && missing.length ? ' err' : '') + '" id="picked">' + picked + '</div>'
-    + '<div class="order"><a id="orderBtn" class="btn btn-pink btn-block' + (ready ? '' : ' is-off') + '" href="' + esc(orderUrl(ready ? selText(p, sel) : '')) + '" target="_blank" rel="noopener"' + (ready ? '' : ' aria-disabled="true"') + '>' + (sold ? '已售完' : '我要下單 · 填寫表單 ↗') + '</a>'
-    + '<ol class="steps"><li><i>1</i><span>選好顏色、尺寸後按「我要下單」，商品資訊會自動複製' + (s.formEntry ? '並帶入表單' : '，貼到表單「購買物品名稱、尺寸」') + '。</span></li><li><i>2</i><span>匯款「商品金額 + 60 元運費」，表單填入銀行代號與帳號後 5 碼。</span></li><li><i>3</i><span>填好 7-11 店名與店號，到貨後店取。</span></li></ol></div>'
+    + '<div class="order">' + (sold ? '<span class="btn btn-pink btn-block is-off" aria-disabled="true">已售完</span>' : '<div class="buy"><div class="qty" role="group" aria-label="數量"><button type="button" data-qty="-1" aria-label="減少"' + (ui.qty <= 1 ? ' disabled' : '') + '>−</button><span id="qtyv">' + ui.qty + '</span><button type="button" data-qty="1" aria-label="增加"' + (ui.qty >= CART_MAX ? ' disabled' : '') + '>+</button></div><button type="button" id="addCart" class="btn btn-pink' + (ready ? '' : ' is-off') + '"' + (ready ? '' : ' aria-disabled="true"') + '>加入購物車</button></div>')
+    + (ui.added && ui.added.id === p.id ? '<div class="added" role="status"><span>✓ 已加入：' + esc(ui.added.text) + '</span><a class="btn btn-ink btn-sm" href="#cart">前往購物車結帳（' + cartCount() + '）</a></div>' : '')
+    + '<ol class="steps"><li><i>1</i><span>選好顏色、尺寸按「加入購物車」，同一件不同規格可以分次加入。</span></li><li><i>2</i><span>到購物車確認商品，填寫收件資訊（7-11 店到店）。</span></li><li><i>3</i><span>匯款「商品金額 ＋ 運費 NT$60」後填入匯款末 5 碼，按確認下單就完成了。</span></li></ol></div>'
     + '<dl class="specs"><dt>取貨</dt><dd>' + esc(s.shipping) + '</dd></dl>'
     + (p.desc ? '<div class="desc">' + esc(p.desc) + '</div>' : '')
     + '</div></div></main>' + footer();
@@ -404,7 +405,10 @@ function settingsHtml(){
     + '<label>Instagram 帳號<input id="s-ig" maxlength="40" value="' + esc(s.ig) + '" placeholder="不含 @"></label>'
     + '<label>幣別顯示<input id="s-cur" maxlength="6" value="' + esc(s.currency) + '"></label>'
     + '<label class="full">取貨／運費說明<input id="s-ship" maxlength="120" value="' + esc(s.shipping) + '"></label>'
-    + '<label class="full">Google 表單連結<input id="s-form" type="url" value="' + esc(s.formUrl) + '"></label>'
+    + '<label class="full">訂單接收網址（Apps Script 網頁應用程式）<input id="s-order" type="url" value="' + esc(s.orderUrl) + '" placeholder="https://script.google.com/macros/s/…/exec"></label>'
+    + '<div class="hint full" style="margin-top:-6px">設定後客人可在網站直接下單，訂單自動寫入試算表「訂單管理」。目前：' + (s.orderUrl ? '<b>已設定</b> · <a href="' + esc(s.orderUrl) + '" target="_blank" rel="noopener">測試連線 ↗</a>（看到 ok:true 代表正常）' : '未設定（客人會改用 Google 表單）') + '</div>'
+    + '<label class="full">匯款帳戶（顯示在結帳頁）<textarea id="s-bank" maxlength="300" style="min-height:70px" placeholder="例：中國信託（822）\n帳號 1234-5678-9012\n戶名 王小明">' + esc(s.bankInfo) + '</textarea></label>'
+    + '<label class="full">Google 表單連結（備用）<input id="s-form" type="url" value="' + esc(s.formUrl) + '"></label>'
     + '<label class="full">自動帶入商品到表單（選填）<input id="s-prefill" value="' + esc(s.formEntry) + '" placeholder="貼上表單的「預先填入連結」"></label>'
     + '<div class="hint full" style="margin-top:-6px">設定方式：Google 表單編輯頁 → 右上 ⋮ → <b>取得預先填入的連結</b> → 在「購買物品名稱、尺寸」填 <code>TEST</code> → 取得連結 → 複製後貼到上面。設定後客人按下單，商品／顏色／尺寸會自動填好。目前：' + (s.formEntry ? '<b>已設定 ' + esc(s.formEntry) + '</b>' : '未設定') + '</div>'
     + '<div class="acts"><button class="btn btn-ink" type="submit"' + (ui.busy?' disabled':'') + '>儲存設定</button><span class="status" id="s-msg"></span></div></form></div>';
@@ -413,6 +417,8 @@ function saveSettings(){
   if (ui.busy) return;
   var form = document.getElementById('s-form').value.trim(), pre = document.getElementById('s-prefill').value.trim();
   if (form && !/^https:\/\//.test(form)){ setMsg('表單連結要以 https:// 開頭。', 'err'); return; }
+  var orderUrl = document.getElementById('s-order').value.trim();
+  if (orderUrl && !/^https:\/\/script\.google\.com\/macros\/s\/[\w-]+\/exec$/.test(orderUrl)){ setMsg('訂單接收網址格式不對，應為 https://script.google.com/macros/s/…/exec', 'err'); return; }
   var entry = '';
   if (pre){ var m = pre.match(/(entry\.\d+)=TEST/i) || pre.match(/(entry\.\d+)=/) || pre.match(/^(entry\.\d+)$/); if (!m){ setMsg('預先填入連結裡找不到 entry 欄位，請照說明重新複製。', 'err'); return; } entry = m[1]; }
   var next = {
@@ -422,7 +428,9 @@ function saveSettings(){
     currency: document.getElementById('s-cur').value.trim() || 'NT$',
     shipping: document.getElementById('s-ship').value.trim() || DEFAULTS.shipping,
     formUrl: form || FORM_URL,
-    formEntry: entry
+    formEntry: entry,
+    orderUrl: orderUrl,
+    bankInfo: document.getElementById('s-bank').value.trim()
   };
   ui.busy = '儲存中…'; setMsg('儲存中…');
   commit({ message:'更新網站設定', mutate:function(data){ Object.assign(data.settings, next); } })
@@ -630,11 +638,178 @@ function batchClick(act, t){
   render();
 }
 
+/* ---------- cart & checkout ---------- */
+var CART_KEY = 'swnm_cart', CUST_KEY = 'swnm_customer', SHIP_FEE = 60, CART_MAX = 10;
+var cart = loadCart();
+function loadCart(){ try { var c = JSON.parse(localStorage.getItem(CART_KEY) || '[]'); return Array.isArray(c) ? c.filter(function(x){ return x && typeof x.id === 'string' && x.qty > 0; }).map(function(x){ return { id:x.id, color:String(x.color||''), size:String(x.size||''), qty:Math.min(CART_MAX, Math.floor(x.qty)) }; }) : []; } catch(e){ return []; } }
+function saveCart(){ ui.pendingId = null; try { localStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch(e){} }
+function cartCount(){ return cart.reduce(function(s, x){ return s + x.qty; }, 0); }
+function lineKey(x){ return x.id + '|' + (x.color||'') + '|' + (x.size||''); }
+function addToCart(id, color, size, qty){
+  var k = lineKey({id:id, color:color, size:size}), ex = cart.filter(function(x){ return lineKey(x) === k; })[0];
+  if (ex) ex.qty = Math.min(CART_MAX, ex.qty + qty); else cart.push({ id:id, color:color||'', size:size||'', qty:Math.min(CART_MAX, qty) });
+  saveCart();
+}
+function lineStatus(x){
+  var p = byId(x.id);
+  if (!p || p.status === 'hidden') return { p:p, err:'已下架' };
+  if (allSold(p)) return { p:p, err:'已售完' };
+  if (p.colors.length && !p.colors.some(function(c){ return c.name === x.color; })) return { p:p, err:'這個顏色已不提供' };
+  if (p.sizes.length && p.sizes.indexOf(x.size) === -1) return { p:p, err:'這個尺寸已不提供' };
+  if (!avail(p, x.color, x.size)) return { p:p, err:'這個規格缺貨' };
+  return { p:p, err:'' };
+}
+function cartTotals(){
+  var sub = 0, bad = 0, n = 0;
+  cart.forEach(function(x){ var s = lineStatus(x); if (s.err) bad++; else { sub += s.p.price * x.qty; n += x.qty; } });
+  var ship = n ? SHIP_FEE : 0;
+  return { sub:sub, ship:ship, total:sub + ship, bad:bad, n:n };
+}
+function specText(x){ return [x.color, x.size].filter(Boolean).join(' / '); }
+function loadCustomer(){ try { return JSON.parse(localStorage.getItem(CUST_KEY) || '{}') || {}; } catch(e){ return {}; } }
+
+function cartHtml(){
+  if (!state.loaded) return header() + '<main class="wrap"><div class="empty" style="margin:30px 0">載入中…</div></main>' + footer();
+  var t = cartTotals();
+  var body = !cart.length
+    ? '<div class="empty" style="margin:10px 0 40px">購物車是空的。<div style="margin-top:14px"><a class="btn btn-pink" href="#">去逛逛</a></div></div>'
+    : '<div class="cart-layout"><div class="panel cart-lines">' + cart.map(function(x, i){
+        var s = lineStatus(x), p = s.p, img = p && p.photos[0] ? photoUrl(p.photos[0]) : '';
+        if (p && x.color){ var c = p.colors.filter(function(k){ return k.name === x.color; })[0]; if (c && c.photo != null && p.photos[c.photo]) img = photoUrl(p.photos[c.photo]); }
+        return '<div class="cline' + (s.err ? ' bad' : '') + '">'
+          + '<a class="cimg" href="#' + esc(x.id) + '">' + (img ? '<img src="' + img + '" alt="">' : '') + '</a>'
+          + '<div class="cinfo">' + (p && p.brand ? '<div class="brand">' + esc(p.brand) + '</div>' : '') + '<a class="name" href="#' + esc(x.id) + '">' + esc(p ? p.name : '已下架商品') + '</a>'
+          + (specText(x) ? '<div class="spec">' + esc(specText(x)) + '</div>' : '') + (p ? '<div class="unit">' + money(p.price) + '</div>' : '')
+          + (s.err ? '<div class="cerr">' + esc(s.err) + '，請移除</div>' : '') + '</div>'
+          + '<div class="qty" role="group" aria-label="數量"><button type="button" data-cart="dec" data-i="' + i + '" aria-label="減少"' + (x.qty <= 1 ? ' disabled' : '') + '>−</button><span>' + x.qty + '</span><button type="button" data-cart="inc" data-i="' + i + '" aria-label="增加"' + (x.qty >= CART_MAX || s.err ? ' disabled' : '') + '>+</button></div>'
+          + '<div class="ltotal">' + (p && !s.err ? money(p.price * x.qty) : '—') + '</div>'
+          + '<button type="button" class="crm" data-cart="rm" data-i="' + i + '" aria-label="移除">×</button></div>';
+      }).join('') + '</div>'
+      + '<aside class="panel summary"><h2>訂單摘要</h2><dl>'
+      + '<dt>商品小計（' + t.n + ' 件）</dt><dd>' + money(t.sub) + '</dd>'
+      + '<dt>運費（7-11 店到店）</dt><dd>' + money(t.ship) + '</dd>'
+      + '<dt class="tot">應付總額</dt><dd class="tot">' + money(t.total) + '</dd></dl>'
+      + (t.bad ? '<div class="status err">有 ' + t.bad + ' 項商品無法購買，請先移除。</div>' : '')
+      + '<a class="btn btn-pink btn-block' + (t.bad || !t.n ? ' is-off' : '') + '" href="#checkout" id="toCheckout"' + (t.bad || !t.n ? ' aria-disabled="true"' : '') + '>填寫收件與付款資訊 →</a>'
+      + '<a class="btn btn-ghost btn-block" href="#">繼續購物</a></aside></div>';
+  return header() + '<main class="wrap cartpage"><a class="back" href="#">← 繼續購物</a><h1 class="page-title">購物車</h1>' + body + '</main>' + footer();
+}
+
+function checkoutHtml(){
+  var s = state.settings, t = cartTotals();
+  if (!state.loaded) return header() + '<main class="wrap"><div class="empty" style="margin:30px 0">載入中…</div></main>' + footer();
+  if (!t.n || t.bad) return header() + '<main class="wrap cartpage"><a class="back" href="#cart">← 回購物車</a><div class="empty" style="margin:20px 0 60px">' + (t.bad ? '購物車裡有無法購買的商品，請先回購物車移除。' : '購物車是空的。') + '<div style="margin-top:14px"><a class="btn btn-pink" href="' + (t.bad ? '#cart' : '#') + '">' + (t.bad ? '回購物車' : '去逛逛') + '</a></div></div></main>' + footer();
+  var c = loadCustomer(), f = ui.co || {};
+  var v = function(k){ return esc(f[k] != null ? f[k] : (c[k] || '')); };
+  var cash = f.payType === 'cash';
+  var summary = '<aside class="panel summary"><h2>訂單內容</h2><ul class="mini">' + cart.map(function(x){ var p = byId(x.id); return '<li><span>' + esc((p.brand ? p.brand + ' ' : '') + p.name) + (specText(x) ? '<small>' + esc(specText(x)) + '</small>' : '') + '</span><b>×' + x.qty + '</b><em>' + money(p.price * x.qty) + '</em></li>'; }).join('') + '</ul>'
+    + '<dl><dt>商品小計</dt><dd>' + money(t.sub) + '</dd><dt>運費（7-11 店到店）</dt><dd>' + money(t.ship) + '</dd><dt class="tot">應付總額</dt><dd class="tot">' + money(t.total) + '</dd></dl>'
+    + '<a class="btn btn-ghost btn-block btn-sm" href="#cart">修改購物車</a></aside>';
+  if (!s.orderUrl){
+    var text = cart.map(function(x){ var p = byId(x.id); return (p.brand ? p.brand + ' ' : '') + p.name + (specText(x) ? ' / ' + specText(x) : '') + ' ×' + x.qty; }).join('；');
+    return header() + '<main class="wrap cartpage"><a class="back" href="#cart">← 回購物車</a><h1 class="page-title">填寫訂購資訊</h1><div class="cart-layout"><div class="panel"><div class="banner">線上下單即將開放。目前請改用 Google 表單下單：先按「複製訂單內容」，再到表單貼上。</div>'
+      + '<div class="acts-row" style="margin-top:14px"><button type="button" class="btn btn-ghost" data-copy="' + esc(text) + '">複製訂單內容</button><a class="btn btn-pink" href="' + esc(s.formUrl || FORM_URL) + '" target="_blank" rel="noopener">前往 Google 表單 ↗</a></div></div>' + summary + '</div></main>' + footer();
+  }
+  return header() + '<main class="wrap cartpage"><a class="back" href="#cart">← 回購物車</a><h1 class="page-title">填寫訂購資訊</h1>'
+    + '<div class="cart-layout"><form class="panel co" id="coform" autocomplete="on" novalidate>'
+    + '<h2>聯絡資訊</h2><div class="form">'
+    + '<label>Email *<input id="co-email" name="email" type="email" autocomplete="email" required maxlength="100" value="' + v('email') + '" placeholder="訂單確認信會寄到這裡"></label>'
+    + '<label>Instagram 帳號 *<input id="co-ig" name="ig" required maxlength="60" value="' + v('ig') + '" placeholder="方便我們聯絡你"></label></div>'
+    + '<h2>收件資訊</h2><div class="form">'
+    + '<label>收件人姓名 *<input id="co-name" name="name" autocomplete="name" required maxlength="40" value="' + v('name') + '" placeholder="與證件相同，取貨時核對"></label>'
+    + '<label>收件人手機 *<input id="co-phone" name="phone" type="tel" inputmode="numeric" autocomplete="tel" required maxlength="12" value="' + v('phone') + '" placeholder="09xxxxxxxx"></label>'
+    + '<div class="full fixed-field"><span>取貨方式</span><b>7-11 店到店取貨</b><span>運費 ' + money(SHIP_FEE) + '</span></div>'
+    + '<label>7-11 門市名稱 *<input id="co-storeName" name="storeName" required maxlength="40" value="' + v('storeName') + '" placeholder="例：三角湧門市"></label>'
+    + '<label>7-11 店號 *<input id="co-storeNo" name="storeNo" inputmode="numeric" required maxlength="6" value="' + v('storeNo') + '" placeholder="6 位數字"></label>'
+    + '<div class="hint full" style="margin-top:-6px">不知道店號？到 <a href="https://emap.pcsc.com.tw/" target="_blank" rel="noopener">7-11 門市查詢 ↗</a> 搜尋門市即可看到。</div></div>'
+    + '<h2>付款資訊</h2>'
+    + '<div class="bankbox"><div>請先匯款 <b>' + money(t.total) + '</b>（商品 ' + money(t.sub) + ' ＋ 運費 ' + money(t.ship) + '）' + (s.bankInfo ? '到：' : '，匯款帳戶請透過 Instagram 詢問。') + '</div>' + (s.bankInfo ? '<div class="bank">' + esc(s.bankInfo) + '</div>' : '') + '</div>'
+    + '<div class="modes" role="radiogroup" aria-label="匯款方式"><label><input type="radio" name="payType" value="transfer"' + (cash ? '' : ' checked') + '> 轉帳／ATM</label><label><input type="radio" name="payType" value="cash"' + (cash ? ' checked' : '') + '> 無摺存款</label></div>'
+    + '<div class="form">' + (cash
+        ? '<label class="full">匯款人姓名 *<input id="co-cashName" name="cashName" maxlength="40" value="' + v('cashName') + '"></label>'
+        : '<label>銀行代號 *<input id="co-bank" name="bank" inputmode="numeric" maxlength="3" value="' + v('bank') + '" placeholder="例：822"></label><label>匯款帳號末 5 碼 *<input id="co-last5" name="last5" inputmode="numeric" maxlength="5" value="' + v('last5') + '" placeholder="例：12345"></label>')
+    + '<label class="full">備註<textarea id="co-note" name="note" maxlength="300" style="min-height:70px" placeholder="想說的話（選填）">' + v('note') + '</textarea></label>'
+    + '<input type="text" name="website" id="co-website" tabindex="-1" autocomplete="off" class="hp" aria-hidden="true">'
+    + '</div>'
+    + '<div class="status ' + (ui.coMsgKind || '') + '" id="co-msg" role="alert">' + esc(ui.coMsg || '') + '</div>'
+    + '<button class="btn btn-pink btn-block" type="submit" id="co-submit"' + (ui.coBusy ? ' disabled' : '') + '>' + (ui.coBusy ? '送出中…' : '確認下單（' + money(t.total) + '）') + '</button>'
+    + '<div class="hint" style="text-align:center">按下後即送出訂單，我們確認收款後會盡快幫你採購。</div>'
+    + '</form>' + summary + '</div></main>' + footer();
+}
+
+function doneHtml(){
+  var o = ui.lastOrder;
+  if (!o){ try { o = JSON.parse(sessionStorage.getItem('swnm_last_order') || 'null'); } catch(e){} }
+  if (!o) return header() + '<main class="wrap"><div class="empty" style="margin:30px 0">找不到訂單資料。<div style="margin-top:14px"><a class="btn btn-pink" href="#">回首頁</a></div></div></main>' + footer();
+  return header() + '<main class="wrap cartpage"><div class="panel done">'
+    + '<div class="done-mark">✓</div><h1 class="page-title">訂單已送出</h1>'
+    + '<p>訂單編號 <b class="mono">' + esc(o.orderId) + '</b></p>'
+    + '<ul class="mini">' + (o.lines || []).map(function(l){ return '<li><span>' + esc(l) + '</span></li>'; }).join('') + '</ul>'
+    + '<dl><dt>商品小計</dt><dd>' + money(o.subtotal) + '</dd><dt>運費</dt><dd>' + money(o.shipping) + '</dd><dt class="tot">應付總額</dt><dd class="tot">' + money(o.total) + '</dd></dl>'
+    + '<p class="hint">訂單確認信已寄到你的 Email。確認收款後會盡快幫你採購，到貨會再通知你取貨。有問題請透過 Instagram 聯絡我們' + (state.settings.ig ? '（@' + esc(state.settings.ig) + '）' : '') + '。</p>'
+    + '<a class="btn btn-pink" href="#">繼續逛逛</a></div></main>' + footer();
+}
+
+function readCheckout(){
+  var co = ui.co || {};
+  ['email','ig','name','phone','storeName','storeNo','bank','last5','cashName','note'].forEach(function(k){ var el = document.getElementById('co-' + k); if (el) co[k] = el.value.trim(); else if (co[k] == null) co[k] = ''; });
+  var r = app.querySelector('input[name="payType"]:checked'); co.payType = r ? r.value : (co.payType || 'transfer');
+  ui.co = co; return co;
+}
+function coValidate(f){
+  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(f.email)) return ['co-email', '請填寫正確的 Email'];
+  if (!f.ig) return ['co-ig', '請填寫 Instagram 帳號'];
+  if (!f.name) return ['co-name', '請填寫收件人姓名'];
+  if (!/^09\d{8}$/.test(f.phone.replace(/\D/g, ''))) return ['co-phone', '手機請填 09 開頭的 10 碼數字'];
+  if (!f.storeName) return ['co-storeName', '請填寫 7-11 門市名稱'];
+  if (!/^\d{6}$/.test(f.storeNo)) return ['co-storeNo', '7-11 店號是 6 位數字'];
+  if (f.payType === 'cash'){ if (!f.cashName) return ['co-cashName', '請填寫匯款人姓名']; }
+  else {
+    if (!/^\d{3}$/.test(f.bank)) return ['co-bank', '銀行代號是 3 位數字'];
+    if (!/^\d{5}$/.test(f.last5)) return ['co-last5', '匯款帳號末 5 碼請填 5 位數字'];
+  }
+  return null;
+}
+function coMsg(text, kind){ ui.coMsg = text; ui.coMsgKind = kind || ''; var el = document.getElementById('co-msg'); if (el){ el.textContent = text; el.className = 'status ' + (kind || ''); } }
+function submitOrder(){
+  if (ui.coBusy) return;
+  var f = readCheckout(), bad = coValidate(f);
+  if (bad){ coMsg(bad[1], 'err'); var el = document.getElementById(bad[0]); if (el){ el.focus(); el.scrollIntoView({block:'center'}); } return; }
+  var t = cartTotals(); if (!t.n || t.bad){ location.hash = 'cart'; return; }
+  if (!ui.pendingId) ui.pendingId = 'c' + Date.now().toString(36) + Math.random().toString(36).slice(2, 8);
+  var payload = {
+    clientId: ui.pendingId, website: (document.getElementById('co-website') || {}).value || '',
+    items: cart.map(function(x){ return { id:x.id, color:x.color, size:x.size, qty:x.qty }; }),
+    customer: { email:f.email, ig:f.ig.replace(/^@/, ''), name:f.name, phone:f.phone.replace(/\D/g, ''), storeName:f.storeName, storeNo:f.storeNo },
+    payment: f.payType === 'cash' ? { cashName:f.cashName } : { bank:f.bank, last5:f.last5 },
+    note: f.note, clientTotal: t.total
+  };
+  ui.coBusy = true; coMsg('送出中，請稍候…'); var btn = document.getElementById('co-submit'); if (btn){ btn.disabled = true; btn.textContent = '送出中…'; }
+  fetch(state.settings.orderUrl, { method:'POST', body:JSON.stringify(payload) })
+    .then(function(r){ return r.json(); })
+    .then(function(res){
+      ui.coBusy = false;
+      if (!res || !res.ok){ coMsg((res && res.error) || '下單失敗，請稍後再試。', 'err'); render(); return; }
+      try { localStorage.setItem(CUST_KEY, JSON.stringify({ email:f.email, ig:f.ig, name:f.name, phone:f.phone, storeName:f.storeName, storeNo:f.storeNo })); } catch(e){}
+      ui.lastOrder = res; try { sessionStorage.setItem('swnm_last_order', JSON.stringify(res)); } catch(e){}
+      cart = []; saveCart(); ui.co = null; ui.coMsg = '';
+      location.hash = 'done';
+    })
+    .catch(function(){ ui.coBusy = false; coMsg('網路連線有問題，請再按一次「確認下單」（不會重複下單）。', 'err'); render(); });
+}
+function cartClick(t){
+  var i = +t.dataset.i, x = cart[i]; if (!x) return;
+  if (t.dataset.cart === 'inc') x.qty = Math.min(CART_MAX, x.qty + 1);
+  if (t.dataset.cart === 'dec') x.qty = Math.max(1, x.qty - 1);
+  if (t.dataset.cart === 'rm') cart.splice(i, 1);
+  saveCart(); render();
+}
+
 /* ---------- render ---------- */
 function render(){
   var r = route();
   if (r.view !== 'manage' && ui.draft){ ui.draft = null; ui.photos = []; }
-  app.innerHTML = r.view === 'product' ? product(r.id) : r.view === 'manage' ? manage() : r.view === 'batch' ? batchHtml() : home();
+  app.innerHTML = r.view === 'product' ? product(r.id) : r.view === 'manage' ? manage() : r.view === 'batch' ? batchHtml() : r.view === 'cart' ? cartHtml() : r.view === 'checkout' ? checkoutHtml() : r.view === 'done' ? doneHtml() : home();
 }
 function setMsg(text, kind){
   ui.msg = text; ui.msgKind = kind||'';
@@ -644,7 +819,11 @@ function setBusy(text){ ui.busy = text; setMsg(ui.msg, ui.msgKind); var b = docu
 
 /* ---------- events ---------- */
 app.addEventListener('click', function(ev){
-  var t = ev.target.closest('[data-brand],[data-filter],[data-thumb],[data-act],[data-ph],[data-color],[data-size],#orderBtn,[data-scroll]'); if (!t) return;
+  var t = ev.target.closest('[data-brand],[data-filter],[data-thumb],[data-act],[data-ph],[data-color],[data-size],#addCart,#toCheckout,[data-qty],[data-cart],[data-copy],[data-scroll]'); if (!t) return;
+  if (t.dataset.cart){ cartClick(t); return; }
+  if (t.id === 'toCheckout' && t.getAttribute('aria-disabled')){ ev.preventDefault(); return; }
+  if (t.dataset.copy != null){ var ct = t.dataset.copy; try { navigator.clipboard.writeText(ct).then(function(){ toast('已複製訂單內容'); }, function(){ toast('請手動複製：' + ct); }); } catch(e){ toast('請手動複製：' + ct); } return; }
+  if (t.dataset.qty){ ui.qty = Math.max(1, Math.min(CART_MAX, ui.qty + (+t.dataset.qty))); render(); return; }
   if (t.dataset.scroll){ ev.preventDefault(); var el = document.getElementById(t.dataset.scroll); if (el) el.scrollIntoView({behavior:'smooth'}); return; }
   if (t.dataset.filter){ ui.filter = t.dataset.filter; render(); return; }
   if (t.dataset.brand){ ui.brand = t.dataset.brand; render(); return; }
@@ -659,13 +838,12 @@ app.addEventListener('click', function(ev){
     render(); return;
   }
   if (t.dataset.size != null){ var p2 = byId(route().id); if (!p2) return; var s2 = selFor(p2); s2.size = t.dataset.size; s2.err = false; render(); return; }
-  if (t.id === 'orderBtn'){
-    var p3 = byId(route().id); if (!p3) return; var s3 = selFor(p3);
-    if (allSold(p3)){ ev.preventDefault(); return; }
-    if (selMissing(p3, s3).length){ ev.preventDefault(); s3.err = true; render(); var pk = document.getElementById('picked'); if (pk) pk.scrollIntoView({block:'center', behavior:'smooth'}); return; }
-    var text = selText(p3, s3);
-    try { navigator.clipboard.writeText(text).then(function(){ toast('已複製：' + text); }, function(){}); } catch(e){}
-    return;
+  if (t.id === 'addCart'){
+    var p3 = byId(route().id); if (!p3 || allSold(p3)) return; var s3 = selFor(p3);
+    if (selMissing(p3, s3).length){ s3.err = true; render(); var pk = document.getElementById('picked'); if (pk) pk.scrollIntoView({block:'center', behavior:'smooth'}); return; }
+    addToCart(p3.id, s3.color, s3.size, ui.qty);
+    ui.added = { id:p3.id, text:[p3.name, s3.color, s3.size].filter(Boolean).join(' / ') + ' ×' + ui.qty }; ui.qty = 1;
+    render(); toast('已加入購物車'); return;
   }
   if (t.dataset.ph){
     var i = +t.dataset.i;
@@ -693,6 +871,7 @@ app.addEventListener('click', function(ev){
 app.addEventListener('input', function(ev){
   var t = ev.target, d = ui.draft;
   if (t.dataset.bi != null){ var it = ui.batch.items[+t.dataset.bi]; if (it){ it[t.dataset.bk] = t.value; if (t.dataset.bk === 'name' || t.dataset.bk === 'price') refreshBatchStatus(); } return; }
+  if (t.id && t.id.indexOf('co-') === 0 && ui.coMsgKind === 'err'){ coMsg('', ''); }
   if (!d) return;
   if (t.dataset.f) d[t.dataset.f] = t.value;
   if (t.dataset.ci != null){ var c = d.colors[+t.dataset.ci]; if (!c) return; if (t.dataset.ck === 'name'){ var old = c.name; c.name = t.value; d.soldOut = d.soldOut.map(function(k){ return k.split('|')[0] === old ? combo(c.name, k.split('|')[1]) : k; }); refreshMatrix(); } else if (t.dataset.ck === 'hex') c.hex = t.value; }
@@ -703,6 +882,7 @@ app.addEventListener('change', function(ev){
   if (t.id === 'f-photos' && t.files && t.files.length) return addPhotos(t.files);
   if (t.id === 'b-files' && t.files && t.files.length){ addBatchFiles(t.files); t.value = ''; return; }
   if (t.name === 'b-mode'){ ui.batch.mode = t.value; return; }
+  if (t.name === 'payType'){ readCheckout(); render(); return; }
   if (t.id === 'b-n'){ ui.batch.n = Math.max(1, Math.min(MAX_PHOTOS, +t.value || 1)); return; }
   if (t.dataset.bi != null){ var it = ui.batch.items[+t.dataset.bi]; if (it){ it[t.dataset.bk] = t.value; refreshBatchStatus(); } return; }
   if (!d) return;
@@ -715,12 +895,13 @@ app.addEventListener('submit', function(ev){
   if (ev.target.id === 'pform') saveProduct();
   if (ev.target.id === 'sform') saveSettings();
   if (ev.target.id === 'lform') login(document.getElementById('l-token').value);
+  if (ev.target.id === 'coform') submitOrder();
 });
 ['dragover','dragenter'].forEach(function(type){ app.addEventListener(type, function(ev){ var z = ev.target.closest && ev.target.closest('#b-drop'); if (z){ ev.preventDefault(); z.classList.add('over'); } }); });
 app.addEventListener('dragleave', function(ev){ var z = ev.target.closest && ev.target.closest('#b-drop'); if (z) z.classList.remove('over'); });
 app.addEventListener('drop', function(ev){ var z = ev.target.closest && ev.target.closest('#b-drop'); if (z){ ev.preventDefault(); z.classList.remove('over'); if (ev.dataTransfer && ev.dataTransfer.files.length) addBatchFiles(ev.dataTransfer.files); } });
 window.addEventListener('beforeunload', function(ev){ if (ui.batch.items.length || (ui.draft && ui.photos.some(function(p){ return p.blob; }))){ ev.preventDefault(); ev.returnValue = ''; } });
-window.addEventListener('hashchange', function(){ ui.photoIdx = 0; ui.confirmId = null; ui.sel = null; render(); if (route().view !== 'home') window.scrollTo(0,0); });
+window.addEventListener('hashchange', function(){ ui.photoIdx = 0; ui.confirmId = null; ui.sel = null; ui.qty = 1; ui.added = null; ui.coMsg = ''; render(); if (route().view !== 'home') window.scrollTo(0,0); });
 
 function login(token){
   ui.token = token.trim();
@@ -728,6 +909,8 @@ function login(token){
   var m = document.getElementById('l-msg'); if (m) m.textContent = '確認中…';
   return checkAuth().then(function(){ if (ui.canPush) return loadFromApi().catch(function(){}); }).then(render);
 }
+
+window.addEventListener('storage', function(ev){ if (ev.key === CART_KEY){ cart = loadCart(); render(); } });
 
 /* ---------- boot ---------- */
 fetch('products.json?v=' + Date.now(), { cache:'no-store' }).then(function(r){ if (!r.ok) throw new Error(r.status); return r.json(); })
