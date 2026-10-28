@@ -216,7 +216,7 @@
       "id": "p-53d67b1984",
       "brand": "Devotus",
       "name": "Ego Shirt",
-      "price": 1679,
+      "price": 1480,
       "category": "上衣",
       "colors": [
         {
@@ -234,15 +234,15 @@
       "sizeNote": "模特兒 180cm／69kg 穿 L。",
       "desc": "白色 boxy 寬鬆版型襯衫，衣身寬、衣長落在臀部上方。採用 Kate 布料，正面有紅色皮革 logo 標，背面為絹印框線圖案。\n模特兒 180cm／69kg 穿 L。保養：僅限手洗，勿用漂白劑。",
       "status": "active",
+      "createdAt": 1793154200852,
+      "updatedAt": 1793210084544,
       "photos": [
         "photos/p-53d67b1984-1.jpg",
         "photos/p-53d67b1984-2.jpg",
         "photos/p-53d67b1984-3.jpg",
         "photos/p-53d67b1984-4.jpg",
         "photos/p-53d67b1984-5.jpg"
-      ],
-      "createdAt": 1793154200852,
-      "updatedAt": 1793154206852
+      ]
     },
     {
       "id": "p-41771b9212",
