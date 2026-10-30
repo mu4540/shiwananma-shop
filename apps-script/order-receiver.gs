@@ -16,6 +16,8 @@
  *   3. 按「部署」→ 授權 → 複製「網頁應用程式網址」（https://script.google.com/macros/s/…/exec）
  *   4. 到網站「管理 → 網站設定 → 訂單接收網址」貼上 → 儲存設定
  *   之後修改程式：部署 →「管理部署作業」→ 編輯 → 版本選「新版本」→ 部署（網址不變）
+ *
+ * 通知信的主旨與內容在網站「管理 → 通知信內容」修改（存在 products.json 的 settings），不用改程式。
  */
 
 // ===== 設定 =====
@@ -25,9 +27,16 @@ var PRODUCTS_URL = 'https://mu4540.github.io/shiwananma-shop/products.json';
 var SHIPPING = 60;                 // 國內超商運費（NT$）
 var NOTIFY_OWNER = true;           // 新訂單 Email 通知店家（寄到部署者帳號）
 var NOTIFY_EMAIL = '';             // 留空 = 部署者本人；也可填其他 Email
-var SEND_CUSTOMER_EMAIL = true;    // 寄訂單確認信給客人
+var SEND_CUSTOMER_EMAIL = true;    // 寄訂單確認信給客人（網站「通知信內容」也可關閉）
 var TIMEZONE = 'Asia/Taipei';
 var MAX_LINES = 30, MAX_QTY = 10;
+var EMAIL_DEFAULTS = {
+  emailOwnerSubject: '【新訂單】{訂單編號}　NT${總額}',
+  emailOwnerBody: '{訂單內容}',
+  emailCustSubject: '【Shi Wa Nan Ma Shop】已收到您的訂單 {訂單編號}',
+  emailCustBody: '您好，已收到您的訂單，確認匯款後會盡快為您採購，謝謝！\n\n{訂單內容}\n\n如有問題請透過 Instagram 與我們聯繫。',
+  emailCustOn: true
+};
 // ================
 
 function doGet() {
@@ -120,8 +129,12 @@ function validate_(c, pay) {
 }
 
 function loadProducts_() {
+  return loadData_().products;
+}
+
+function loadData_() {
   var cache = CacheService.getScriptCache();
-  var hit = cache.get('products');
+  var hit = cache.get('data');
   if (hit) return JSON.parse(hit);
   var res = UrlFetchApp.fetch(PRODUCTS_URL + '?t=' + Date.now(), { muteHttpExceptions: true });
   if (res.getResponseCode() !== 200) throw new Error('無法讀取商品資料');
@@ -130,8 +143,9 @@ function loadProducts_() {
     return { id: p.id, brand: p.brand || '', name: p.name, price: Number(p.price), status: p.status,
       colors: (p.colors || []).map(function (c) { return c.name; }), sizes: p.sizes || [], soldOut: p.soldOut || [] };
   });
-  try { cache.put('products', JSON.stringify(slim), 120); } catch (e) {}
-  return slim;
+  var out = { products: slim, settings: data.settings || {} };
+  try { cache.put('data', JSON.stringify(out), 120); } catch (e) {}
+  return out;
 }
 
 function priceItems_(items) {
@@ -186,16 +200,26 @@ function writeRows_(sheet, rowsValues) {
 }
 
 function notify_(r, c, payment, note) {
-  var body = '訂單編號：' + r.orderId + '\n\n'
+  var s = {};
+  try { s = loadData_().settings || {}; } catch (e) {}
+  var get = function (k) { return s[k] == null || s[k] === '' ? EMAIL_DEFAULTS[k] : s[k]; };
+  var detail = '訂單編號：' + r.orderId + '\n\n'
     + r.lines.join('\n') + '\n\n商品金額：NT$' + r.subtotal + '\n運費：NT$' + r.shipping + '\n總計：NT$' + r.total + '\n\n'
     + '收件人：' + c.name + '　' + c.phone + '\n7-11 門市：' + c.storeName + ' ' + c.storeNo + '\n'
     + 'Instagram：' + c.ig + '\nEmail：' + c.email + '\n匯款資訊：' + payment + (note ? '\n備註：' + note : '');
+  var vars = {
+    '訂單編號': r.orderId, '訂單內容': detail, '商品明細': r.lines.join('\n'),
+    '商品金額': String(r.subtotal), '運費': String(r.shipping), '總額': String(r.total),
+    '收件人': c.name, '電話': c.phone, '門市': c.storeName + ' ' + c.storeNo, 'Instagram': c.ig, 'Email': c.email,
+    '匯款資訊': payment, '備註': note || '', '匯款帳戶': s.bankInfo || '',
+    '日期': Utilities.formatDate(new Date(), TIMEZONE, 'yyyy/MM/dd HH:mm')
+  };
+  var fill = function (t) { return String(t || '').replace(/\{([^{}]+)\}/g, function (m, k) { return vars.hasOwnProperty(k) ? vars[k] : m; }); };
   try {
-    if (NOTIFY_OWNER) MailApp.sendEmail(NOTIFY_EMAIL || Session.getEffectiveUser().getEmail(), '【新訂單】' + r.orderId + '　NT$' + r.total, body);
+    if (NOTIFY_OWNER) MailApp.sendEmail(NOTIFY_EMAIL || Session.getEffectiveUser().getEmail(), fill(get('emailOwnerSubject')), fill(get('emailOwnerBody')));
   } catch (e) {}
   try {
-    if (SEND_CUSTOMER_EMAIL) MailApp.sendEmail(c.email, '【Shi Wa Nan Ma Shop】已收到您的訂單 ' + r.orderId,
-      '您好，已收到您的訂單，確認匯款後會盡快為您採購，謝謝！\n\n' + body + '\n\n如有問題請透過 Instagram 與我們聯繫。');
+    if (SEND_CUSTOMER_EMAIL && get('emailCustOn') !== false) MailApp.sendEmail(c.email, fill(get('emailCustSubject')), fill(get('emailCustBody')));
   } catch (e) {}
 }
 

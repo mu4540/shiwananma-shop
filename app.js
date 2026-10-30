@@ -15,6 +15,22 @@ var COLOR_MAP = [['米白','#F2EBDD'],['奶油','#F6EBC8'],['酒紅','#7B1E2E'],
 var QUICK_COLORS = ['黑','白','米白','灰','卡其','咖啡','深藍','淺藍','粉','綠'];
 var DEFAULTS = { tagline:'越南代購 · 精選服飾', intro:'從越南挑選的衣服，每件都是限量現貨。看到喜歡的，點進去選顏色和尺寸，填表單就能下單。', notice:'', ig:'', formUrl:FORM_URL, formEntry:'', orderUrl:'', bankInfo:'', shipping:'7-11 店到店取貨，運費 NT$60', currency:'NT$' };
 
+var EMAIL_DEFAULTS = {
+  emailOwnerSubject: '【新訂單】{訂單編號}　NT${總額}',
+  emailOwnerBody: '{訂單內容}',
+  emailCustSubject: '【Shi Wa Nan Ma Shop】已收到您的訂單 {訂單編號}',
+  emailCustBody: '您好，已收到您的訂單，確認匯款後會盡快為您採購，謝謝！\n\n{訂單內容}\n\n如有問題請透過 Instagram 與我們聯繫。',
+  emailCustOn: true
+};
+var EMAIL_VARS = [['訂單編號','ORD-20261030-203617'],['訂單內容',''],['商品明細','Insane League Jersey Collection / Predator / L ×1（NT$1780）'],['商品金額','1780'],['運費','60'],['總額','1840'],['收件人','王小明'],['電話','0912345678'],['門市','三角湧門市 199854'],['Instagram','shiwananma_shop'],['Email','buyer@example.com'],['匯款資訊','822 / 12345'],['備註','謝謝'],['匯款帳戶',''],['日期','2026/10/30 20:36']];
+function emailSetting(k){ var v = state.settings[k]; return v == null || v === '' ? EMAIL_DEFAULTS[k] : v; }
+function fillTpl(tpl, vars){ return String(tpl || '').replace(/\{([^{}]+)\}/g, function(m, k){ return Object.prototype.hasOwnProperty.call(vars, k) ? vars[k] : m; }); }
+function sampleVars(){
+  var v = {}; EMAIL_VARS.forEach(function(x){ v[x[0]] = x[1]; });
+  v['匯款帳戶'] = state.settings.bankInfo || '';
+  v['訂單內容'] = '訂單編號：' + v['訂單編號'] + '\n\n' + v['商品明細'] + '\n\n商品金額：NT$' + v['商品金額'] + '\n運費：NT$' + v['運費'] + '\n總計：NT$' + v['總額'] + '\n\n收件人：' + v['收件人'] + '　' + v['電話'] + '\n7-11 門市：' + v['門市'] + '\nInstagram：' + v['Instagram'] + '\nEmail：' + v['Email'] + '\n匯款資訊：' + v['匯款資訊'] + '\n備註：' + v['備註'];
+  return v;
+}
 var state = { products:[], settings:Object.assign({}, DEFAULTS), loaded:false, error:'' };
 var ui = { filter:'全部', brand:'全部', qty:1, added:null, co:null, coMsg:'', coBusy:false, pendingId:null, lastOrder:null, photoIdx:0, sel:null, draft:null, photos:[], busy:'', msg:'', msgKind:'', confirmId:null, token:'', me:null, canPush:false, authChecked:false,
   batch:{ items:[], mode:'name', n:3, progress:0, uploading:false, msg:'', msgKind:'' } };
@@ -313,7 +329,7 @@ function manage(){
           + '</div></div>';
       }).join('') : '<div class="hint">還沒有商品。按「新增商品」或「批次上架」開始。</div>') + '</div>'
     + '<div class="status" id="list-msg" style="margin-top:10px">' + esc(ui.busy) + '</div></div>'
-    + '<div id="settings"></div>' + settingsHtml()
+    + '<div id="settings"></div>' + settingsHtml() + emailsHtml()
     + '<div class="panel"><h2>帳號' + (ui.me ? '<span class="who"><img src="' + esc(ui.me.avatar_url) + '" alt="">' + esc(ui.me.login) + '</span>' : '') + '</h2><div style="margin-top:10px;display:flex;gap:10px"><button class="btn btn-ghost btn-sm" data-act="logout">登出（清除這台裝置的 Token）</button></div><div class="hint">要讓別人也能上架：GitHub repo → Settings → Collaborators 加入對方帳號，對方再用自己的 Token 登入。</div></div>'
     + '</main>' + footer();
 }
@@ -456,6 +472,39 @@ function settingsHtml(){
     + '<div class="hint full" style="margin-top:-6px">設定後客人可在網站直接下單，訂單自動寫入試算表「訂單管理」。目前：' + (s.orderUrl ? '<b>已設定</b> · <a href="' + esc(s.orderUrl) + '" target="_blank" rel="noopener">測試連線 ↗</a>（看到 ok:true 代表正常）' : '<b style="color:var(--red)">未設定，客人目前無法送出訂單</b>') + '</div>'
     + '<label class="full">匯款帳戶（顯示在結帳頁）<textarea id="s-bank" maxlength="300" style="min-height:70px" placeholder="例：中國信託（822）\n帳號 1234-5678-9012\n戶名 王小明">' + esc(s.bankInfo) + '</textarea></label>'
     + '<div class="acts"><button class="btn btn-ink" type="submit"' + (ui.busy?' disabled':'') + '>儲存設定</button><span class="status" id="s-msg"></span></div></form></div>';
+}
+function emailsHtml(){
+  var on = emailSetting('emailCustOn') !== false;
+  return '<div class="panel" id="emails"><h2>通知信內容</h2>'
+    + '<div class="hint">客人下單後會寄兩封信：一封給店家（部署 Apps Script 的 Google 帳號），一封給客人。大括號是代入欄位，寄出時會換成這筆訂單的資料（點一下可複製）：</div>'
+    + '<div class="quick" style="margin-top:8px">' + EMAIL_VARS.map(function(x){ return '<button type="button" data-copy="{' + x[0] + '}">{' + esc(x[0]) + '}</button>'; }).join('') + '</div>'
+    + '<div class="hint">{訂單內容} = 訂單編號、商品明細、金額、收件資訊、匯款資訊整段；{匯款帳戶} = 上面「網站設定」填的帳戶。</div>'
+    + '<form class="form" id="eform" autocomplete="off">'
+    + '<h3 class="full" style="font-size:14px">寄給客人</h3>'
+    + '<label class="full ck"><input type="checkbox" id="e-cust-on"' + (on ? ' checked' : '') + '> 寄訂單確認信給客人</label>'
+    + '<label class="full">主旨<input id="e-cust-subj" maxlength="150" value="' + esc(emailSetting('emailCustSubject')) + '"></label>'
+    + '<label class="full">內容<textarea id="e-cust-body" maxlength="3000" style="min-height:160px">' + esc(emailSetting('emailCustBody')) + '</textarea></label>'
+    + '<div class="full"><div class="flabel">客人收到的信（預覽，用範例資料）</div><div class="mailprev" id="e-prev">' + mailPreview() + '</div></div>'
+    + '<h3 class="full" style="font-size:14px;margin-top:6px">寄給店家（新訂單通知）</h3>'
+    + '<label class="full">主旨<input id="e-own-subj" maxlength="150" value="' + esc(emailSetting('emailOwnerSubject')) + '"></label>'
+    + '<label class="full">內容<textarea id="e-own-body" maxlength="3000" style="min-height:90px">' + esc(emailSetting('emailOwnerBody')) + '</textarea></label>'
+    + '<div class="acts"><button class="btn btn-ink" type="submit"' + (ui.busy?' disabled':'') + '>儲存通知信</button><button class="btn btn-ghost" type="button" data-act="e-reset">恢復預設文字</button><span class="status" id="e-msg">儲存後約 3 分鐘生效。</span></div>'
+    + '</form></div>';
+}
+function mailPreview(){
+  var v = sampleVars(), g = function(id, k){ var el = document.getElementById(id); return el ? el.value : emailSetting(k); };
+  var on = document.getElementById('e-cust-on') ? document.getElementById('e-cust-on').checked : emailSetting('emailCustOn') !== false;
+  if (!on) return '<div class="hint" style="margin:0">（不寄確認信給客人）</div>';
+  return '<div class="mp-subj">' + esc(fillTpl(g('e-cust-subj','emailCustSubject'), v)) + '</div><div class="mp-body">' + esc(fillTpl(g('e-cust-body','emailCustBody'), v)) + '</div>';
+}
+function saveEmails(){
+  if (ui.busy) return;
+  var g = function(id){ return document.getElementById(id).value; };
+  var next = { emailCustOn: document.getElementById('e-cust-on').checked, emailCustSubject: g('e-cust-subj').trim(), emailCustBody: g('e-cust-body').replace(/\s+$/,''), emailOwnerSubject: g('e-own-subj').trim(), emailOwnerBody: g('e-own-body').replace(/\s+$/,'') };
+  if (!next.emailCustSubject || !next.emailOwnerSubject){ var m0 = document.getElementById('e-msg'); m0.textContent = '主旨不能空白。'; m0.className = 'status err'; return; }
+  var m = document.getElementById('e-msg'); m.textContent = '儲存中…'; m.className = 'status'; ui.busy = '儲存中…';
+  commit({ message:'更新通知信內容', mutate:function(data){ Object.assign(data.settings, next); } })
+    .then(function(){ ui.busy=''; render(); var el = document.getElementById('emails'); if (el) el.scrollIntoView(); toast('通知信已儲存，約 3 分鐘後生效'); }, function(e){ ui.busy=''; m.textContent = '儲存失敗：' + errText(e); m.className = 'status err'; });
 }
 function saveSettings(){
   if (ui.busy) return;
@@ -872,7 +921,7 @@ app.addEventListener('click', function(ev){
   var t = ev.target.closest('[data-brand],[data-filter],[data-thumb],[data-act],[data-ph],[data-color],[data-size],#addCart,#toCheckout,[data-qty],[data-cart],[data-copy],[data-scroll]'); if (!t) return;
   if (t.dataset.cart){ cartClick(t); return; }
   if (t.id === 'toCheckout' && t.getAttribute('aria-disabled')){ ev.preventDefault(); return; }
-  if (t.dataset.copy != null){ var ct = t.dataset.copy; try { navigator.clipboard.writeText(ct).then(function(){ toast('已複製訂單內容'); }, function(){ toast('請手動複製：' + ct); }); } catch(e){ toast('請手動複製：' + ct); } return; }
+  if (t.dataset.copy != null){ var ct = t.dataset.copy; try { navigator.clipboard.writeText(ct).then(function(){ toast('已複製：' + ct); }, function(){ toast('請手動複製：' + ct); }); } catch(e){ toast('請手動複製：' + ct); } return; }
   if (t.dataset.qty){ ui.qty = Math.max(1, Math.min(CART_MAX, ui.qty + (+t.dataset.qty))); render(); return; }
   if (t.dataset.scroll){ ev.preventDefault(); var el = document.getElementById(t.dataset.scroll); if (el) el.scrollIntoView({behavior:'smooth'}); return; }
   if (t.dataset.filter){ ui.filter = t.dataset.filter; render(); return; }
@@ -914,6 +963,7 @@ app.addEventListener('click', function(ev){
   if (act === 'cancel-del'){ ui.confirmId = null; render(); }
   if (act === 'delete') deleteProduct(id);
   if (act === 'status') setStatus(id, t.dataset.to);
+  if (act === 'e-reset'){ document.getElementById('e-cust-on').checked = true; document.getElementById('e-cust-subj').value = EMAIL_DEFAULTS.emailCustSubject; document.getElementById('e-cust-body').value = EMAIL_DEFAULTS.emailCustBody; document.getElementById('e-own-subj').value = EMAIL_DEFAULTS.emailOwnerSubject; document.getElementById('e-own-body').value = EMAIL_DEFAULTS.emailOwnerBody; var pv = document.getElementById('e-prev'); if (pv) pv.innerHTML = mailPreview(); toast('已填回預設文字，按「儲存通知信」才會生效'); }
   if (act === 'logout'){ login('').then(function(){ toast('已清除 Token'); }); }
   if (d && act === 'c-add'){ d.colors.push({name:'', hex:'#CCCCCC', photo:null}); refreshVariants(); var ins = app.querySelectorAll('[data-ck="name"]'); if (ins.length) ins[ins.length-1].focus(); }
   if (d && act === 'c-quick'){ d.colors.push({name:t.dataset.name, hex:colorHex(t.dataset.name), photo:null}); refreshVariants(); }
@@ -931,6 +981,7 @@ app.addEventListener('input', function(ev){
   var t = ev.target, d = ui.draft;
   if (t.dataset.bi != null){ var it = ui.batch.items[+t.dataset.bi]; if (it){ it[t.dataset.bk] = t.value; if (t.dataset.bk === 'name' || t.dataset.bk === 'price') refreshBatchStatus(); } return; }
   if (t.id && t.id.indexOf('co-') === 0 && ui.coMsgKind === 'err'){ coMsg('', ''); }
+  if (t.id && t.id.indexOf('e-') === 0){ var pv = document.getElementById('e-prev'); if (pv) pv.innerHTML = mailPreview(); }
   if (!d) return;
   if (t.dataset.f) d[t.dataset.f] = t.value;
   if (t.dataset.ci != null){ var c = d.colors[+t.dataset.ci]; if (!c) return; if (t.dataset.ck === 'name'){ var old = c.name; c.name = t.value; d.soldOut = d.soldOut.map(function(k){ return k.split('|')[0] === old ? combo(c.name, k.split('|')[1]) : k; }); refreshMatrix(); } else if (t.dataset.ck === 'hex') c.hex = t.value; }
@@ -946,6 +997,7 @@ app.addEventListener('change', function(ev){
   if (t.id === 'b-files' && t.files && t.files.length){ addBatchFiles(t.files); t.value = ''; return; }
   if (t.name === 'b-mode'){ ui.batch.mode = t.value; return; }
   if (t.name === 'payType'){ readCheckout(); render(); return; }
+  if (t.id === 'e-cust-on'){ var pv2 = document.getElementById('e-prev'); if (pv2) pv2.innerHTML = mailPreview(); return; }
   if (t.id === 'b-n'){ ui.batch.n = Math.max(1, Math.min(MAX_PHOTOS, +t.value || 1)); return; }
   if (t.dataset.bi != null){ var it = ui.batch.items[+t.dataset.bi]; if (it){ it[t.dataset.bk] = t.value; refreshBatchStatus(); } return; }
   if (!d) return;
@@ -957,6 +1009,7 @@ app.addEventListener('submit', function(ev){
   ev.preventDefault();
   if (ev.target.id === 'pform') saveProduct();
   if (ev.target.id === 'sform') saveSettings();
+  if (ev.target.id === 'eform') saveEmails();
   if (ev.target.id === 'lform') login(document.getElementById('l-token').value);
   if (ev.target.id === 'coform') submitOrder();
 });
