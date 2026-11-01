@@ -18,13 +18,16 @@
           "photo": 1
         }
       ],
-      "sizes": [],
+      "sizes": [
+        "S",
+        "M"
+      ],
       "soldOut": [],
       "sizeNote": "尺寸表於圖片最後,依序為 衣長,胸寬,袖長,身高,體重",
       "desc": "BadChoices UNTAMED CAPSULE 系列長袖亨利領上衣。\n材質：輕薄紋理針織布\n版型：合身\n細節：前襟亨利領，不鏽鋼鈕扣；胸前賽車主題印花",
       "status": "active",
       "createdAt": 1793154206852,
-      "updatedAt": 1793212256751,
+      "updatedAt": 1793549223597,
       "photos": [
         "photos/p-7003b850d4-1.jpg",
         "photos/p-7003b850d4-2.jpg",
