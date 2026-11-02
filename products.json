@@ -996,7 +996,7 @@
       "id": "p-5c0e3e7795",
       "brand": "Paradise",
       "name": "Madame Tee",
-      "price": 2558,
+      "price": 2580,
       "category": "上衣",
       "colors": [
         {
@@ -1020,6 +1020,8 @@
       "sizeNote": "同系列 Gai Dam Tee 尺寸供參考。建議體重：S 40–55kg、M 60–75kg、L 60–75kg、XL 70–85kg",
       "desc": "Paradise MADAME 短袖 T 恤，After The Fire 系列。\n材質：250gsm 高品質棉\n版型：經典版型，平直下襬\n細節：羅紋圓領；前後網版印刷\n產地：越南西貢設計與製作\n顏色：黑、紅",
       "status": "active",
+      "createdAt": 1793154177852,
+      "updatedAt": 1793617587277,
       "photos": [
         "photos/p-5c0e3e7795-1.jpg",
         "photos/p-5c0e3e7795-2.jpg",
@@ -1027,8 +1029,6 @@
         "photos/p-5c0e3e7795-4.jpg",
         "photos/p-5c0e3e7795-5.jpg"
       ],
-      "createdAt": 1793154177852,
-      "updatedAt": 1793154206852,
       "sizeChart": {
         "cols": [
           "肩寬",
