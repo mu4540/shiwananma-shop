@@ -1,6 +1,49 @@
 {
   "products": [
     {
+      "id": "p-mwhymkv50d6i",
+      "brand": "",
+      "name": "ISME水洗連帽外套",
+      "price": 1680,
+      "category": "外套",
+      "colors": [
+        {
+          "name": "灰",
+          "hex": "#9A9AA0",
+          "photo": 3
+        },
+        {
+          "name": "咖啡",
+          "hex": "#7B5236",
+          "photo": 4
+        }
+      ],
+      "sizes": [
+        "1",
+        "2"
+      ],
+      "soldOut": [
+        "灰|2"
+      ],
+      "sizeNote": "",
+      "desc": "",
+      "status": "active",
+      "createdAt": 1794754730274,
+      "updatedAt": 1794754730274,
+      "photos": [
+        "photos/p-mwhymkv50d6i-mwhymkv6-1.jpg",
+        "photos/p-mwhymkv50d6i-mwhymkv6-2.jpg",
+        "photos/p-mwhymkv50d6i-mwhymkv6-3.jpg",
+        "photos/p-mwhymkv50d6i-mwhymkv6-4.jpg",
+        "photos/p-mwhymkv50d6i-mwhymkv6-5.jpg"
+      ],
+      "sizeChart": {
+        "cols": [],
+        "rows": {}
+      },
+      "sizeChartImg": "photos/p-mwhymkv50d6i-mwhymkv6-size.jpg"
+    },
+    {
       "id": "p-7003b850d4",
       "brand": "BadChoices",
       "name": "Henley Racing Long Sleeve",
