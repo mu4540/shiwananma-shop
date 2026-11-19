@@ -1,6 +1,41 @@
 {
   "products": [
     {
+      "id": "p-mwn7ykc503z3",
+      "brand": "Twenti",
+      "name": "低腰毛邊短褲",
+      "price": 290,
+      "category": "褲子",
+      "colors": [
+        {
+          "name": "白",
+          "hex": "#FFFFFF",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "1",
+        "2"
+      ],
+      "soldOut": [],
+      "sizeNote": "",
+      "desc": "",
+      "status": "active",
+      "createdAt": 1795072736886,
+      "updatedAt": 1795072736886,
+      "photos": [
+        "photos/p-mwn7ykc503z3-mwn7ykc5-1.jpg",
+        "photos/p-mwn7ykc503z3-mwn7ykc5-2.jpg",
+        "photos/p-mwn7ykc503z3-mwn7ykc5-3.jpg",
+        "photos/p-mwn7ykc503z3-mwn7ykc5-4.jpg"
+      ],
+      "sizeChart": {
+        "cols": [],
+        "rows": {}
+      },
+      "sizeChartImg": "photos/p-mwn7ykc503z3-mwn7ykc5-size.jpg"
+    },
+    {
       "id": "p-mwn7uuxf03om",
       "brand": "Twenti",
       "name": "短版毛絨外套",
