@@ -1,6 +1,41 @@
 {
   "products": [
     {
+      "id": "p-mwn7uuxf03om",
+      "brand": "Twenti",
+      "name": "短版毛絨外套",
+      "price": 490,
+      "category": "外套",
+      "colors": [
+        {
+          "name": "米白",
+          "hex": "#F2EBDD",
+          "photo": null
+        }
+      ],
+      "sizes": [
+        "F"
+      ],
+      "soldOut": [],
+      "sizeNote": "",
+      "desc": "",
+      "status": "active",
+      "createdAt": 1795072563987,
+      "updatedAt": 1795072563987,
+      "photos": [
+        "photos/p-mwn7uuxf03om-mwn7uuxf-1.jpg",
+        "photos/p-mwn7uuxf03om-mwn7uuxf-2.jpg",
+        "photos/p-mwn7uuxf03om-mwn7uuxf-3.jpg",
+        "photos/p-mwn7uuxf03om-mwn7uuxf-4.jpg",
+        "photos/p-mwn7uuxf03om-mwn7uuxf-5.jpg"
+      ],
+      "sizeChart": {
+        "cols": [],
+        "rows": {}
+      },
+      "sizeChartImg": "photos/p-mwn7uuxf03om-mwn7uuxf-size.jpg"
+    },
+    {
       "id": "p-mwhymkv50d6i",
       "brand": "",
       "name": "ISME水洗連帽外套",
